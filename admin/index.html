@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Trucoteca || Innovalab || Laboratorio Técnico</title>
+    <title>Panel Administrativo || Innovalab || Laboratorio Técnico</title>
     
     <!-- favicons Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/favicons/apple-touch-icon.png" />
@@ -504,12 +504,30 @@
                         <a href="#dashboard" class="admin-nav-item active" onclick="showSection('dashboard')">
                             <i class="fas fa-tachometer-alt"></i> Dashboard
                         </a>
+                        
+                        <!-- TRUCOTECA -->
+                        <div style="padding: 10px 25px; color: rgba(255,255,255,0.5); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                            Trucoteca
+                        </div>
                         <a href="#consejos" class="admin-nav-item" onclick="showSection('consejos')">
                             <i class="fas fa-lightbulb"></i> Gestionar Consejos
                         </a>
                         <a href="#nuevo" class="admin-nav-item" onclick="showSection('nuevo')">
                             <i class="fas fa-plus-circle"></i> Nuevo Consejo
                         </a>
+                        
+                        <!-- REPARACIONES -->
+                        <div style="padding: 10px 25px; color: rgba(255,255,255,0.5); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                            Reparaciones
+                        </div>
+                        <a href="#reparaciones" class="admin-nav-item" onclick="showSection('reparaciones')">
+                            <i class="fas fa-tools"></i> Gestionar Reparaciones
+                        </a>
+                        <a href="#nueva-reparacion" class="admin-nav-item" onclick="showSection('nueva-reparacion')">
+                            <i class="fas fa-plus"></i> Nueva Reparación
+                        </a>
+                        
+                        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;"></div>
                         <a href="#" class="admin-nav-item" onclick="logout()">
                             <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                         </a>
@@ -532,6 +550,7 @@
                         <!-- DASHBOARD -->
                         <div id="dashboard-section" class="admin-section-content">
                             <div class="stats-grid">
+                                <!-- TRUCOTECA STATS -->
                                 <div class="stat-card">
                                     <div class="stat-icon">
                                         <i class="fas fa-lightbulb"></i>
@@ -548,11 +567,36 @@
                                     <div class="stat-label">Categorías</div>
                                 </div>
                                 
+                                <!-- REPARACIONES STATS -->
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-tools"></i>
+                                    </div>
+                                    <div class="stat-number" id="total-reparaciones">0</div>
+                                    <div class="stat-label">Total Reparaciones</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stat-number" id="reparaciones-pendientes">0</div>
+                                    <div class="stat-label">En Proceso</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stat-number" id="reparaciones-completadas">0</div>
+                                    <div class="stat-label">Completadas</div>
+                                </div>
+                                
                                 <div class="stat-card">
                                     <div class="stat-icon">
                                         <i class="fas fa-calendar"></i>
                                     </div>
-                                    <div class="stat-number" id="consejos-mes">0</div>
+                                    <div class="stat-number" id="reparaciones-mes">0</div>
                                     <div class="stat-label">Este Mes</div>
                                 </div>
                             </div>
@@ -674,6 +718,182 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- GESTIONAR REPARACIONES -->
+                        <div id="reparaciones-section" class="admin-section-content" style="display: none;">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <h3><i class="fas fa-tools"></i> Gestionar Reparaciones</h3>
+                                </div>
+                                <div class="admin-card-body">
+                                    <div id="loading-reparaciones" class="loading-admin">
+                                        <i class="fas fa-spinner"></i>
+                                        <p>Cargando reparaciones...</p>
+                                    </div>
+                                    <div id="reparaciones-container" style="display: none;">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ticket</th>
+                                                        <th>Cliente</th>
+                                                        <th>Dispositivo</th>
+                                                        <th>Estado</th>
+                                                        <th>Fecha</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="reparaciones-tbody">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- NUEVA REPARACIÓN -->
+                        <div id="nueva-reparacion-section" class="admin-section-content" style="display: none;">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <h3 id="reparacion-form-title"><i class="fas fa-plus"></i> Nueva Reparación</h3>
+                                </div>
+                                <div class="admin-card-body">
+                                    <form id="reparacion-form">
+                                        <input type="hidden" id="reparacion-edit-id">
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-ticket-alt"></i> Número de Ticket</label>
+                                                    <input type="text" id="numero_ticket" class="form-control" required placeholder="TK001">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-user"></i> Nombre del Cliente</label>
+                                                    <input type="text" id="nombre_cliente" class="form-control" required placeholder="Juan Pérez">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-id-card"></i> Cédula</label>
+                                                    <input type="text" id="cedula" class="form-control" required placeholder="12345678">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-phone"></i> Teléfono</label>
+                                                    <input type="text" id="telefono" class="form-control" placeholder="555-0001">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-envelope"></i> Email</label>
+                                                    <input type="email" id="email" class="form-control" placeholder="cliente@email.com">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-mobile-alt"></i> Dispositivo</label>
+                                                    <select id="dispositivo" class="form-control" required>
+                                                        <option value="">Seleccionar dispositivo</option>
+                                                        <option value="Smartphone">📱 Smartphone</option>
+                                                        <option value="Laptop">💻 Laptop</option>
+                                                        <option value="Tablet">📟 Tablet</option>
+                                                        <option value="PC Desktop">🖥️ PC Desktop</option>
+                                                        <option value="Consola">🎮 Consola</option>
+                                                        <option value="Otro">🔧 Otro</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-tag"></i> Marca</label>
+                                                    <input type="text" id="marca" class="form-control" required placeholder="Samsung, Apple, HP...">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-barcode"></i> Modelo</label>
+                                                    <input type="text" id="modelo" class="form-control" required placeholder="Galaxy S21, MacBook Pro...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label><i class="fas fa-wrench"></i> Motivo de la Reparación</label>
+                                            <textarea id="motivo_reparacion" class="form-control" rows="3" required placeholder="Describe el problema del dispositivo..."></textarea>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-tasks"></i> Estado</label>
+                                                    <select id="estado" class="form-control" required>
+                                                        <option value="En revisión">🔍 En revisión</option>
+                                                        <option value="Técnico asignado">👨‍🔧 Técnico asignado</option>
+                                                        <option value="En pruebas">🧪 En pruebas</option>
+                                                        <option value="Esperando repuestos">📦 Esperando repuestos</option>
+                                                        <option value="Terminado">✅ Terminado</option>
+                                                        <option value="Listo para entrega">🎉 Listo para entrega</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-user-cog"></i> Técnico Asignado</label>
+                                                    <input type="text" id="tecnico_asignado" class="form-control" placeholder="Nombre del técnico">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-calendar-alt"></i> Fecha Estimada</label>
+                                                    <input type="date" id="fecha_estimada_entrega" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-dollar-sign"></i> Costo Estimado</label>
+                                                    <input type="number" id="costo_estimado" class="form-control" step="0.01" placeholder="0.00">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-receipt"></i> Costo Final</label>
+                                                    <input type="number" id="costo_final" class="form-control" step="0.01" placeholder="0.00">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label><i class="fas fa-sticky-note"></i> Observaciones</label>
+                                            <textarea id="observaciones" class="form-control" rows="3" placeholder="Notas adicionales sobre la reparación..."></textarea>
+                                        </div>
+                                        
+                                        <div style="display: flex; gap: 15px; margin-top: 30px;">
+                                            <button type="submit" class="btn-admin btn-admin-primary">
+                                                <i class="fas fa-save"></i> Guardar Reparación
+                                            </button>
+                                            <button type="button" class="btn-admin btn-admin-secondary" onclick="cancelarEdicionReparacion()">
+                                                <i class="fas fa-times"></i> Cancelar
+                                            </button>
+                                        </div>
+                                    </form>
+                                    
+                                    <div id="reparacion-form-message"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -742,7 +962,9 @@
             const titles = {
                 'dashboard': 'Dashboard',
                 'consejos': 'Gestionar Consejos',
-                'nuevo': 'Nuevo Consejo'
+                'nuevo': 'Nuevo Consejo',
+                'reparaciones': 'Gestionar Reparaciones',
+                'nueva-reparacion': 'Nueva Reparación'
             };
             
             document.getElementById('page-title').textContent = titles[section];
@@ -753,20 +975,30 @@
                 cargarDashboard();
             } else if (section === 'consejos') {
                 cargarConsejos();
+            } else if (section === 'reparaciones') {
+                cargarReparaciones();
             }
         }
 
         // CARGAR DASHBOARD
         async function cargarDashboard() {
             try {
-                const { data, error } = await supabase
+                // Cargar consejos
+                const { data: consejos, error: errorConsejos } = await supabase
                     .from('trucoteca_consejos')
                     .select('*');
 
-                if (error) throw error;
+                if (errorConsejos) throw errorConsejos;
 
-                consejosData = data;
-                actualizarEstadisticas(data);
+                // Cargar reparaciones
+                const { data: reparaciones, error: errorReparaciones } = await supabase
+                    .from('reparaciones')
+                    .select('*');
+
+                if (errorReparaciones) throw errorReparaciones;
+
+                consejosData = consejos;
+                actualizarEstadisticas(consejos, reparaciones);
                 
             } catch (error) {
                 console.error('Error cargando dashboard:', error);
@@ -774,18 +1006,32 @@
         }
 
         // ACTUALIZAR ESTADÍSTICAS
-        function actualizarEstadisticas(consejos) {
+        function actualizarEstadisticas(consejos, reparaciones) {
+            // Estadísticas de consejos
             document.getElementById('total-consejos').textContent = consejos.length;
             
             const categorias = [...new Set(consejos.map(c => c.categoria))];
             document.getElementById('total-categorias').textContent = categorias.length;
             
-            const esteMes = consejos.filter(c => {
-                const fecha = new Date(c.created_at);
+            // Estadísticas de reparaciones
+            document.getElementById('total-reparaciones').textContent = reparaciones.length;
+            
+            const pendientes = reparaciones.filter(r => 
+                !['Terminado', 'Listo para entrega'].includes(r.estado)
+            );
+            document.getElementById('reparaciones-pendientes').textContent = pendientes.length;
+            
+            const completadas = reparaciones.filter(r => 
+                ['Terminado', 'Listo para entrega'].includes(r.estado)
+            );
+            document.getElementById('reparaciones-completadas').textContent = completadas.length;
+            
+            const esteMes = reparaciones.filter(r => {
+                const fecha = new Date(r.fecha_ingreso);
                 const ahora = new Date();
                 return fecha.getMonth() === ahora.getMonth() && fecha.getFullYear() === ahora.getFullYear();
             });
-            document.getElementById('consejos-mes').textContent = esteMes.length;
+            document.getElementById('reparaciones-mes').textContent = esteMes.length;
         }
 
         // CARGAR CONSEJOS
@@ -1028,6 +1274,247 @@
         // MOSTRAR MENSAJE
         function mostrarMensaje(mensaje, tipo) {
             const div = document.getElementById('form-message');
+            div.className = `alert-admin alert-admin-${tipo}`;
+            div.innerHTML = `<i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i> ${mensaje}`;
+            setTimeout(() => div.innerHTML = '', 5000);
+        }
+
+        // ========== FUNCIONES DE REPARACIONES ==========
+        
+        let editandoReparacionId = null;
+        
+        // CARGAR REPARACIONES
+        async function cargarReparaciones() {
+            const loading = document.getElementById('loading-reparaciones');
+            const container = document.getElementById('reparaciones-container');
+            
+            loading.style.display = 'block';
+            container.style.display = 'none';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('reparaciones')
+                    .select('*')
+                    .order('fecha_ingreso', { ascending: false });
+
+                if (error) throw error;
+
+                mostrarReparaciones(data);
+                
+            } catch (error) {
+                mostrarMensajeReparacion('Error cargando reparaciones: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+        
+        // MOSTRAR REPARACIONES
+        function mostrarReparaciones(reparaciones) {
+            const loading = document.getElementById('loading-reparaciones');
+            const container = document.getElementById('reparaciones-container');
+            const tbody = document.getElementById('reparaciones-tbody');
+            
+            loading.style.display = 'none';
+            container.style.display = 'block';
+            
+            if (!reparaciones || reparaciones.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: #718096;"><i class="fas fa-tools" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i><br>No hay reparaciones registradas.<br><a href="#" onclick="showSection(\'nueva-reparacion\')" style="color: #ff6b35;">¡Registra la primera!</a></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = reparaciones.map(reparacion => {
+                const estadoColor = getEstadoColor(reparacion.estado);
+                const fecha = new Date(reparacion.fecha_ingreso).toLocaleDateString();
+                
+                return `
+                    <tr>
+                        <td><strong>${reparacion.numero_ticket}</strong></td>
+                        <td>${reparacion.nombre_cliente}</td>
+                        <td>${reparacion.dispositivo} ${reparacion.marca} ${reparacion.modelo}</td>
+                        <td><span class="badge" style="background: ${estadoColor}; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">${reparacion.estado}</span></td>
+                        <td>${fecha}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editarReparacion(${reparacion.id})" style="margin-right: 5px;">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-info" onclick="verHistorialReparacion(${reparacion.id})">
+                                <i class="fas fa-history"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="eliminarReparacion(${reparacion.id})" style="margin-left: 5px;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // OBTENER COLOR DEL ESTADO
+        function getEstadoColor(estado) {
+            const colores = {
+                'En revisión': '#6c757d',
+                'Técnico asignado': '#007bff',
+                'En pruebas': '#ffc107',
+                'Esperando repuestos': '#fd7e14',
+                'Terminado': '#28a745',
+                'Listo para entrega': '#20c997'
+            };
+            return colores[estado] || '#6c757d';
+        }
+        
+        // GUARDAR REPARACIÓN
+        document.getElementById('reparacion-form').onsubmit = async function(e) {
+            e.preventDefault();
+            
+            const datos = {
+                numero_ticket: document.getElementById('numero_ticket').value.trim(),
+                nombre_cliente: document.getElementById('nombre_cliente').value.trim(),
+                cedula: document.getElementById('cedula').value.trim(),
+                telefono: document.getElementById('telefono').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                dispositivo: document.getElementById('dispositivo').value,
+                marca: document.getElementById('marca').value.trim(),
+                modelo: document.getElementById('modelo').value.trim(),
+                motivo_reparacion: document.getElementById('motivo_reparacion').value.trim(),
+                estado: document.getElementById('estado').value,
+                tecnico_asignado: document.getElementById('tecnico_asignado').value.trim(),
+                fecha_estimada_entrega: document.getElementById('fecha_estimada_entrega').value || null,
+                costo_estimado: parseFloat(document.getElementById('costo_estimado').value) || null,
+                costo_final: parseFloat(document.getElementById('costo_final').value) || null,
+                observaciones: document.getElementById('observaciones').value.trim()
+            };
+
+            if (!datos.numero_ticket || !datos.nombre_cliente || !datos.cedula || !datos.dispositivo || !datos.marca || !datos.modelo || !datos.motivo_reparacion) {
+                mostrarMensajeReparacion('Por favor completa todos los campos obligatorios', 'error');
+                return;
+            }
+
+            try {
+                if (editandoReparacionId) {
+                    // ACTUALIZAR
+                    const { error } = await supabase
+                        .from('reparaciones')
+                        .update(datos)
+                        .eq('id', editandoReparacionId);
+
+                    if (error) throw error;
+                    mostrarMensajeReparacion('Reparación actualizada correctamente', 'success');
+                } else {
+                    // CREAR
+                    const { error } = await supabase
+                        .from('reparaciones')
+                        .insert([datos]);
+
+                    if (error) throw error;
+                    mostrarMensajeReparacion('Reparación registrada correctamente', 'success');
+                }
+
+                document.getElementById('reparacion-form').reset();
+                cancelarEdicionReparacion();
+                cargarDashboard();
+
+            } catch (error) {
+                mostrarMensajeReparacion('Error: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        };
+        
+        // EDITAR REPARACIÓN
+        async function editarReparacion(id) {
+            try {
+                const { data, error } = await supabase
+                    .from('reparaciones')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error) throw error;
+
+                editandoReparacionId = id;
+                document.getElementById('reparacion-edit-id').value = id;
+                document.getElementById('numero_ticket').value = data.numero_ticket;
+                document.getElementById('nombre_cliente').value = data.nombre_cliente;
+                document.getElementById('cedula').value = data.cedula;
+                document.getElementById('telefono').value = data.telefono || '';
+                document.getElementById('email').value = data.email || '';
+                document.getElementById('dispositivo').value = data.dispositivo;
+                document.getElementById('marca').value = data.marca;
+                document.getElementById('modelo').value = data.modelo;
+                document.getElementById('motivo_reparacion').value = data.motivo_reparacion;
+                document.getElementById('estado').value = data.estado;
+                document.getElementById('tecnico_asignado').value = data.tecnico_asignado || '';
+                document.getElementById('fecha_estimada_entrega').value = data.fecha_estimada_entrega || '';
+                document.getElementById('costo_estimado').value = data.costo_estimado || '';
+                document.getElementById('costo_final').value = data.costo_final || '';
+                document.getElementById('observaciones').value = data.observaciones || '';
+                document.getElementById('reparacion-form-title').innerHTML = '<i class="fas fa-edit"></i> Editar Reparación';
+
+                showSection('nueva-reparacion');
+
+            } catch (error) {
+                mostrarMensajeReparacion('Error cargando reparación: ' + error.message, 'error');
+            }
+        }
+        
+        // CANCELAR EDICIÓN REPARACIÓN
+        function cancelarEdicionReparacion() {
+            editandoReparacionId = null;
+            document.getElementById('reparacion-edit-id').value = '';
+            document.getElementById('reparacion-form-title').innerHTML = '<i class="fas fa-plus"></i> Nueva Reparación';
+            document.getElementById('reparacion-form').reset();
+        }
+        
+        // ELIMINAR REPARACIÓN
+        async function eliminarReparacion(id) {
+            if (!confirm('¿Estás seguro de eliminar esta reparación?\n\nEsta acción no se puede deshacer.')) {
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from('reparaciones')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                mostrarMensajeReparacion('Reparación eliminada correctamente', 'success');
+                cargarReparaciones();
+                cargarDashboard();
+
+            } catch (error) {
+                mostrarMensajeReparacion('Error eliminando reparación: ' + error.message, 'error');
+            }
+        }
+        
+        // VER HISTORIAL REPARACIÓN
+        async function verHistorialReparacion(id) {
+            try {
+                const { data, error } = await supabase
+                    .from('reparaciones_historial')
+                    .select('*')
+                    .eq('reparacion_id', id)
+                    .order('fecha_cambio', { ascending: false });
+
+                if (error) throw error;
+
+                let historial = 'Historial de la reparación:\n\n';
+                data.forEach(h => {
+                    const fecha = new Date(h.fecha_cambio).toLocaleString();
+                    historial += `${fecha}: ${h.estado_nuevo}\n`;
+                    if (h.observaciones) historial += `  Observaciones: ${h.observaciones}\n`;
+                    historial += '\n';
+                });
+
+                alert(historial || 'No hay historial disponible para esta reparación.');
+
+            } catch (error) {
+                mostrarMensajeReparacion('Error cargando historial: ' + error.message, 'error');
+            }
+        }
+        
+        // MOSTRAR MENSAJE REPARACIÓN
+        function mostrarMensajeReparacion(mensaje, tipo) {
+            const div = document.getElementById('reparacion-form-message');
             div.className = `alert-admin alert-admin-${tipo}`;
             div.innerHTML = `<i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i> ${mensaje}`;
             setTimeout(() => div.innerHTML = '', 5000);
