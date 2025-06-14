@@ -1,0 +1,47 @@
+/* Ajustes personalizados para el logo de Innovalab */
+
+/* Logo principal en el header */
+.main-menu__logo img {
+    max-height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Logo en el sidebar */
+.xs-sidebar-group .content-inner .logo img {
+    max-height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Logo en navegación móvil */
+.mobile-nav__content .logo-box img {
+    max-height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .main-menu__logo img {
+        max-height: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-menu__logo img {
+        max-height: 40px;
+    }
+}
+
+/* Asegurar que el contenedor del logo no se desborde */
+.main-menu__logo {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+}
+
+/* Ajuste para el logo en sticky header */
+.stricky-header .main-menu__logo img {
+    max-height: 50px;
+} 
