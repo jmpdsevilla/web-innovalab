@@ -59,6 +59,9 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
     <link rel="stylesheet" href="assets/css/custom-logo.css" />
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body class="custom-cursor">
@@ -241,97 +244,14 @@
         <!--Blog Page Start-->
         <section class="blog-page">
             <div class="container">
-                <div class="row">
-                    <!--Blog One Single Start-->
-                    <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInLeft" data-wow-delay="100ms">
-                        <div class="blog-one__single">
-                            <div class="blog-one__img-box">
-                                <div class="blog-one__img">
-                                    <img src="assets/images/blog/bateria-smartphone.jpg" alt="Optimizar batería smartphone">
-                                </div>
-                            </div>
-                            <div class="blog-one__content">
-                                <h3 class="blog-one__title">Cómo Optimizar la Batería de tu Smartphone para Mayor Duración</h3>
-                                <p style="margin: 15px 0; color: #666; font-size: 14px;">Ajusta el brillo automático, desactiva la ubicación en apps innecesarias, cierra aplicaciones en segundo plano y activa el modo de ahorro de energía cuando la batería esté por debajo del 20%.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Blog One Single End-->
-                    <!--Blog One Single Start-->
-                    <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="200ms">
-                        <div class="blog-one__single">
-                            <div class="blog-one__img-box">
-                                <div class="blog-one__img">
-                                    <img src="assets/images/blog/telefono-mojado.jpg" alt="Teléfono mojado primeros auxilios">
-                                </div>
-                            </div>
-                            <div class="blog-one__content">
-                                <h3 class="blog-one__title">Qué Hacer si tu Teléfono se Moja: Primeros Auxilios Técnicos</h3>
-                                <p style="margin: 15px 0; color: #666; font-size: 14px;">Apágalo inmediatamente, retira la batería si es posible, sécalo con toalla suave, colócalo en arroz crudo por 24-48 horas y NO uses secador de pelo. Tráelo a Innovalab para revisión profesional.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Blog One Single End-->
-                    <!--Blog One Single Start-->
-                    <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInRight" data-wow-delay="300ms">
-                        <div class="blog-one__single">
-                            <div class="blog-one__img-box">
-                                <div class="blog-one__img">
-                                    <img src="assets/images/blog/laptop-lenta.jpg" alt="Acelerar laptop lenta">
-                                </div>
-                            </div>
-                            <div class="blog-one__content">
-                                <h3 class="blog-one__title">Cómo Acelerar tu Laptop Lenta sin Formatear</h3>
-                                <p style="margin: 15px 0; color: #666; font-size: 14px;">Limpia archivos temporales, desinstala programas innecesarios, ejecuta desfragmentación del disco, actualiza drivers, aumenta la RAM o cambia a SSD. En Innovalab hacemos estos upgrades profesionalmente.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Blog One Single End-->
-                    <!--Blog One Single Start-->
-                    <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInLeft" data-wow-delay="400ms">
-                        <div class="blog-one__single">
-                            <div class="blog-one__img-box">
-                                <div class="blog-one__img">
-                                    <img src="assets/images/blog/pantalla-rota.jpg" alt="Pantalla rota señales cambio">
-                                </div>
-                            </div>
-                            <div class="blog-one__content">
-                                <h3 class="blog-one__title">Señales de que tu Pantalla Necesita Cambio Urgente</h3>
-                                <p style="margin: 15px 0; color: #666; font-size: 14px;">Líneas de colores, manchas negras que crecen, táctil que no responde en zonas, cristal agrietado que se extiende, o parpadeo constante. No esperes más, en Innovalab cambiamos pantallas con garantía.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Blog One Single End-->
-                    <!--Blog One Single Start-->
-                    <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="500ms">
-                        <div class="blog-one__single">
-                            <div class="blog-one__img-box">
-                                <div class="blog-one__img">
-                                    <img src="assets/images/blog/respaldo-datos.jpg" alt="Respaldo seguro de datos">
-                                </div>
-                            </div>
-                            <div class="blog-one__content">
-                                <h3 class="blog-one__title">Protege tus Datos: Respaldo Seguro Antes de Cualquier Reparación</h3>
-                                <p style="margin: 15px 0; color: #666; font-size: 14px;">Usa Google Drive, iCloud o copia manual a PC. Respalda fotos, contactos, mensajes y documentos importantes. En Innovalab protegemos tus datos durante toda reparación, pero la prevención es clave.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Blog One Single End-->
-                    <!--Blog One Single Start-->
-                    <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInRight" data-wow-delay="600ms">
-                        <div class="blog-one__single">
-                            <div class="blog-one__img-box">
-                                <div class="blog-one__img">
-                                    <img src="assets/images/blog/reparar-vs-comprar.jpg" alt="Reparar vs comprar dispositivo">
-                                </div>
-                            </div>
-                            <div class="blog-one__content">
-                                <h3 class="blog-one__title">Cuándo es Mejor Reparar vs Comprar un Dispositivo Nuevo</h3>
-                                <p style="margin: 15px 0; color: #666; font-size: 14px;">Si el costo de reparación supera el 60% del valor del equipo, considera cambiar. Pero si es pantalla, batería o componentes menores, siempre conviene reparar. En Innovalab te damos diagnóstico gratuito y honesto.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Blog One Single End-->
+                <!-- Loading -->
+                <div id="loading" style="text-align: center; padding: 50px;">
+                    <p>Cargando consejos técnicos...</p>
+                </div>
+                
+                <!-- Consejos dinámicos -->
+                <div class="row" id="consejos-container" style="display: none;">
+                    <!-- Los consejos se cargarán aquí dinámicamente -->
                 </div>
             </div>
         </section>
@@ -556,6 +476,91 @@
 
     <!-- template js -->
     <script src="assets/js/script.js"></script>
+    
+    <!-- Trucoteca Supabase -->
+    <script>
+        // Configuración Supabase
+        const supabase = window.supabase.createClient(
+            'https://iurovdgkdyupivasrikg.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1cm92ZGdrZHl1cGl2YXNyaWtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NDAwODgsImV4cCI6MjA2NTUxNjA4OH0.W30KQdhTG16OIPvlp5fVu9EVWfKgItWf6ZX-tAEIx68'
+        );
+
+        // Cargar consejos desde Supabase
+        async function cargarConsejos() {
+            try {
+                // Mostrar loading por al menos 1 segundo
+                const [data] = await Promise.all([
+                    supabase
+                        .from('trucoteca_consejos')
+                        .select('*')
+                        .order('created_at', { ascending: false })
+                        .then(result => {
+                            if (result.error) throw result.error;
+                            return result.data;
+                        }),
+                    new Promise(resolve => setTimeout(resolve, 1000))
+                ]);
+
+                mostrarConsejos(data);
+                
+            } catch (error) {
+                console.error('Error cargando consejos:', error);
+                document.getElementById('loading').innerHTML = '<p style="color: red;">Error cargando consejos. Intenta recargar la página.</p>';
+            }
+        }
+
+        // Mostrar consejos en la página
+        function mostrarConsejos(consejos) {
+            const container = document.getElementById('consejos-container');
+            const loading = document.getElementById('loading');
+            
+            if (!consejos || consejos.length === 0) {
+                loading.innerHTML = '<p>No hay consejos disponibles.</p>';
+                return;
+            }
+
+            let html = '';
+            const animaciones = ['fadeInLeft', 'fadeInUp', 'fadeInRight'];
+            
+            consejos.forEach((consejo, index) => {
+                const animacion = animaciones[index % 3];
+                const delay = (index % 3 + 1) * 100;
+                
+                html += `
+                    <div class="col-xl-4 col-lg-4 col-md-6 wow ${animacion}" data-wow-delay="${delay}ms">
+                        <div class="blog-one__single">
+                            <div class="blog-one__img-box">
+                                <div class="blog-one__img">
+                                    <img src="${consejo.imagen_url || 'assets/images/blog/default.jpg'}" alt="${consejo.titulo}">
+                                </div>
+                            </div>
+                            <div class="blog-one__content">
+                                <h3 class="blog-one__title">${consejo.titulo}</h3>
+                                <p style="margin: 15px 0; color: #666; font-size: 14px;">${consejo.contenido}</p>
+                                <div style="margin-top: 10px;">
+                                    <span style="background: #007bff; color: white; padding: 3px 8px; border-radius: 3px; font-size: 12px;">${consejo.categoria}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            loading.style.display = 'none';
+            container.style.display = 'flex';
+            
+            // Reinicializar animaciones WOW
+            if (typeof WOW !== 'undefined') {
+                new WOW().init();
+            }
+        }
+
+        // Cargar consejos cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarConsejos();
+        });
+    </script>
 </body>
 
 </html>

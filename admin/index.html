@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Trucoteca || Innovalab || Laboratorio Técnico</title>
+    
+    <!-- favicons Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicons/favicon-16x16.png" />
+    <link rel="manifest" href="../assets/images/favicons/site.webmanifest" />
+    
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!-- CSS de la web principal -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/animate.min.css" />
+    <link rel="stylesheet" href="../assets/css/font-awesome-all.css" />
+    <link rel="stylesheet" href="../assets/css/flaticon.css">
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/responsive.css" />
+    <link rel="stylesheet" href="../assets/css/custom-logo.css" />
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body { background: #f8f9fa; }
+        
+        .admin-container {
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        .admin-sidebar {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            min-height: 100vh;
+            padding: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .admin-logo {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .admin-logo img {
+            max-width: 150px;
+            height: auto;
+        }
+        
+        .admin-nav {
+            padding: 20px 0;
+        }
+        
+        .admin-nav-item {
+            display: block;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .admin-nav-item:hover,
+        .admin-nav-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .admin-nav-item i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .admin-main {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        .admin-header {
+            background: white;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            color: #2d3748;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+        }
+        
+        .admin-header .breadcrumb {
+            background: none;
+            padding: 0;
+            margin: 5px 0 0 0;
+        }
+        
+        .admin-content {
+            padding: 30px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #ff6b35;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-weight: 500;
+        }
+        
+        .admin-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .admin-card-header {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: white;
+            padding: 20px 25px;
+            border-bottom: none;
+        }
+        
+        .admin-card-header h3 {
+            margin: 0;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 600;
+        }
+        
+        .admin-card-body {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+            font-family: 'Titillium Web', sans-serif;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: 'Titillium Web', sans-serif;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+        
+        .btn-admin {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-family: 'Titillium Web', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-admin-primary {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+        }
+        
+        .btn-admin-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-admin-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .btn-admin-secondary:hover {
+            background: #cbd5e0;
+            color: #2d3748;
+            text-decoration: none;
+        }
+        
+        .btn-admin-danger {
+            background: #e53e3e;
+            color: white;
+        }
+        
+        .btn-admin-danger:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .consejos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .consejo-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .consejo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .consejo-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .consejo-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 107, 53, 0.9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .consejo-content {
+            padding: 20px;
+        }
+        
+        .consejo-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-family: 'Archivo', sans-serif;
+            line-height: 1.3;
+        }
+        
+        .consejo-text {
+            color: #718096;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .consejo-actions {
+            display: flex;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .alert-admin {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+            border: none;
+        }
+        
+        .alert-admin-success {
+            background: #f0fff4;
+            color: #22543d;
+            border-left: 4px solid #38a169;
+        }
+        
+        .alert-admin-error {
+            background: #fed7d7;
+            color: #742a2a;
+            border-left: 4px solid #e53e3e;
+        }
+        
+        .loading-admin {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+        
+        .loading-admin i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .upload-area {
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #ff6b35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+        
+        .upload-progress {
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .progress-bar-admin {
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 8px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-logo img {
+            max-width: 180px;
+            height: auto;
+        }
+        
+        .login-title {
+            text-align: center;
+            color: #2d3748;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .admin-sidebar {
+                min-height: auto;
+            }
+            
+            .admin-nav {
+                display: flex;
+                overflow-x: auto;
+                padding: 10px 0;
+            }
+            
+            .admin-nav-item {
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .admin-nav-item:hover,
+            .admin-nav-item.active {
+                border-left: none;
+                border-bottom-color: #ff6b35;
+            }
+            
+            .consejos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN -->
+    <div id="login-section">
+        <div class="login-wrapper">
+            <div class="login-card">
+                <div class="login-logo">
+                    <img src="../assets/images/resources/logo-1.png" alt="Innovalab">
+                </div>
+                <h2 class="login-title">Panel Administrativo</h2>
+                <p style="text-align: center; color: #718096; margin-bottom: 25px;">Gestión de Trucoteca</p>
+                
+                <div class="form-group">
+                    <label>Código de Acceso</label>
+                    <input type="password" id="accessCode" class="form-control" placeholder="Ingresa tu código" maxlength="5">
+                </div>
+                
+                <button class="btn-admin btn-admin-primary" onclick="login()" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Acceder al Panel
+                </button>
+                
+                <div id="login-error" class="alert-admin alert-admin-error" style="display: none; margin-top: 15px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-section" style="display: none;">
+        <div class="container-fluid admin-container">
+            <div class="row">
+                <!-- SIDEBAR -->
+                <div class="col-lg-3 admin-sidebar">
+                    <div class="admin-logo">
+                        <img src="../assets/images/resources/logo-2.png" alt="Innovalab">
+                    </div>
+                    
+                    <nav class="admin-nav">
+                        <a href="#dashboard" class="admin-nav-item active" onclick="showSection('dashboard')">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                        <a href="#consejos" class="admin-nav-item" onclick="showSection('consejos')">
+                            <i class="fas fa-lightbulb"></i> Gestionar Consejos
+                        </a>
+                        <a href="#nuevo" class="admin-nav-item" onclick="showSection('nuevo')">
+                            <i class="fas fa-plus-circle"></i> Nuevo Consejo
+                        </a>
+                        <a href="#" class="admin-nav-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </nav>
+                </div>
+                
+                <!-- MAIN CONTENT -->
+                <div class="col-lg-9 admin-main">
+                    <div class="admin-header">
+                        <h1 id="page-title">Dashboard</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#" style="color: #ff6b35;">Admin</a></li>
+                                <li class="breadcrumb-item active" id="breadcrumb-current">Dashboard</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    
+                    <div class="admin-content">
+                        <!-- DASHBOARD -->
+                        <div id="dashboard-section" class="admin-section-content">
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-lightbulb"></i>
+                                    </div>
+                                    <div class="stat-number" id="total-consejos">0</div>
+                                    <div class="stat-label">Total Consejos</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-tags"></i>
+                                    </div>
+                                    <div class="stat-number" id="total-categorias">0</div>
+                                    <div class="stat-label">Categorías</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                    <div class="stat-number" id="consejos-mes">0</div>
+                                    <div class="stat-label">Este Mes</div>
+                                </div>
+                            </div>
+                            
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <h3><i class="fas fa-chart-line"></i> Resumen de Actividad</h3>
+                                </div>
+                                <div class="admin-card-body">
+                                    <p>Bienvenido al panel administrativo de la Trucoteca de Innovalab. Desde aquí puedes gestionar todos los consejos técnicos que aparecen en tu sitio web.</p>
+                                    
+                                    <div class="row mt-4">
+                                        <div class="col-md-6">
+                                            <h5><i class="fas fa-plus text-success"></i> Acciones Rápidas</h5>
+                                            <ul class="list-unstyled">
+                                                <li><a href="#" onclick="showSection('nuevo')" style="color: #ff6b35;">• Agregar nuevo consejo</a></li>
+                                                <li><a href="#" onclick="showSection('consejos')" style="color: #ff6b35;">• Ver todos los consejos</a></li>
+                                                <li><a href="../trucoteca.html" target="_blank" style="color: #ff6b35;">• Ver página pública</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5><i class="fas fa-info-circle text-info"></i> Información</h5>
+                                            <ul class="list-unstyled">
+                                                <li>• Todos los cambios son inmediatos</li>
+                                                <li>• Las imágenes se suben automáticamente</li>
+                                                <li>• Respaldo automático en Supabase</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- GESTIONAR CONSEJOS -->
+                        <div id="consejos-section" class="admin-section-content" style="display: none;">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <h3><i class="fas fa-list"></i> Todos los Consejos</h3>
+                                </div>
+                                <div class="admin-card-body">
+                                    <div id="loading-consejos" class="loading-admin">
+                                        <i class="fas fa-spinner"></i>
+                                        <p>Cargando consejos...</p>
+                                    </div>
+                                    <div id="consejos-container" class="consejos-grid" style="display: none;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- NUEVO CONSEJO -->
+                        <div id="nuevo-section" class="admin-section-content" style="display: none;">
+                            <div class="admin-card">
+                                <div class="admin-card-header">
+                                    <h3 id="form-title"><i class="fas fa-plus-circle"></i> Nuevo Consejo</h3>
+                                </div>
+                                <div class="admin-card-body">
+                                    <form id="consejo-form">
+                                        <input type="hidden" id="edit-id">
+                                        
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-heading"></i> Título del Consejo</label>
+                                                    <input type="text" id="titulo" class="form-control" required placeholder="Ej: Cómo optimizar la batería de tu smartphone">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-tag"></i> Categoría</label>
+                                                    <select id="categoria" class="form-control" required>
+                                                        <option value="">Seleccionar categoría</option>
+                                                        <option value="Smartphone">📱 Smartphone</option>
+                                                        <option value="Laptop">💻 Laptop</option>
+                                                        <option value="Tablet">📟 Tablet</option>
+                                                        <option value="Reparación">🔧 Reparación</option>
+                                                        <option value="Consejos">💡 Consejos</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label><i class="fas fa-align-left"></i> Contenido del Consejo</label>
+                                            <textarea id="contenido" class="form-control" rows="5" required placeholder="Describe el consejo técnico de manera clara y detallada..."></textarea>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label><i class="fas fa-image"></i> Imagen del Consejo</label>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="text" id="imagen_url" class="form-control" placeholder="URL de la imagen o ruta local (assets/images/blog/...)">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="file" id="imagen_file" accept="image/*" style="display: none;" onchange="subirImagen()">
+                                                    <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('imagen_file').click()" style="width: 100%;">
+                                                        <i class="fas fa-upload"></i> Subir Imagen
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div id="upload-progress" class="upload-progress">
+                                                <div class="progress-bar-admin">
+                                                    <div id="progress-fill" class="progress-fill"></div>
+                                                </div>
+                                                <small id="upload-status" style="color: #718096; margin-top: 5px; display: block;"></small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: flex; gap: 15px; margin-top: 30px;">
+                                            <button type="submit" class="btn-admin btn-admin-primary">
+                                                <i class="fas fa-save"></i> Guardar Consejo
+                                            </button>
+                                            <button type="button" class="btn-admin btn-admin-secondary" onclick="cancelarEdicion()">
+                                                <i class="fas fa-times"></i> Cancelar
+                                            </button>
+                                        </div>
+                                    </form>
+                                    
+                                    <div id="form-message"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de la web principal -->
+    <script src="../assets/js/jquery-latest.js"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // CONFIGURACIÓN SUPABASE
+        const supabase = window.supabase.createClient(
+            'https://iurovdgkdyupivasrikg.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1cm92ZGdrZHl1cGl2YXNyaWtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NDAwODgsImV4cCI6MjA2NTUxNjA4OH0.W30KQdhTG16OIPvlp5fVu9EVWfKgItWf6ZX-tAEIx68'
+        );
+        
+        let editandoId = null;
+        let consejosData = [];
+
+        // LOGIN
+        function login() {
+            const codigo = document.getElementById('accessCode').value;
+            const errorDiv = document.getElementById('login-error');
+            
+            if (codigo === '55555') {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-section').style.display = 'block';
+                cargarDashboard();
+            } else {
+                errorDiv.textContent = 'Código de acceso incorrecto. Intenta de nuevo.';
+                errorDiv.style.display = 'block';
+                document.getElementById('accessCode').value = '';
+            }
+        }
+
+        // LOGOUT
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                document.getElementById('login-section').style.display = 'block';
+                document.getElementById('admin-section').style.display = 'none';
+                document.getElementById('accessCode').value = '';
+                cancelarEdicion();
+            }
+        }
+
+        // NAVEGACIÓN
+        function showSection(section) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.admin-section-content').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Remover clase active de todos los nav items
+            document.querySelectorAll('.admin-nav-item').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Mostrar sección seleccionada
+            document.getElementById(section + '-section').style.display = 'block';
+            
+            // Activar nav item
+            event.target.classList.add('active');
+            
+            // Actualizar título y breadcrumb
+            const titles = {
+                'dashboard': 'Dashboard',
+                'consejos': 'Gestionar Consejos',
+                'nuevo': 'Nuevo Consejo'
+            };
+            
+            document.getElementById('page-title').textContent = titles[section];
+            document.getElementById('breadcrumb-current').textContent = titles[section];
+            
+            // Cargar datos según la sección
+            if (section === 'dashboard') {
+                cargarDashboard();
+            } else if (section === 'consejos') {
+                cargarConsejos();
+            }
+        }
+
+        // CARGAR DASHBOARD
+        async function cargarDashboard() {
+            try {
+                const { data, error } = await supabase
+                    .from('trucoteca_consejos')
+                    .select('*');
+
+                if (error) throw error;
+
+                consejosData = data;
+                actualizarEstadisticas(data);
+                
+            } catch (error) {
+                console.error('Error cargando dashboard:', error);
+            }
+        }
+
+        // ACTUALIZAR ESTADÍSTICAS
+        function actualizarEstadisticas(consejos) {
+            document.getElementById('total-consejos').textContent = consejos.length;
+            
+            const categorias = [...new Set(consejos.map(c => c.categoria))];
+            document.getElementById('total-categorias').textContent = categorias.length;
+            
+            const esteMes = consejos.filter(c => {
+                const fecha = new Date(c.created_at);
+                const ahora = new Date();
+                return fecha.getMonth() === ahora.getMonth() && fecha.getFullYear() === ahora.getFullYear();
+            });
+            document.getElementById('consejos-mes').textContent = esteMes.length;
+        }
+
+        // CARGAR CONSEJOS
+        async function cargarConsejos() {
+            const loading = document.getElementById('loading-consejos');
+            const container = document.getElementById('consejos-container');
+            
+            loading.style.display = 'block';
+            container.style.display = 'none';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('trucoteca_consejos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                mostrarConsejos(data);
+                
+            } catch (error) {
+                mostrarMensaje('Error cargando consejos: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        // MOSTRAR CONSEJOS
+        function mostrarConsejos(consejos) {
+            const loading = document.getElementById('loading-consejos');
+            const container = document.getElementById('consejos-container');
+            
+            loading.style.display = 'none';
+            container.style.display = 'grid';
+            
+            if (!consejos || consejos.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #718096;"><i class="fas fa-lightbulb" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i><p>No hay consejos disponibles.<br><a href="#" onclick="showSection(\'nuevo\')" style="color: #ff6b35;">¡Agrega el primero!</a></p></div>';
+                return;
+            }
+
+            container.innerHTML = consejos.map(consejo => `
+                <div class="consejo-card">
+                    <div class="consejo-image" style="background-image: url('${consejo.imagen_url || '../assets/images/blog/default.jpg'}');">
+                        <div class="consejo-category">${consejo.categoria}</div>
+                    </div>
+                    <div class="consejo-content">
+                        <div class="consejo-title">${consejo.titulo}</div>
+                        <div class="consejo-text">${consejo.contenido.substring(0, 120)}...</div>
+                        <div class="consejo-actions">
+                            <button class="btn-admin btn-admin-primary" onclick="editarConsejo(${consejo.id})" style="flex: 1;">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn-admin btn-admin-danger" onclick="eliminarConsejo(${consejo.id})" style="flex: 1;">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // GUARDAR CONSEJO
+        document.getElementById('consejo-form').onsubmit = async function(e) {
+            e.preventDefault();
+            
+            const titulo = document.getElementById('titulo').value.trim();
+            const categoria = document.getElementById('categoria').value;
+            const contenido = document.getElementById('contenido').value.trim();
+            const imagen_url = document.getElementById('imagen_url').value.trim();
+
+            if (!titulo || !categoria || !contenido) {
+                mostrarMensaje('Por favor completa todos los campos obligatorios', 'error');
+                return;
+            }
+
+            try {
+                const datos = { titulo, categoria, contenido };
+                if (imagen_url) datos.imagen_url = imagen_url;
+
+                if (editandoId) {
+                    // ACTUALIZAR
+                    const { error } = await supabase
+                        .from('trucoteca_consejos')
+                        .update(datos)
+                        .eq('id', editandoId);
+
+                    if (error) throw error;
+                    mostrarMensaje('Consejo actualizado correctamente', 'success');
+                } else {
+                    // CREAR
+                    const { error } = await supabase
+                        .from('trucoteca_consejos')
+                        .insert([datos]);
+
+                    if (error) throw error;
+                    mostrarMensaje('Consejo agregado correctamente', 'success');
+                }
+
+                document.getElementById('consejo-form').reset();
+                cancelarEdicion();
+                cargarDashboard();
+
+            } catch (error) {
+                mostrarMensaje('Error: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        };
+
+        // EDITAR CONSEJO
+        async function editarConsejo(id) {
+            try {
+                const { data, error } = await supabase
+                    .from('trucoteca_consejos')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error) throw error;
+
+                editandoId = id;
+                document.getElementById('edit-id').value = id;
+                document.getElementById('titulo').value = data.titulo;
+                document.getElementById('categoria').value = data.categoria;
+                document.getElementById('contenido').value = data.contenido;
+                document.getElementById('imagen_url').value = data.imagen_url || '';
+                document.getElementById('form-title').innerHTML = '<i class="fas fa-edit"></i> Editar Consejo';
+
+                showSection('nuevo');
+
+            } catch (error) {
+                mostrarMensaje('Error cargando consejo: ' + error.message, 'error');
+            }
+        }
+
+        // CANCELAR EDICIÓN
+        function cancelarEdicion() {
+            editandoId = null;
+            document.getElementById('edit-id').value = '';
+            document.getElementById('form-title').innerHTML = '<i class="fas fa-plus-circle"></i> Nuevo Consejo';
+            document.getElementById('consejo-form').reset();
+        }
+
+        // ELIMINAR CONSEJO
+        async function eliminarConsejo(id) {
+            if (!confirm('¿Estás seguro de eliminar este consejo?\n\nEsta acción no se puede deshacer y el consejo desaparecerá de la página pública inmediatamente.')) {
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from('trucoteca_consejos')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                mostrarMensaje('Consejo eliminado correctamente', 'success');
+                cargarConsejos();
+                cargarDashboard();
+
+            } catch (error) {
+                mostrarMensaje('Error eliminando consejo: ' + error.message, 'error');
+            }
+        }
+
+        // SUBIR IMAGEN
+        async function subirImagen() {
+            const fileInput = document.getElementById('imagen_file');
+            const file = fileInput.files[0];
+            
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                mostrarMensaje('Por favor selecciona un archivo de imagen válido', 'error');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                mostrarMensaje('La imagen es muy grande. Máximo 5MB permitido', 'error');
+                return;
+            }
+            
+            const progressDiv = document.getElementById('upload-progress');
+            const progressFill = document.getElementById('progress-fill');
+            const statusText = document.getElementById('upload-status');
+            
+            try {
+                progressDiv.style.display = 'block';
+                statusText.textContent = 'Subiendo imagen...';
+                progressFill.style.width = '30%';
+                
+                const timestamp = Date.now();
+                const extension = file.name.split('.').pop();
+                const fileName = `consejo_${timestamp}.${extension}`;
+                
+                progressFill.style.width = '60%';
+                statusText.textContent = 'Procesando...';
+                
+                let uploadSuccess = false;
+                try {
+                    const { data, error } = await supabase.storage
+                        .from('trucoteca-images')
+                        .upload(fileName, file, {
+                            cacheControl: '3600',
+                            upsert: false
+                        });
+                    
+                    if (!error) {
+                        const { data: urlData } = supabase.storage
+                            .from('trucoteca-images')
+                            .getPublicUrl(fileName);
+                        
+                        document.getElementById('imagen_url').value = urlData.publicUrl;
+                        uploadSuccess = true;
+                    }
+                } catch (storageError) {
+                    console.log('Storage no disponible:', storageError);
+                }
+                
+                if (!uploadSuccess) {
+                    mostrarMensaje('Error subiendo imagen. Puedes usar una URL externa o contactar al administrador.', 'error');
+                    progressDiv.style.display = 'none';
+                    return;
+                }
+                
+                progressFill.style.width = '100%';
+                statusText.textContent = 'Imagen subida correctamente';
+                
+                setTimeout(() => {
+                    progressDiv.style.display = 'none';
+                    progressFill.style.width = '0%';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarMensaje('Error subiendo imagen: ' + error.message, 'error');
+                progressDiv.style.display = 'none';
+            }
+        }
+
+        // MOSTRAR MENSAJE
+        function mostrarMensaje(mensaje, tipo) {
+            const div = document.getElementById('form-message');
+            div.className = `alert-admin alert-admin-${tipo}`;
+            div.innerHTML = `<i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i> ${mensaje}`;
+            setTimeout(() => div.innerHTML = '', 5000);
+        }
+
+        // EVENTOS
+        document.getElementById('accessCode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+
+        // Auto-focus en el código de acceso
+        document.getElementById('accessCode').focus();
+    </script>
+</body>
+</html> 
