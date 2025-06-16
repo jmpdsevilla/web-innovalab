@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sistema Web Innovalab</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">🧪 Test Sistema Web Innovalab</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>🔗 Test Conexión Supabase</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-primary" onclick="testConnection()">Probar Conexión</button>
+                        <div id="connectionResult" class="mt-3"></div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>📚 Test Trucoteca</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-success" onclick="testTrucoteca()">Probar Trucoteca</button>
+                        <div id="trucotecaResult" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>🔧 Test Reparaciones</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-warning" onclick="testReparaciones()">Probar Reparaciones</button>
+                        <div id="reparacionesResult" class="mt-3"></div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>🖼️ Test Storage</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-info" onclick="testStorage()">Probar Storage</button>
+                        <div id="storageResult" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>📊 Resultados Generales</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="generalResults"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = {
+            connection: false,
+            trucoteca: false,
+            reparaciones: false,
+            storage: false
+        };
+
+        async function testConnection() {
+            const resultDiv = document.getElementById('connectionResult');
+            resultDiv.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Probando conexión...';
+            
+            try {
+                const supabase = getSupabaseClient();
+                if (!supabase) {
+                    throw new Error('No se pudo inicializar Supabase');
+                }
+                
+                // Test simple query
+                const { data, error } = await supabase
+                    .from('trucoteca_items')
+                    .select('count', { count: 'exact', head: true });
+                
+                if (error) throw error;
+                
+                testResults.connection = true;
+                resultDiv.innerHTML = '<div class="alert alert-success">✅ Conexión exitosa</div>';
+            } catch (error) {
+                testResults.connection = false;
+                resultDiv.innerHTML = `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+            }
+            updateGeneralResults();
+        }
+
+        async function testTrucoteca() {
+            const resultDiv = document.getElementById('trucotecaResult');
+            resultDiv.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Probando trucoteca...';
+            
+            try {
+                const supabase = getSupabaseClient();
+                
+                // Test read
+                const { data, error } = await supabase
+                    .from('trucoteca_items')
+                    .select('*')
+                    .limit(5);
+                
+                if (error) throw error;
+                
+                testResults.trucoteca = true;
+                resultDiv.innerHTML = `<div class="alert alert-success">✅ Trucoteca OK (${data.length} items encontrados)</div>`;
+            } catch (error) {
+                testResults.trucoteca = false;
+                resultDiv.innerHTML = `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+            }
+            updateGeneralResults();
+        }
+
+        async function testReparaciones() {
+            const resultDiv = document.getElementById('reparacionesResult');
+            resultDiv.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Probando reparaciones...';
+            
+            try {
+                const supabase = getSupabaseClient();
+                
+                // Test read
+                const { data, error } = await supabase
+                    .from('reparaciones')
+                    .select('*')
+                    .limit(5);
+                
+                if (error) throw error;
+                
+                testResults.reparaciones = true;
+                resultDiv.innerHTML = `<div class="alert alert-success">✅ Reparaciones OK (${data.length} items encontrados)</div>`;
+            } catch (error) {
+                testResults.reparaciones = false;
+                resultDiv.innerHTML = `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+            }
+            updateGeneralResults();
+        }
+
+        async function testStorage() {
+            const resultDiv = document.getElementById('storageResult');
+            resultDiv.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Probando storage...';
+            
+            try {
+                const supabase = getSupabaseClient();
+                
+                // Test list files in bucket
+                const { data, error } = await supabase.storage
+                    .from('trucoteca-images')
+                    .list('', { limit: 5 });
+                
+                if (error) throw error;
+                
+                testResults.storage = true;
+                resultDiv.innerHTML = `<div class="alert alert-success">✅ Storage OK (bucket accesible)</div>`;
+            } catch (error) {
+                testResults.storage = false;
+                resultDiv.innerHTML = `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+            }
+            updateGeneralResults();
+        }
+
+        function updateGeneralResults() {
+            const generalDiv = document.getElementById('generalResults');
+            const total = Object.keys(testResults).length;
+            const passed = Object.values(testResults).filter(Boolean).length;
+            
+            let html = `<h6>Estado General: ${passed}/${total} pruebas pasadas</h6>`;
+            html += '<div class="progress mb-3">';
+            html += `<div class="progress-bar ${passed === total ? 'bg-success' : 'bg-warning'}" style="width: ${(passed/total)*100}%"></div>`;
+            html += '</div>';
+            
+            html += '<ul class="list-group">';
+            for (const [test, result] of Object.entries(testResults)) {
+                const icon = result ? '✅' : '❌';
+                const status = result ? 'Pasó' : 'Falló';
+                html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${test.charAt(0).toUpperCase() + test.slice(1)}
+                    <span class="badge ${result ? 'bg-success' : 'bg-danger'}">${icon} ${status}</span>
+                </li>`;
+            }
+            html += '</ul>';
+            
+            if (passed === total) {
+                html += '<div class="alert alert-success mt-3"><strong>🎉 ¡Todos los tests pasaron! El sistema está funcionando correctamente.</strong></div>';
+            }
+            
+            generalDiv.innerHTML = html;
+        }
+
+        // Inicializar Supabase al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            initSupabase();
+        });
+    </script>
+</body>
+</html> 

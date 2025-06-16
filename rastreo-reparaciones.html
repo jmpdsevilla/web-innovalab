@@ -86,13 +86,13 @@
         
         .search-input:focus {
             outline: none;
-            border-color: var(--fixpro-base);
-            box-shadow: 0 0 0 3px rgba(var(--fixpro-base-rgb), 0.1);
+            border-color: #00A7EB;
+            box-shadow: 0 0 0 3px rgba(0, 167, 235, 0.1);
         }
         
         .resultado-card {
             background: white;
-            border-radius: var(--fixpro-bdr-radius);
+            border-radius: 8px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 40px;
             margin-bottom: 30px;
@@ -102,18 +102,18 @@
             text-align: center;
             padding: 30px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-bottom: 3px solid var(--fixpro-base);
+            border-bottom: 3px solid #00A7EB;
             margin-bottom: 30px;
         }
 
         .estado-label {
             font-size: 16px;
             font-weight: 700;
-            color: var(--fixpro-gray);
+            color: #666;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 15px;
-            font-family: var(--fixpro-font-two);
+            font-family: 'Titillium Web', sans-serif;
         }
 
         .estado-valor {
@@ -124,14 +124,14 @@
             font-size: 20px;
             color: white;
             margin-bottom: 15px;
-            font-family: var(--fixpro-font-two);
+            font-family: 'Titillium Web', sans-serif;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .datos-cliente {
             font-size: 14px;
-            color: var(--fixpro-gray);
-            font-family: var(--fixpro-font);
+            color: #666;
+            font-family: 'Archivo', sans-serif;
             opacity: 0.8;
             margin-top: 10px;
         }
@@ -141,15 +141,15 @@
         .progreso-section {
             margin: 40px 0;
             padding: 30px;
-            background: var(--fixpro-primary);
-            border-radius: var(--fixpro-bdr-radius);
+            background: #f8f9fa;
+            border-radius: 8px;
         }
         
         .progreso-title {
             text-align: center;
             margin-bottom: 30px;
-            color: var(--fixpro-black);
-            font-family: var(--fixpro-font-two);
+            color: #333;
+            font-family: 'Titillium Web', sans-serif;
         }
         
         .progreso-steps {
@@ -186,9 +186,9 @@
         .step-label {
             font-size: 13px;
             text-align: center;
-            color: var(--fixpro-gray);
+            color: #666;
             font-weight: 500;
-            font-family: var(--fixpro-font);
+            font-family: 'Archivo', sans-serif;
             max-width: 100px;
         }
         
@@ -203,7 +203,7 @@
         }
         
         .progreso-line-fill {
-            background: var(--fixpro-base);
+            background: #00A7EB;
             height: 4px;
             transition: width 0.8s ease;
         }
@@ -213,7 +213,7 @@
         }
         
         .step-current {
-            background: var(--fixpro-base);
+            background: #00A7EB;
             animation: pulse 2s infinite;
         }
         
@@ -222,9 +222,9 @@
         }
         
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(var(--fixpro-base-rgb), 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(var(--fixpro-base-rgb), 0); }
-            100% { box-shadow: 0 0 0 0 rgba(var(--fixpro-base-rgb), 0); }
+            0% { box-shadow: 0 0 0 0 rgba(0, 167, 235, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 167, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 167, 235, 0); }
         }
         
         .observaciones-card {
@@ -232,18 +232,18 @@
             padding: 24px;
             background: white;
             border-radius: 12px;
-            border-left: 4px solid var(--fixpro-base);
+            border-left: 4px solid #00A7EB;
         }
         
         .loading {
             text-align: center;
             padding: 60px 20px;
-            color: var(--fixpro-gray);
+            color: #666;
         }
 
         .loading i {
             font-size: 48px;
-            color: var(--fixpro-base);
+            color: #00A7EB;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
@@ -679,7 +679,7 @@
         <div class="mobile-nav__content">
             <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
             <div class="logo-box">
-                <a href="index.html" aria-label="logo image"><img src="assets/images/resources/logo-2.png" width="140"
+                <a href="index.html" aria-label="logo image"><img src="imagenes/logo/logo_fondo_oscuro.png" width="140"
                         alt="" /></a>
             </div>
             <!-- /.logo-box -->
