@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Trucoteca - Innovalab</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f5f5f5;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: none;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover { background: #0056b3; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #218838; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th { background: #f8f9fa; font-weight: bold; }
+        
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        
+        .loading { text-align: center; padding: 20px; color: #666; }
+    </style>
+</head>
+<body>
+    <!-- LOGIN -->
+    <div id="login-section" class="login-container">
+        <div class="login-box">
+            <h2>Admin Trucoteca</h2>
+            <p>Ingresa el código de acceso:</p>
+            <input type="password" id="accessCode" placeholder="Código de acceso">
+            <br>
+            <button onclick="login()">Ingresar</button>
+            <div id="login-message" class="message"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-section" class="admin-container">
+        <div class="header">
+            <h1>Administrar Trucoteca</h1>
+            <button onclick="logout()" class="btn-danger">Cerrar Sesión</button>
+        </div>
+
+        <div class="content">
+            <!-- FORMULARIO -->
+            <div class="form-section">
+                <h3 id="form-title">Agregar Nuevo Consejo</h3>
+                <form id="consejo-form">
+                    <input type="hidden" id="edit-id">
+                    
+                    <label>Título:</label>
+                    <input type="text" id="titulo" required>
+                    
+                    <label>Categoría:</label>
+                    <select id="categoria" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Smartphone">Smartphone</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Tablet">Tablet</option>
+                        <option value="Reparación">Reparación</option>
+                        <option value="Consejos">Consejos</option>
+                    </select>
+                    
+                    <label>Contenido:</label>
+                    <textarea id="contenido" rows="4" required></textarea>
+                    
+                    <label>URL de Imagen (opcional):</label>
+                    <input type="text" id="imagen_url" placeholder="https://...">
+                    
+                    <button type="submit" class="btn-success">Guardar</button>
+                    <button type="button" onclick="cancelarEdicion()">Cancelar</button>
+                </form>
+                <div id="form-message" class="message"></div>
+            </div>
+
+            <!-- LISTA DE CONSEJOS -->
+            <div>
+                <h3>Consejos Registrados</h3>
+                <div id="loading" class="loading">Cargando...</div>
+                <table id="consejos-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Categoría</th>
+                            <th>Contenido</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="consejos-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN SUPABASE
+        const supabaseUrl = 'https://ptonwoegfinkdngrovhv.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTE0ODUsImV4cCI6MjA2NTUyNzQ4NX0.jIin8SVfYvFh2-NxoJH8dcqOQ4Lt26rPyidzMy4yOwg';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let editandoId = null;
+
+        // LOGIN
+        function login() {
+            const code = document.getElementById('accessCode').value;
+            const message = document.getElementById('login-message');
+            
+            if (code === '55555') {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-section').style.display = 'block';
+                cargarConsejos();
+            } else {
+                message.className = 'message error';
+                message.style.display = 'block';
+                message.textContent = 'Código incorrecto';
+            }
+        }
+
+        // LOGOUT
+        function logout() {
+            document.getElementById('login-section').style.display = 'flex';
+            document.getElementById('admin-section').style.display = 'none';
+            document.getElementById('accessCode').value = '';
+        }
+
+        // CARGAR CONSEJOS
+        async function cargarConsejos() {
+            const loading = document.getElementById('loading');
+            const table = document.getElementById('consejos-table');
+            
+            loading.style.display = 'block';
+            table.style.display = 'none';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('trucoteca_items')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                mostrarConsejos(data);
+                
+            } catch (error) {
+                mostrarMensaje('Error cargando consejos: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        // MOSTRAR CONSEJOS
+        function mostrarConsejos(consejos) {
+            const loading = document.getElementById('loading');
+            const table = document.getElementById('consejos-table');
+            const tbody = document.getElementById('consejos-tbody');
+            
+            loading.style.display = 'none';
+            table.style.display = 'table';
+            
+            if (!consejos || consejos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: #666;">No hay consejos registrados</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = consejos.map(consejo => `
+                <tr>
+                    <td><strong>${consejo.title}</strong></td>
+                    <td>${consejo.category}</td>
+                    <td>${consejo.content.substring(0, 100)}${consejo.content.length > 100 ? '...' : ''}</td>
+                    <td>
+                        <button onclick="editarConsejo(${consejo.id})">Editar</button>
+                        <button onclick="eliminarConsejo(${consejo.id})" class="btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // GUARDAR CONSEJO
+        document.getElementById('consejo-form').onsubmit = async function(e) {
+            e.preventDefault();
+            
+            const datos = {
+                title: document.getElementById('titulo').value.trim(),
+                category: document.getElementById('categoria').value,
+                content: document.getElementById('contenido').value.trim(),
+                image_url: document.getElementById('imagen_url').value.trim() || null,
+                status: 'active'
+            };
+
+            if (!datos.title || !datos.category || !datos.content) {
+                mostrarMensaje('Por favor completa todos los campos obligatorios', 'error');
+                return;
+            }
+
+            try {
+                if (editandoId) {
+                    // ACTUALIZAR
+                    const { error } = await supabase
+                        .from('trucoteca_items')
+                        .update(datos)
+                        .eq('id', editandoId);
+
+                    if (error) throw error;
+                    mostrarMensaje('Consejo actualizado correctamente', 'success');
+                } else {
+                    // CREAR
+                    const { error } = await supabase
+                        .from('trucoteca_items')
+                        .insert([datos]);
+
+                    if (error) throw error;
+                    mostrarMensaje('Consejo agregado correctamente', 'success');
+                }
+
+                document.getElementById('consejo-form').reset();
+                cancelarEdicion();
+                cargarConsejos();
+
+            } catch (error) {
+                mostrarMensaje('Error: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        };
+
+        // EDITAR CONSEJO
+        async function editarConsejo(id) {
+            try {
+                const { data, error } = await supabase
+                    .from('trucoteca_items')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error) throw error;
+
+                editandoId = id;
+                document.getElementById('edit-id').value = id;
+                document.getElementById('titulo').value = data.title;
+                document.getElementById('categoria').value = data.category;
+                document.getElementById('contenido').value = data.content;
+                document.getElementById('imagen_url').value = data.image_url || '';
+                document.getElementById('form-title').textContent = 'Editar Consejo';
+
+            } catch (error) {
+                mostrarMensaje('Error cargando consejo: ' + error.message, 'error');
+            }
+        }
+
+        // CANCELAR EDICIÓN
+        function cancelarEdicion() {
+            editandoId = null;
+            document.getElementById('edit-id').value = '';
+            document.getElementById('form-title').textContent = 'Agregar Nuevo Consejo';
+            document.getElementById('consejo-form').reset();
+        }
+
+        // ELIMINAR CONSEJO
+        async function eliminarConsejo(id) {
+            if (!confirm('¿Estás seguro de eliminar este consejo?')) {
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from('trucoteca_items')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                mostrarMensaje('Consejo eliminado correctamente', 'success');
+                cargarConsejos();
+
+            } catch (error) {
+                mostrarMensaje('Error eliminando consejo: ' + error.message, 'error');
+            }
+        }
+
+        // MOSTRAR MENSAJE
+        function mostrarMensaje(mensaje, tipo) {
+            const div = document.getElementById('form-message');
+            div.className = `message ${tipo}`;
+            div.style.display = 'block';
+            div.textContent = mensaje;
+            setTimeout(() => {
+                div.style.display = 'none';
+            }, 5000);
+        }
+
+        // EVENTOS
+        document.getElementById('accessCode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+
+        // Auto-focus
+        document.getElementById('accessCode').focus();
+    </script>
+</body>
+</html> 
