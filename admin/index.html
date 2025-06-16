@@ -272,6 +272,90 @@
             table { font-size: 12px; }
             th, td { padding: 8px; }
         }
+        
+        /* Estilos para herramientas de diagnóstico */
+        .diagnostic-result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .diagnostic-result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .diagnostic-result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .diagnostic-result.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .diagnostic-result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .diagnostic-loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #00A7EB;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .test-item:last-child {
+            border-bottom: none;
+        }
+        
+        .test-status {
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+        }
+        
+        .test-status.ok {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .test-status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .test-status.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
     </style>
 </head>
 <body>
@@ -298,6 +382,7 @@
         <div class="tabs">
             <button class="tab active" onclick="cambiarTab('trucoteca')">📚 Trucoteca</button>
             <button class="tab" onclick="cambiarTab('reparaciones')">🔧 Reparaciones</button>
+            <button class="tab" onclick="cambiarTab('diagnostico')">🔍 Diagnóstico</button>
         </div>
 
         <!-- TAB TRUCOTECA -->
@@ -518,6 +603,70 @@
                 </table>
             </div>
         </div>
+
+        <!-- TAB DIAGNÓSTICO -->
+        <div id="tab-diagnostico" class="tab-content">
+            <div class="form-section">
+                <h3>🔍 Herramientas de Diagnóstico del Sistema</h3>
+                <p>Utiliza estas herramientas para diagnosticar problemas en el hosting y verificar el estado del sistema.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>📁 Verificación de Archivos</h4>
+                        <p>Verifica que todos los archivos críticos estén disponibles</p>
+                        <button class="btn-info" onclick="verificarArchivos()">Verificar Archivos</button>
+                        <div id="archivos-result" class="diagnostic-result"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>🌐 Test Conexión Supabase</h4>
+                        <p>Prueba la conectividad con la base de datos</p>
+                        <button class="btn-success" onclick="testSupabase()">Test Supabase</button>
+                        <div id="supabase-result" class="diagnostic-result"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>📊 Test Datos Trucoteca</h4>
+                        <p>Verifica el acceso a los datos de trucoteca</p>
+                        <button class="btn-warning" onclick="testTrucoteca()">Test Trucoteca</button>
+                        <div id="trucoteca-result" class="diagnostic-result"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>🔧 Test Reparaciones</h4>
+                        <p>Verifica el sistema de reparaciones</p>
+                        <button class="btn-info" onclick="testReparaciones()">Test Reparaciones</button>
+                        <div id="reparaciones-result" class="diagnostic-result"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>🖼️ Test Storage</h4>
+                        <p>Verifica el acceso al almacenamiento de imágenes</p>
+                        <button class="btn-success" onclick="testStorage()">Test Storage</button>
+                        <div id="storage-result" class="diagnostic-result"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h4>📋 Información del Sistema</h4>
+                        <p>Muestra información técnica del entorno</p>
+                        <button class="btn-info" onclick="mostrarInfoSistema()">Ver Info</button>
+                        <div id="system-info-result" class="diagnostic-result"></div>
+                    </div>
+                </div>
+                
+                <div class="form-section" style="margin-top: 30px;">
+                    <h4>🔧 Configuración Actual</h4>
+                    <div id="config-info" style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px; white-space: pre-line;"></div>
+                </div>
+                
+                <div class="form-section" style="margin-top: 20px;">
+                    <h4>📊 Resumen de Diagnóstico</h4>
+                    <div id="diagnostic-summary" style="padding: 15px; border-radius: 5px; border: 2px solid #ddd;">
+                        <p>Ejecuta los tests para ver un resumen del estado del sistema.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -574,6 +723,10 @@
                 cargarReparaciones();
             } else if (tab === 'trucoteca') {
                 cargarConsejos();
+            }
+            
+            if (tab === 'diagnostico') {
+                mostrarConfiguracionDiagnostico();
             }
         }
 
@@ -1179,7 +1332,332 @@ NOTAS: ${data.notas_internas || 'Ninguna'}
             // Configurar fecha mínima para entrega estimada (hoy)
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('fecha_estimada_entrega').min = today;
+            
+            // Cargar configuración de diagnóstico al iniciar
+            if (document.getElementById('config-info')) {
+                mostrarConfiguracionDiagnostico();
+            }
         });
+
+        // ==================== FUNCIONES DE DIAGNÓSTICO ====================
+
+        function mostrarConfiguracionDiagnostico() {
+            const config = document.getElementById('config-info');
+            if (config) {
+                config.textContent = `URL Supabase: ${supabaseUrl}
+Anon Key: ${supabaseKey.substring(0, 50)}...
+
+Tablas configuradas:
+- trucoteca_items
+- reparaciones  
+- trucoteca_images
+
+Storage bucket:
+- trucoteca-images
+
+Entorno actual:
+- URL: ${window.location.href}
+- Protocolo: ${window.location.protocol}
+- Host: ${window.location.host}
+- Supabase disponible: ${typeof window.supabase !== 'undefined' ? 'Sí' : 'No'}`;
+            }
+        }
+
+        async function verificarArchivos() {
+            const result = document.getElementById('archivos-result');
+            result.innerHTML = '<div class="diagnostic-loading"></div> Verificando archivos...';
+            result.className = 'diagnostic-result info';
+
+            const archivos = [
+                'trucoteca.html',
+                'rastreo-reparaciones.html',
+                'admin/index.html',
+                'assets/js/supabase-config.js',
+                'index.html',
+                'servicios.html'
+            ];
+
+            let resultados = [];
+            let errores = 0;
+            
+            for (const archivo of archivos) {
+                try {
+                    const response = await fetch(archivo, { method: 'HEAD' });
+                    const status = response.ok ? 'OK' : `Error ${response.status}`;
+                    resultados.push({
+                        archivo: archivo,
+                        status: response.ok ? 'ok' : 'error',
+                        mensaje: status
+                    });
+                    if (!response.ok) errores++;
+                } catch (error) {
+                    resultados.push({
+                        archivo: archivo,
+                        status: 'error',
+                        mensaje: `Error: ${error.message}`
+                    });
+                    errores++;
+                }
+            }
+            
+            let html = '';
+            resultados.forEach(r => {
+                html += `<div class="test-item">
+                    <span>${r.archivo}</span>
+                    <span class="test-status ${r.status}">${r.status === 'ok' ? '✅' : '❌'} ${r.mensaje}</span>
+                </div>`;
+            });
+            
+            result.innerHTML = html;
+            result.className = `diagnostic-result ${errores === 0 ? 'success' : 'error'}`;
+            actualizarResumenDiagnostico();
+        }
+
+        async function testSupabase() {
+            const result = document.getElementById('supabase-result');
+            result.innerHTML = '<div class="diagnostic-loading"></div> Probando conexión...';
+            result.className = 'diagnostic-result info';
+
+            try {
+                // Test básico de conexión
+                const { data, error } = await supabase
+                    .from('trucoteca_items')
+                    .select('count', { count: 'exact', head: true });
+
+                if (error) throw error;
+
+                result.innerHTML = `<div class="test-item">
+                    <span>Conexión Supabase</span>
+                    <span class="test-status ok">✅ Conectado</span>
+                </div>
+                <div class="test-item">
+                    <span>URL</span>
+                    <span>${supabaseUrl}</span>
+                </div>
+                <div class="test-item">
+                    <span>Estado</span>
+                    <span class="test-status ok">✅ Operativo</span>
+                </div>`;
+                result.className = 'diagnostic-result success';
+
+            } catch (error) {
+                result.innerHTML = `<div class="test-item">
+                    <span>Error de conexión</span>
+                    <span class="test-status error">❌ ${error.message}</span>
+                </div>`;
+                result.className = 'diagnostic-result error';
+            }
+            actualizarResumenDiagnostico();
+        }
+
+        async function testTrucoteca() {
+            const result = document.getElementById('trucoteca-result');
+            result.innerHTML = '<div class="diagnostic-loading"></div> Probando trucoteca...';
+            result.className = 'diagnostic-result info';
+
+            try {
+                const { data, error, count } = await supabase
+                    .from('trucoteca_items')
+                    .select('*', { count: 'exact' })
+                    .limit(1);
+
+                if (error) throw error;
+
+                result.innerHTML = `<div class="test-item">
+                    <span>Tabla trucoteca_items</span>
+                    <span class="test-status ok">✅ Accesible</span>
+                </div>
+                <div class="test-item">
+                    <span>Total de registros</span>
+                    <span>${count || 0}</span>
+                </div>
+                <div class="test-item">
+                    <span>Último registro</span>
+                    <span>${data && data.length > 0 ? data[0].title : 'Sin datos'}</span>
+                </div>`;
+                result.className = 'diagnostic-result success';
+
+            } catch (error) {
+                result.innerHTML = `<div class="test-item">
+                    <span>Error en trucoteca</span>
+                    <span class="test-status error">❌ ${error.message}</span>
+                </div>`;
+                result.className = 'diagnostic-result error';
+            }
+            actualizarResumenDiagnostico();
+        }
+
+        async function testReparaciones() {
+            const result = document.getElementById('reparaciones-result');
+            result.innerHTML = '<div class="diagnostic-loading"></div> Probando reparaciones...';
+            result.className = 'diagnostic-result info';
+
+            try {
+                const { data, error, count } = await supabase
+                    .from('reparaciones')
+                    .select('*', { count: 'exact' })
+                    .limit(1);
+
+                if (error) throw error;
+
+                result.innerHTML = `<div class="test-item">
+                    <span>Tabla reparaciones</span>
+                    <span class="test-status ok">✅ Accesible</span>
+                </div>
+                <div class="test-item">
+                    <span>Total de reparaciones</span>
+                    <span>${count || 0}</span>
+                </div>
+                <div class="test-item">
+                    <span>Última reparación</span>
+                    <span>${data && data.length > 0 ? data[0].numero_orden : 'Sin datos'}</span>
+                </div>`;
+                result.className = 'diagnostic-result success';
+
+            } catch (error) {
+                result.innerHTML = `<div class="test-item">
+                    <span>Error en reparaciones</span>
+                    <span class="test-status error">❌ ${error.message}</span>
+                </div>`;
+                result.className = 'diagnostic-result error';
+            }
+            actualizarResumenDiagnostico();
+        }
+
+        async function testStorage() {
+            const result = document.getElementById('storage-result');
+            result.innerHTML = '<div class="diagnostic-loading"></div> Probando storage...';
+            result.className = 'diagnostic-result info';
+
+            try {
+                const { data, error } = await supabase.storage
+                    .from('trucoteca-images')
+                    .list('', { limit: 1 });
+
+                if (error) throw error;
+
+                result.innerHTML = `<div class="test-item">
+                    <span>Bucket trucoteca-images</span>
+                    <span class="test-status ok">✅ Accesible</span>
+                </div>
+                <div class="test-item">
+                    <span>Archivos encontrados</span>
+                    <span>${data ? data.length : 0}</span>
+                </div>
+                <div class="test-item">
+                    <span>Estado</span>
+                    <span class="test-status ok">✅ Operativo</span>
+                </div>`;
+                result.className = 'diagnostic-result success';
+
+            } catch (error) {
+                result.innerHTML = `<div class="test-item">
+                    <span>Error en storage</span>
+                    <span class="test-status error">❌ ${error.message}</span>
+                </div>`;
+                result.className = 'diagnostic-result error';
+            }
+            actualizarResumenDiagnostico();
+        }
+
+        function mostrarInfoSistema() {
+            const result = document.getElementById('system-info-result');
+            
+            const info = `<div class="test-item">
+                <span>URL Actual</span>
+                <span>${window.location.href}</span>
+            </div>
+            <div class="test-item">
+                <span>User Agent</span>
+                <span>${navigator.userAgent.substring(0, 50)}...</span>
+            </div>
+            <div class="test-item">
+                <span>Fecha/Hora</span>
+                <span>${new Date().toLocaleString()}</span>
+            </div>
+            <div class="test-item">
+                <span>Protocolo</span>
+                <span>${window.location.protocol}</span>
+            </div>
+            <div class="test-item">
+                <span>Host</span>
+                <span>${window.location.host}</span>
+            </div>
+            <div class="test-item">
+                <span>Supabase Disponible</span>
+                <span class="test-status ${typeof window.supabase !== 'undefined' ? 'ok' : 'error'}">
+                    ${typeof window.supabase !== 'undefined' ? '✅ Sí' : '❌ No'}
+                </span>
+            </div>`;
+            
+            result.innerHTML = info;
+            result.className = 'diagnostic-result info';
+            actualizarResumenDiagnostico();
+        }
+
+        function actualizarResumenDiagnostico() {
+            const summary = document.getElementById('diagnostic-summary');
+            if (!summary) return;
+
+            const resultados = document.querySelectorAll('.diagnostic-result');
+            let total = 0;
+            let exitosos = 0;
+            let errores = 0;
+
+            resultados.forEach(result => {
+                if (result.innerHTML && !result.innerHTML.includes('diagnostic-loading')) {
+                    total++;
+                    if (result.classList.contains('success')) {
+                        exitosos++;
+                    } else if (result.classList.contains('error')) {
+                        errores++;
+                    }
+                }
+            });
+
+            if (total === 0) {
+                summary.innerHTML = '<p>Ejecuta los tests para ver un resumen del estado del sistema.</p>';
+                summary.style.borderColor = '#ddd';
+                return;
+            }
+
+            const porcentaje = Math.round((exitosos / total) * 100);
+            let color = '#28a745'; // Verde
+            let estado = 'Excelente';
+
+            if (porcentaje < 50) {
+                color = '#dc3545'; // Rojo
+                estado = 'Crítico';
+            } else if (porcentaje < 80) {
+                color = '#ffc107'; // Amarillo
+                estado = 'Advertencia';
+            }
+
+            summary.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h5 style="margin: 0;">Estado del Sistema: <span style="color: ${color};">${estado}</span></h5>
+                    <div style="font-size: 24px; font-weight: bold; color: ${color};">${porcentaje}%</div>
+                </div>
+                <div style="background: #f8f9fa; border-radius: 10px; overflow: hidden; margin-bottom: 15px;">
+                    <div style="height: 20px; background: ${color}; width: ${porcentaje}%; transition: width 0.3s;"></div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
+                    <div>
+                        <div style="font-size: 20px; font-weight: bold; color: #007bff;">${total}</div>
+                        <div style="font-size: 12px; color: #666;">Tests Ejecutados</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 20px; font-weight: bold; color: #28a745;">${exitosos}</div>
+                        <div style="font-size: 12px; color: #666;">Exitosos</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 20px; font-weight: bold; color: #dc3545;">${errores}</div>
+                        <div style="font-size: 12px; color: #666;">Con Errores</div>
+                    </div>
+                </div>
+            `;
+            summary.style.borderColor = color;
+        }
     </script>
 </body>
 </html> 
