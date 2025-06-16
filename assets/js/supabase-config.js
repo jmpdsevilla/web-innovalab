@@ -1,7 +1,7 @@
 // Configuración centralizada de Supabase para Web Innovalab
 const SUPABASE_CONFIG = {
     url: 'https://ptonwoegfinkdngrovhv.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg0OTI4ODUsImV4cCI6MjAzNDA2ODg4NX0.Ej8XZlBqJmqU7VNjiqBVOEBINaZmJGhNODhkZjU2ZjU2',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTE0ODUsImV4cCI6MjA2NTUyNzQ4NX0.jIin8SVfYvFh2-NxoJH8dcqOQ4Lt26rPyidzMy4yOwg',
     
     // Configuración de tablas
     tables: {
