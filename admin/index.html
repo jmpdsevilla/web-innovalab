@@ -276,35 +276,36 @@
         /* Estilos para herramientas de diagnóstico */
         .diagnostic-result {
             margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 8px;
             font-size: 13px;
-            max-height: 200px;
+            max-height: 300px;
             overflow-y: auto;
+            border: 1px solid #ddd;
         }
         
         .diagnostic-result.success {
             background: #d4edda;
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border-color: #c3e6cb;
         }
         
         .diagnostic-result.error {
             background: #f8d7da;
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border-color: #f5c6cb;
         }
         
         .diagnostic-result.warning {
             background: #fff3cd;
             color: #856404;
-            border: 1px solid #ffeaa7;
+            border-color: #ffeaa7;
         }
         
         .diagnostic-result.info {
             background: #d1ecf1;
             color: #0c5460;
-            border: 1px solid #bee5eb;
+            border-color: #bee5eb;
         }
         
         .diagnostic-loading {
@@ -327,8 +328,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 14px;
         }
         
         .test-item:last-child {
@@ -337,24 +339,142 @@
         
         .test-status {
             font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 12px;
+            padding: 4px 12px;
+            border-radius: 15px;
             font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .test-status.ok {
-            background: #d4edda;
+            background: rgba(40, 167, 69, 0.2);
             color: #155724;
+            border: 1px solid #28a745;
         }
         
         .test-status.error {
-            background: #f8d7da;
+            background: rgba(220, 53, 69, 0.2);
             color: #721c24;
+            border: 1px solid #dc3545;
         }
         
         .test-status.warning {
-            background: #fff3cd;
+            background: rgba(255, 193, 7, 0.2);
             color: #856404;
+            border: 1px solid #ffc107;
+        }
+        
+        /* Mejoras en el grid de diagnóstico */
+        .diagnostic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .diagnostic-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .diagnostic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .diagnostic-card h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .diagnostic-card p {
+            margin: 0 0 20px 0;
+            color: #6c757d;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .diagnostic-card button {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .diagnostic-card button:hover {
+            transform: translateY(-1px);
+        }
+        
+        /* Secciones de información */
+        .info-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .info-section h4 {
+            margin: 0 0 20px 0;
+            color: #2c3e50;
+            font-size: 18px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00A7EB;
+        }
+        
+        .config-display {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            white-space: pre-line;
+            border: 1px solid #dee2e6;
+            color: #495057;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .summary-section h4 {
+            margin: 0 0 20px 0;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .diagnostic-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .diagnostic-card {
+                padding: 20px;
+            }
+            
+            .info-section {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -610,43 +730,43 @@
                 <h3>🔍 Herramientas de Diagnóstico del Sistema</h3>
                 <p>Utiliza estas herramientas para diagnosticar problemas en el hosting y verificar el estado del sistema.</p>
                 
-                <div class="stats-grid">
-                    <div class="stat-card">
+                <div class="diagnostic-grid">
+                    <div class="diagnostic-card">
                         <h4>📁 Verificación de Archivos</h4>
                         <p>Verifica que todos los archivos críticos estén disponibles</p>
                         <button class="btn-info" onclick="verificarArchivos()">Verificar Archivos</button>
                         <div id="archivos-result" class="diagnostic-result"></div>
                     </div>
                     
-                    <div class="stat-card">
+                    <div class="diagnostic-card">
                         <h4>🌐 Test Conexión Supabase</h4>
                         <p>Prueba la conectividad con la base de datos</p>
                         <button class="btn-success" onclick="testSupabase()">Test Supabase</button>
                         <div id="supabase-result" class="diagnostic-result"></div>
                     </div>
                     
-                    <div class="stat-card">
+                    <div class="diagnostic-card">
                         <h4>📊 Test Datos Trucoteca</h4>
                         <p>Verifica el acceso a los datos de trucoteca</p>
                         <button class="btn-warning" onclick="testTrucoteca()">Test Trucoteca</button>
                         <div id="trucoteca-result" class="diagnostic-result"></div>
                     </div>
                     
-                    <div class="stat-card">
+                    <div class="diagnostic-card">
                         <h4>🔧 Test Reparaciones</h4>
                         <p>Verifica el sistema de reparaciones</p>
                         <button class="btn-info" onclick="testReparaciones()">Test Reparaciones</button>
                         <div id="reparaciones-result" class="diagnostic-result"></div>
                     </div>
                     
-                    <div class="stat-card">
+                    <div class="diagnostic-card">
                         <h4>🖼️ Test Storage</h4>
                         <p>Verifica el acceso al almacenamiento de imágenes</p>
                         <button class="btn-success" onclick="testStorage()">Test Storage</button>
                         <div id="storage-result" class="diagnostic-result"></div>
                     </div>
                     
-                    <div class="stat-card">
+                    <div class="diagnostic-card">
                         <h4>📋 Información del Sistema</h4>
                         <p>Muestra información técnica del entorno</p>
                         <button class="btn-info" onclick="mostrarInfoSistema()">Ver Info</button>
@@ -654,16 +774,14 @@
                     </div>
                 </div>
                 
-                <div class="form-section" style="margin-top: 30px;">
+                <div class="info-section">
                     <h4>🔧 Configuración Actual</h4>
-                    <div id="config-info" style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px; white-space: pre-line;"></div>
+                    <div id="config-info" class="config-display"></div>
                 </div>
                 
-                <div class="form-section" style="margin-top: 20px;">
+                <div class="summary-section">
                     <h4>📊 Resumen de Diagnóstico</h4>
-                    <div id="diagnostic-summary" style="padding: 15px; border-radius: 5px; border: 2px solid #ddd;">
-                        <p>Ejecuta los tests para ver un resumen del estado del sistema.</p>
-                    </div>
+                    <div id="diagnostic-summary"></div>
                 </div>
             </div>
         </div>
@@ -1336,6 +1454,7 @@ NOTAS: ${data.notas_internas || 'Ninguna'}
             // Cargar configuración de diagnóstico al iniciar
             if (document.getElementById('config-info')) {
                 mostrarConfiguracionDiagnostico();
+                actualizarResumenDiagnostico(); // Mostrar estado inicial
             }
         });
 
@@ -1368,13 +1487,14 @@ Entorno actual:
             result.innerHTML = '<div class="diagnostic-loading"></div> Verificando archivos...';
             result.className = 'diagnostic-result info';
 
+            // Archivos críticos con rutas relativas desde admin/
             const archivos = [
-                'trucoteca.html',
-                'rastreo-reparaciones.html',
-                'admin/index.html',
-                'assets/js/supabase-config.js',
-                'index.html',
-                'servicios.html'
+                { path: '../trucoteca.html', name: 'trucoteca.html' },
+                { path: '../rastreo-reparaciones.html', name: 'rastreo-reparaciones.html' },
+                { path: 'index.html', name: 'admin/index.html' },
+                { path: '../assets/js/supabase-config.js', name: 'assets/js/supabase-config.js' },
+                { path: '../index.html', name: 'index.html' },
+                { path: '../servicios.html', name: 'servicios.html' }
             ];
 
             let resultados = [];
@@ -1382,19 +1502,25 @@ Entorno actual:
             
             for (const archivo of archivos) {
                 try {
-                    const response = await fetch(archivo, { method: 'HEAD' });
+                    const response = await fetch(archivo.path, { 
+                        method: 'HEAD',
+                        cache: 'no-cache'
+                    });
+                    
                     const status = response.ok ? 'OK' : `Error ${response.status}`;
                     resultados.push({
-                        archivo: archivo,
+                        archivo: archivo.name,
                         status: response.ok ? 'ok' : 'error',
-                        mensaje: status
+                        mensaje: status,
+                        size: response.headers.get('content-length') || 'N/A'
                     });
                     if (!response.ok) errores++;
                 } catch (error) {
                     resultados.push({
-                        archivo: archivo,
+                        archivo: archivo.name,
                         status: 'error',
-                        mensaje: `Error: ${error.message}`
+                        mensaje: `Error: ${error.message}`,
+                        size: 'N/A'
                     });
                     errores++;
                 }
@@ -1403,7 +1529,10 @@ Entorno actual:
             let html = '';
             resultados.forEach(r => {
                 html += `<div class="test-item">
-                    <span>${r.archivo}</span>
+                    <div>
+                        <strong>${r.archivo}</strong>
+                        ${r.size !== 'N/A' ? `<br><small style="color: #6c757d;">Tamaño: ${r.size} bytes</small>` : ''}
+                    </div>
                     <span class="test-status ${r.status}">${r.status === 'ok' ? '✅' : '❌'} ${r.mensaje}</span>
                 </div>`;
             });
@@ -1616,47 +1745,75 @@ Entorno actual:
             });
 
             if (total === 0) {
-                summary.innerHTML = '<p>Ejecuta los tests para ver un resumen del estado del sistema.</p>';
-                summary.style.borderColor = '#ddd';
+                summary.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">🔍</div>
+                        <h5 style="margin: 0 0 10px 0; color: white;">Sistema Listo para Diagnóstico</h5>
+                        <p style="margin: 0; opacity: 0.9; font-size: 14px;">Ejecuta los tests para obtener un análisis completo del estado del sistema</p>
+                    </div>
+                `;
                 return;
             }
 
             const porcentaje = Math.round((exitosos / total) * 100);
             let color = '#28a745'; // Verde
             let estado = 'Excelente';
+            let icono = '✅';
 
             if (porcentaje < 50) {
                 color = '#dc3545'; // Rojo
                 estado = 'Crítico';
+                icono = '❌';
             } else if (porcentaje < 80) {
                 color = '#ffc107'; // Amarillo
                 estado = 'Advertencia';
+                icono = '⚠️';
             }
 
             summary.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h5 style="margin: 0;">Estado del Sistema: <span style="color: ${color};">${estado}</span></h5>
-                    <div style="font-size: 24px; font-weight: bold; color: ${color};">${porcentaje}%</div>
-                </div>
-                <div style="background: #f8f9fa; border-radius: 10px; overflow: hidden; margin-bottom: 15px;">
-                    <div style="height: 20px; background: ${color}; width: ${porcentaje}%; transition: width 0.3s;"></div>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
-                    <div>
-                        <div style="font-size: 20px; font-weight: bold; color: #007bff;">${total}</div>
-                        <div style="font-size: 12px; color: #666;">Tests Ejecutados</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 24px;">${icono}</span>
+                        <div>
+                            <h5 style="margin: 0; color: white; font-size: 18px;">Estado del Sistema</h5>
+                            <p style="margin: 0; opacity: 0.9; font-size: 14px;">${estado}</p>
+                        </div>
                     </div>
-                    <div>
-                        <div style="font-size: 20px; font-weight: bold; color: #28a745;">${exitosos}</div>
-                        <div style="font-size: 12px; color: #666;">Exitosos</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 20px; font-weight: bold; color: #dc3545;">${errores}</div>
-                        <div style="font-size: 12px; color: #666;">Con Errores</div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 32px; font-weight: bold; color: white; line-height: 1;">${porcentaje}%</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Salud del Sistema</div>
                     </div>
                 </div>
+                
+                <div style="background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; margin-bottom: 20px; height: 8px;">
+                    <div style="height: 100%; background: white; width: ${porcentaje}%; transition: width 0.5s ease;"></div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div style="text-align: center; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: white; margin-bottom: 5px;">${total}</div>
+                        <div style="font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;">Tests Ejecutados</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: white; margin-bottom: 5px;">${exitosos}</div>
+                        <div style="font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;">Exitosos</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: white; margin-bottom: 5px;">${errores}</div>
+                        <div style="font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;">Con Errores</div>
+                    </div>
+                </div>
+                
+                ${errores > 0 ? `
+                <div style="margin-top: 20px; padding: 15px; background: rgba(220, 53, 69, 0.2); border-radius: 8px; border: 1px solid rgba(220, 53, 69, 0.3);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 16px;">⚠️</span>
+                        <strong style="color: white;">Atención Requerida</strong>
+                    </div>
+                    <p style="margin: 0; font-size: 13px; opacity: 0.9;">Se detectaron ${errores} problema${errores > 1 ? 's' : ''} que requiere${errores > 1 ? 'n' : ''} atención. Revisa los tests con errores para más detalles.</p>
+                </div>
+                ` : ''}
             `;
-            summary.style.borderColor = color;
         }
     </script>
 </body>
