@@ -429,42 +429,46 @@
                         <div class="col-xl-6">
                             <div class="contact-page__right">
                                 <h3 class="contact-page__form-title">Contáctanos</h3>
-                                <form id="contact-form" class="contact-form-validated contact-page__form">
+                                <form class="contact-form-validated video-one-contact__form">
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6 col-md-6">
-                                            <div class="contact-page__input-box">
-                                                <input type="text" name="Nombre" placeholder="Tu nombre" required="">
+                                            <div class="video-one-contact__input-box">
+                                                <input type="text" name="Nombre" placeholder="Tu Nombre" required="">
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
-                                            <div class="contact-page__input-box">
-                                                <input type="email" name="Email" placeholder="Tu Email" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-6">
-                                            <div class="contact-page__input-box">
-                                                <input type="text" placeholder="Teléfono" name="Telefono" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-6">
-                                            <div class="contact-page__input-box">
-                                                <input type="text" placeholder="Asunto" name="Asunto" required>
+                                            <div class="video-one-contact__input-box">
+                                                <input type="email" name="Email" placeholder="Correo Electrónico" required="">
                                             </div>
                                         </div>
                                         <div class="col-xl-12">
-                                            <div class="contact-page__input-box text-message-box">
-                                                <textarea name="Mensaje" placeholder="Mensaje" required></textarea>
+                                            <div class="video-one-contact__input-box">
+                                                <div class="select-box">
+                                                    <select class="selectmenu wide" name="Tipo_de_Servicio" required>
+                                                        <option value="" disabled selected>Tipo de Servicio</option>
+                                                        <option value="Reparación de Smartphone">Reparación de Smartphone</option>
+                                                        <option value="Reparación de Tablet">Reparación de Tablet</option>
+                                                        <option value="Mantenimiento de Laptop">Mantenimiento de Laptop</option>
+                                                        <option value="Cambio de Display">Cambio de Display</option>
+                                                        <option value="Daños por Líquidos">Daños por Líquidos</option>
+                                                        <option value="Diagnóstico Técnico">Diagnóstico Técnico</option>
+                                                        <option value="Consulta General">Consulta General</option>
+                                                        <option value="Otro">Otro</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="contact-page__btn-box">
-                                                <button type="submit" class="thm-btn contact-page__btn" id="contact-page-submit-btn">
-                                                    Enviar Mensaje
-                                                    <span class="icon-arrow-right"></span>
-                                                </button>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <div class="video-one-contact__input-box text-message-box">
+                                                <textarea name="Descripcion_del_Problema" placeholder="Describe tu consulta o el problema de tu dispositivo" required></textarea>
+                                            </div>
+                                            <div class="video-one-contact__btn-box">
+                                                <button type="submit" class="thm-btn" id="contact-submit-btn">Enviar Mensaje</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="result"></div>
                                 </form>
+                                <div class="result"></div>
                             </div>
                         </div>
                     </div>
@@ -798,21 +802,20 @@
             }
 
             // Sistema de Formulario de Contacto
-            const contactForm = document.getElementById('contact-form');
-            const submitBtn = document.getElementById('contact-page-submit-btn');
+            const contactForm = document.querySelector('.video-one-contact__form');
+            const submitBtn = document.getElementById('contact-submit-btn');
             
             if (contactForm && submitBtn) {
-                contactForm.addEventListener('submit', function(e) {
+                contactForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
                     // Validar campos requeridos
                     const nombre = contactForm.querySelector('input[name="Nombre"]').value.trim();
                     const email = contactForm.querySelector('input[name="Email"]').value.trim();
-                    const telefono = contactForm.querySelector('input[name="Telefono"]').value.trim();
-                    const asunto = contactForm.querySelector('input[name="Asunto"]').value.trim();
-                    const mensaje = contactForm.querySelector('textarea[name="Mensaje"]').value.trim();
+                    const tipoServicio = contactForm.querySelector('select[name="Tipo_de_Servicio"]').value;
+                    const descripcion = contactForm.querySelector('textarea[name="Descripcion_del_Problema"]').value.trim();
                     
-                    if (!nombre || !email || !telefono || !asunto || !mensaje) {
+                    if (!nombre || !email || !tipoServicio || !descripcion) {
                         alert('Por favor completa todos los campos obligatorios');
                         return;
                     }
@@ -823,47 +826,63 @@
                     }
                     
                     // Guardar estado original del botón
-                    const originalText = submitBtn.innerHTML;
+                    const originalText = submitBtn.textContent;
                     const originalBg = submitBtn.style.backgroundColor;
                     
                     // Cambiar a estado de carga
-                    submitBtn.innerHTML = 'Enviando... <span class="icon-arrow-right"></span>';
+                    submitBtn.textContent = 'Enviando...';
                     submitBtn.disabled = true;
                     submitBtn.style.backgroundColor = '#ffc107';
                     
-                    // Simular envío exitoso después de 2 segundos
-                    setTimeout(() => {
-                        // Mostrar mensaje de éxito
-                        submitBtn.innerHTML = '¡Enviado! <span class="icon-arrow-right"></span>';
-                        submitBtn.style.backgroundColor = '#28a745';
+                    try {
+                        // Crear FormData con todos los campos
+                        const formData = new FormData();
+                        formData.append('Nombre', nombre);
+                        formData.append('Email', email);
+                        formData.append('Tipo_de_Servicio', tipoServicio);
+                        formData.append('Descripcion_del_Problema', descripcion);
+                        formData.append('_subject', 'Nueva Solicitud de Contacto - Innovalab');
+                        formData.append('_captcha', 'false');
+                        formData.append('_template', 'table');
                         
-                        // Limpiar formulario
-                        contactForm.reset();
+                        // Enviar a FormSubmit
+                        const response = await fetch('https://formsubmit.co/hola@innovalab.online', {
+                            method: 'POST',
+                            body: formData
+                        });
                         
-                        // Restaurar botón después de 3 segundos más
+                        if (response.ok) {
+                            // Mostrar mensaje de éxito
+                            submitBtn.textContent = '¡Enviado!';
+                            submitBtn.style.backgroundColor = '#28a745';
+                            
+                            // Limpiar formulario
+                            contactForm.reset();
+                            
+                            // Restaurar botón después de 3 segundos
+                            setTimeout(() => {
+                                submitBtn.textContent = originalText;
+                                submitBtn.disabled = false;
+                                submitBtn.style.backgroundColor = originalBg;
+                            }, 3000);
+                            
+                        } else {
+                            throw new Error('Error en el envío');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error:', error);
+                        submitBtn.textContent = 'Error';
+                        submitBtn.style.backgroundColor = '#dc3545';
+                        
                         setTimeout(() => {
-                            submitBtn.innerHTML = originalText;
+                            submitBtn.textContent = originalText;
                             submitBtn.disabled = false;
                             submitBtn.style.backgroundColor = originalBg;
                         }, 3000);
                         
-                        // Envío real en segundo plano
-                        const formData = new FormData();
-                        formData.append('Nombre', nombre);
-                        formData.append('Email', email);
-                        formData.append('Telefono', telefono);
-                        formData.append('Asunto', asunto);
-                        formData.append('Mensaje', mensaje);
-                        formData.append('_subject', 'Nuevo Mensaje de Contacto - Innovalab');
-                        formData.append('_captcha', 'false');
-                        formData.append('_template', 'table');
-                        
-                        fetch('https://formsubmit.co/hola@innovalab.online', {
-                            method: 'POST',
-                            body: formData
-                        }).catch(error => console.log('Envío en segundo plano:', error));
-                        
-                    }, 2000);
+                        alert('Error al enviar el mensaje. Por favor intenta nuevamente.');
+                    }
                 });
             }
         });
