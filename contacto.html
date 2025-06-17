@@ -429,20 +429,25 @@
                         <div class="col-xl-6">
                             <div class="contact-page__right">
                                 <h3 class="contact-page__form-title">Contáctanos</h3>
-                                <form class="contact-form-validated video-one-contact__form">
+                                <form class="contact-form-validated video-one-contact__form contact-page__form">
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6 col-md-6">
-                                            <div class="video-one-contact__input-box">
+                                            <div class="contact-page__input-box">
                                                 <input type="text" name="Nombre" placeholder="Tu Nombre" required="">
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
-                                            <div class="video-one-contact__input-box">
+                                            <div class="contact-page__input-box">
                                                 <input type="email" name="Email" placeholder="Correo Electrónico" required="">
                                             </div>
                                         </div>
-                                        <div class="col-xl-12">
-                                            <div class="video-one-contact__input-box">
+                                        <div class="col-xl-6 col-lg-6 col-md-6">
+                                            <div class="contact-page__input-box">
+                                                <input type="text" name="Telefono" placeholder="Teléfono" required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6">
+                                            <div class="contact-page__input-box">
                                                 <div class="select-box">
                                                     <select class="selectmenu wide" name="Tipo_de_Servicio" required>
                                                         <option value="" disabled selected>Tipo de Servicio</option>
@@ -459,16 +464,19 @@
                                             </div>
                                         </div>
                                         <div class="col-xl-12">
-                                            <div class="video-one-contact__input-box text-message-box">
+                                            <div class="contact-page__input-box text-message-box">
                                                 <textarea name="Descripcion_del_Problema" placeholder="Describe tu consulta o el problema de tu dispositivo" required></textarea>
                                             </div>
-                                            <div class="video-one-contact__btn-box">
-                                                <button type="submit" class="thm-btn" id="contact-submit-btn">Enviar Mensaje</button>
+                                            <div class="contact-page__btn-box">
+                                                <button type="submit" class="thm-btn contact-page__btn" id="contact-submit-btn">
+                                                    Enviar Mensaje
+                                                    <span class="icon-arrow-right"></span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="result"></div>
                                 </form>
-                                <div class="result"></div>
                             </div>
                         </div>
                     </div>
@@ -812,10 +820,11 @@
                     // Validar campos requeridos
                     const nombre = contactForm.querySelector('input[name="Nombre"]').value.trim();
                     const email = contactForm.querySelector('input[name="Email"]').value.trim();
+                    const telefono = contactForm.querySelector('input[name="Telefono"]').value.trim();
                     const tipoServicio = contactForm.querySelector('select[name="Tipo_de_Servicio"]').value;
                     const descripcion = contactForm.querySelector('textarea[name="Descripcion_del_Problema"]').value.trim();
                     
-                    if (!nombre || !email || !tipoServicio || !descripcion) {
+                    if (!nombre || !email || !telefono || !tipoServicio || !descripcion) {
                         alert('Por favor completa todos los campos obligatorios');
                         return;
                     }
@@ -826,11 +835,11 @@
                     }
                     
                     // Guardar estado original del botón
-                    const originalText = submitBtn.textContent;
+                    const originalText = submitBtn.innerHTML;
                     const originalBg = submitBtn.style.backgroundColor;
                     
                     // Cambiar a estado de carga
-                    submitBtn.textContent = 'Enviando...';
+                    submitBtn.innerHTML = 'Enviando... <span class="icon-arrow-right"></span>';
                     submitBtn.disabled = true;
                     submitBtn.style.backgroundColor = '#ffc107';
                     
@@ -839,6 +848,7 @@
                         const formData = new FormData();
                         formData.append('Nombre', nombre);
                         formData.append('Email', email);
+                        formData.append('Telefono', telefono);
                         formData.append('Tipo_de_Servicio', tipoServicio);
                         formData.append('Descripcion_del_Problema', descripcion);
                         formData.append('_subject', 'Nueva Solicitud de Contacto - Innovalab');
@@ -853,7 +863,7 @@
                         
                         if (response.ok) {
                             // Mostrar mensaje de éxito
-                            submitBtn.textContent = '¡Enviado!';
+                            submitBtn.innerHTML = '¡Enviado! <span class="icon-arrow-right"></span>';
                             submitBtn.style.backgroundColor = '#28a745';
                             
                             // Limpiar formulario
@@ -861,7 +871,7 @@
                             
                             // Restaurar botón después de 3 segundos
                             setTimeout(() => {
-                                submitBtn.textContent = originalText;
+                                submitBtn.innerHTML = originalText;
                                 submitBtn.disabled = false;
                                 submitBtn.style.backgroundColor = originalBg;
                             }, 3000);
@@ -872,11 +882,11 @@
                         
                     } catch (error) {
                         console.error('Error:', error);
-                        submitBtn.textContent = 'Error';
+                        submitBtn.innerHTML = 'Error <span class="icon-arrow-right"></span>';
                         submitBtn.style.backgroundColor = '#dc3545';
                         
                         setTimeout(() => {
-                            submitBtn.textContent = originalText;
+                            submitBtn.innerHTML = originalText;
                             submitBtn.disabled = false;
                             submitBtn.style.backgroundColor = originalBg;
                         }, 3000);
