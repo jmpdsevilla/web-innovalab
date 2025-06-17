@@ -699,7 +699,14 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTE0ODUsImV4cCI6MjA2NTUyNzQ4NX0.jIin8SVfYvFh2-NxoJH8dcqOQ4Lt26rPyidzMy4yOwg';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+        // Función global para validar email
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Sistema de Newsletter
             const form = document.querySelector('.footer-widget__newsletter-form');
             
             if (form) {
@@ -789,15 +796,8 @@
                     }
                 });
             }
-            
-            function isValidEmail(email) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(email);
-            }
-        });
-        
-        // Sistema de Formulario de Contacto
-        document.addEventListener('DOMContentLoaded', function() {
+
+            // Sistema de Formulario de Contacto
             const contactForm = document.getElementById('contact-form');
             const submitBtn = document.getElementById('contact-page-submit-btn');
             
