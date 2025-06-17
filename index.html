@@ -1639,6 +1639,112 @@
 
     <!-- template js -->
     <script src="assets/js/script.js"></script>
+
+    <!-- Sistema de Suscripción Newsletter -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configuración Supabase
+        const supabaseUrl = 'https://ptonwoegfinkdngrovhv.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTE0ODUsImV4cCI6MjA2NTUyNzQ4NX0.jIin8SVfYvFh2-NxoJH8dcqOQ4Lt26rPyidzMy4yOwg';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.footer-widget__newsletter-form');
+            
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const email = form.querySelector('input[name="EMAIL"]').value.trim();
+                    const button = form.querySelector('.footer-widget__newsletter-btn');
+                    
+                    if (!email) {
+                        alert('Por favor ingresa tu email');
+                        return;
+                    }
+                    
+                    if (!isValidEmail(email)) {
+                        alert('Por favor ingresa un email válido');
+                        return;
+                    }
+                    
+                    // Guardar estado original del botón
+                    const originalText = button.textContent;
+                    
+                    // Cambiar a estado de carga
+                    button.textContent = 'Suscribiendo...';
+                    button.disabled = true;
+                    
+                    try {
+                        // Verificar si el email ya existe
+                        const { data: existing, error: checkError } = await supabase
+                            .from('boletin_suscriptores')
+                            .select('email')
+                            .eq('email', email)
+                            .single();
+
+                        if (checkError && checkError.code !== 'PGRST116') {
+                            throw checkError;
+                        }
+
+                        if (existing) {
+                            // Email ya existe
+                            button.textContent = 'Ya suscrito';
+                            button.style.background = '#ffc107';
+                            
+                            setTimeout(() => {
+                                button.textContent = originalText;
+                                button.disabled = false;
+                                button.style.background = '';
+                            }, 3000);
+                            return;
+                        }
+
+                        // Guardar nueva suscripción
+                        const { error } = await supabase
+                            .from('boletin_suscriptores')
+                            .insert([{
+                                email: email
+                            }]);
+
+                        if (error) throw error;
+
+                        // Mostrar mensaje de éxito
+                        button.textContent = '¡Suscrito!';
+                        button.style.background = '#28a745';
+                        
+                        // Limpiar formulario
+                        form.querySelector('input[name="EMAIL"]').value = '';
+                        
+                        // Restaurar botón después de 3 segundos
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.disabled = false;
+                            button.style.background = '';
+                        }, 3000);
+
+                    } catch (error) {
+                        console.error('Error:', error);
+                        button.textContent = 'Error';
+                        button.style.background = '#dc3545';
+                        
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.disabled = false;
+                            button.style.background = '';
+                        }, 3000);
+                        
+                        alert('Error al suscribirse. Intenta nuevamente.');
+                    }
+                });
+            }
+            
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+        });
+    </script>
 </body>
 
 </html>

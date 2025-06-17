@@ -502,6 +502,7 @@
         <div class="tabs">
             <button class="tab active" onclick="cambiarTab('trucoteca')">📚 Trucoteca</button>
             <button class="tab" onclick="cambiarTab('reparaciones')">🔧 Reparaciones</button>
+            <button class="tab" onclick="cambiarTab('newsletter')">📧 Newsletter</button>
             <button class="tab" onclick="cambiarTab('diagnostico')">🔍 Diagnóstico</button>
         </div>
 
@@ -724,6 +725,44 @@
             </div>
         </div>
 
+        <!-- TAB NEWSLETTER -->
+        <div id="tab-newsletter" class="tab-content">
+            <div class="form-section">
+                <h3>📧 Gestión de Suscripciones del Newsletter</h3>
+                <p>Administra las suscripciones al boletín de noticias.</p>
+                
+                <div class="stats-grid" id="stats-newsletter">
+                    <!-- Se llenan dinámicamente -->
+                </div>
+                
+                <button onclick="crearTablaNewsletter()" class="btn-success">🔧 Verificar Sistema</button>
+                <button onclick="cargarSuscripciones()" class="btn-info">🔄 Recargar Datos</button>
+                <button onclick="exportarSuscripciones()" class="btn-warning">📥 Exportar CSV</button>
+            </div>
+
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>Suscriptores Registrados</h3>
+                    <div class="search-box">
+                        <input type="text" id="search-newsletter" placeholder="Buscar por email..." onkeyup="filtrarSuscripciones()">
+                    </div>
+                </div>
+                <div id="loading-newsletter" class="loading">Cargando...</div>
+                <table id="newsletter-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Estado</th>
+                            <th>Ciudad</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="newsletter-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- TAB DIAGNÓSTICO -->
         <div id="tab-diagnostico" class="tab-content">
             <div class="form-section">
@@ -841,6 +880,8 @@
                 cargarReparaciones();
             } else if (tab === 'trucoteca') {
                 cargarConsejos();
+            } else if (tab === 'newsletter') {
+                cargarSuscripciones();
             }
             
             if (tab === 'diagnostico') {
@@ -1444,6 +1485,232 @@ NOTAS: ${data.notas_internas || 'Ninguna'}
                 message.style.display = 'none';
             }, 5000);
         }
+
+        // ==================== NEWSLETTER ====================
+
+        // CREAR TABLA NEWSLETTER
+        async function crearTablaNewsletter() {
+            try {
+                // La tabla boletin_suscriptores ya existe, solo verificamos que esté disponible
+                const { data, error } = await supabase
+                    .from('boletin_suscriptores')
+                    .select('count', { count: 'exact', head: true });
+
+                if (error) throw error;
+                
+                alert('Tabla boletin_suscriptores verificada correctamente. ¡El sistema está listo!');
+                cargarSuscripciones();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error verificando tabla: ' + error.message);
+            }
+        }
+
+        // CARGAR SUSCRIPCIONES
+        async function cargarSuscripciones() {
+            const loading = document.getElementById('loading-newsletter');
+            const table = document.getElementById('newsletter-table');
+            
+            loading.style.display = 'block';
+            table.style.display = 'none';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('boletin_suscriptores')
+                    .select('*')
+                    .order('fecha_suscripcion', { ascending: false });
+
+                if (error) throw error;
+
+                newsletterData = data;
+                mostrarSuscripciones(data);
+                actualizarEstadisticasNewsletter(data);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loading.innerHTML = '<p style="color: red;">Error cargando suscripciones: ' + error.message + '</p>';
+            }
+        }
+
+        // MOSTRAR SUSCRIPCIONES
+        function mostrarSuscripciones(suscripciones) {
+            const loading = document.getElementById('loading-newsletter');
+            const table = document.getElementById('newsletter-table');
+            const tbody = document.getElementById('newsletter-tbody');
+            
+            loading.style.display = 'none';
+            table.style.display = 'table';
+            
+            if (!suscripciones || suscripciones.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #666;">No hay suscripciones registradas</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = suscripciones.map(sub => `
+                <tr>
+                    <td>
+                        <strong>${sub.email}</strong>
+                        ${sub.nombre ? `<br><small style="color: #666;">${sub.nombre} ${sub.apellido || ''}</small>` : ''}
+                    </td>
+                    <td>
+                        <span class="status-badge status-active">Activo</span>
+                    </td>
+                    <td>${sub.ciudad || 'Desconocido'}</td>
+                    <td style="font-size: 12px;">
+                        ${new Date(sub.fecha_suscripcion).toLocaleDateString('es-CO')}
+                    </td>
+                    <td class="actions-cell">
+                        <button onclick="verDetallesSuscriptor(${sub.id})" class="btn-info">Ver</button>
+                        <button onclick="eliminarSuscripcion(${sub.id})" class="btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ACTUALIZAR ESTADÍSTICAS NEWSLETTER
+        function actualizarEstadisticasNewsletter(suscripciones) {
+            const stats = {
+                total: suscripciones.length,
+                conNombre: suscripciones.filter(s => s.nombre && s.nombre.trim() !== '').length,
+                conTelefono: suscripciones.filter(s => s.telefono && s.telefono.trim() !== '').length,
+                hoy: suscripciones.filter(s => {
+                    const today = new Date().toDateString();
+                    return new Date(s.fecha_suscripcion).toDateString() === today;
+                }).length
+            };
+
+            document.getElementById('stats-newsletter').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${stats.total}</div>
+                    <div class="stat-label">Total Suscriptores</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.conNombre}</div>
+                    <div class="stat-label">Con Nombre</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.conTelefono}</div>
+                    <div class="stat-label">Con Teléfono</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.hoy}</div>
+                    <div class="stat-label">Hoy</div>
+                </div>
+            `;
+        }
+
+        // FILTRAR SUSCRIPCIONES
+        function filtrarSuscripciones() {
+            const filtro = document.getElementById('search-newsletter').value.toLowerCase();
+            const suscripcionesFiltradas = newsletterData.filter(sub => 
+                sub.email.toLowerCase().includes(filtro)
+            );
+            mostrarSuscripciones(suscripcionesFiltradas);
+        }
+
+        // VER DETALLES SUSCRIPTOR
+        async function verDetallesSuscriptor(id) {
+            try {
+                const { data, error } = await supabase
+                    .from('boletin_suscriptores')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error) throw error;
+
+                const detalle = `
+SUSCRIPTOR #${data.id}
+Email: ${data.email}
+Nombre: ${data.nombre || 'No especificado'} ${data.apellido || ''}
+Teléfono: ${data.telefono || 'No especificado'}
+Ciudad: ${data.ciudad || 'No especificado'}
+País: ${data.pais || 'No especificado'}
+IP: ${data.ip || 'No registrada'}
+Fecha de Suscripción: ${new Date(data.fecha_suscripcion).toLocaleString('es-CO')}
+                `;
+
+                alert(detalle);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error cargando detalles: ' + error.message);
+            }
+        }
+
+        // ELIMINAR SUSCRIPCIÓN
+        async function eliminarSuscripcion(id) {
+            if (!confirm('¿Estás seguro de eliminar esta suscripción?')) {
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from('boletin_suscriptores')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                alert('Suscripción eliminada correctamente');
+                cargarSuscripciones();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error eliminando suscripción: ' + error.message);
+            }
+        }
+
+        // EXPORTAR SUSCRIPCIONES
+        async function exportarSuscripciones() {
+            try {
+                const { data, error } = await supabase
+                    .from('boletin_suscriptores')
+                    .select('*')
+                    .order('fecha_suscripcion', { ascending: false });
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    alert('No hay suscripciones para exportar');
+                    return;
+                }
+
+                // Crear CSV
+                const headers = ['Email', 'Nombre', 'Apellido', 'Teléfono', 'Ciudad', 'País', 'Fecha de Suscripción', 'IP'];
+                const csvContent = [
+                    headers.join(','),
+                    ...data.map(row => [
+                        `"${row.email}"`,
+                        `"${row.nombre || ''}"`,
+                        `"${row.apellido || ''}"`,
+                        `"${row.telefono || ''}"`,
+                        `"${row.ciudad || ''}"`,
+                        `"${row.pais || ''}"`,
+                        `"${new Date(row.fecha_suscripcion).toLocaleDateString('es-CO')}"`,
+                        `"${row.ip || ''}"`
+                    ].join(','))
+                ].join('\n');
+
+                // Descargar archivo
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `boletin_suscriptores_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+
+                alert(`${data.length} suscripciones exportadas correctamente`);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error exportando suscripciones: ' + error.message);
+            }
+        }
+
+        let newsletterData = [];
 
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
