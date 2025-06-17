@@ -1080,11 +1080,17 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-7">
                                 <form class="contact-form-validated video-one-contact__form"
-                                    action="assets/inc/sendemail.php" method="post" novalidate="novalidate">
+                                    action="https://formsubmit.co/hola@innovalab.online" method="POST">
+                                    <!-- FormSubmit Configuration -->
+                                    <input type="hidden" name="_subject" value="Nueva Solicitud de Reparación - Innovalab">
+                                    <input type="hidden" name="_captcha" value="false">
+                                    <input type="hidden" name="_template" value="table">
+                                    <input type="hidden" name="_next" value="https://innovalab.online/index.html#gracias">
+                                    
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="video-one-contact__input-box">
-                                                <input type="text" name="name" placeholder="Tu Nombre" required="">
+                                                <input type="text" name="Nombre" placeholder="Tu Nombre" required="">
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
@@ -1096,30 +1102,36 @@
                                         <div class="col-xl-12">
                                             <div class="video-one-contact__input-box">
                                                 <div class="select-box">
-                                                    <select class="selectmenu wide">
-                                                        <option selected="selected">Tipo de Servicio
-                                                        </option>
-                                                        <option>Reparación de Smartphone</option>
-                                                        <option>Reparación de Tablet</option>
-                                                        <option>Mantenimiento de Laptop</option>
-                                                        <option>Cambio de Display</option>
-                                                        <option>Daños por Líquidos</option>
-                                                        <option>Diagnóstico Técnico</option>
+                                                    <select class="selectmenu wide" name="Tipo_de_Servicio" required>
+                                                        <option value="" disabled selected>Tipo de Servicio</option>
+                                                        <option value="Reparación de Smartphone">Reparación de Smartphone</option>
+                                                        <option value="Reparación de Tablet">Reparación de Tablet</option>
+                                                        <option value="Mantenimiento de Laptop">Mantenimiento de Laptop</option>
+                                                        <option value="Cambio de Display">Cambio de Display</option>
+                                                        <option value="Daños por Líquidos">Daños por Líquidos</option>
+                                                        <option value="Diagnóstico Técnico">Diagnóstico Técnico</option>
+                                                        <option value="Otro">Otro</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-12">
                                             <div class="video-one-contact__input-box text-message-box">
-                                                <textarea name="message" placeholder="Describe el problema de tu dispositivo"></textarea>
+                                                <textarea name="Descripcion_del_Problema" placeholder="Describe el problema de tu dispositivo" required></textarea>
                                             </div>
                                             <div class="video-one-contact__btn-box">
-                                                <button type="submit" class="thm-btn">Enviar Mensaje</button>
+                                                <button type="submit" class="thm-btn" id="contact-submit-btn">Enviar Mensaje</button>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                                 <div class="result"></div>
+                                
+                                <!-- Mensaje de agradecimiento -->
+                                <div id="gracias" style="display: none; background: #d4edda; color: #155724; padding: 20px; border-radius: 8px; margin-top: 20px; border: 1px solid #c3e6cb;">
+                                    <h4 style="margin: 0 0 10px 0; color: #155724;">¡Gracias por contactarnos!</h4>
+                                    <p style="margin: 0;">Hemos recibido tu solicitud de reparación. Nos pondremos en contacto contigo pronto para ayudarte con tu dispositivo.</p>
+                                </div>
                             </div>
                             <div class="col-xl-4 col-lg-5">
                                 <div class="video-one-contact__info-box">
@@ -1742,6 +1754,49 @@
             function isValidEmail(email) {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return emailRegex.test(email);
+            }
+        });
+        
+        // Sistema de Formulario de Contacto
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar mensaje de agradecimiento si viene desde FormSubmit
+            if (window.location.hash === '#gracias') {
+                const graciasDiv = document.getElementById('gracias');
+                if (graciasDiv) {
+                    graciasDiv.style.display = 'block';
+                    graciasDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Limpiar el hash después de 5 segundos
+                    setTimeout(() => {
+                        window.history.replaceState(null, null, window.location.pathname);
+                    }, 5000);
+                }
+            }
+            
+            // Mejorar experiencia del formulario
+            const contactForm = document.querySelector('.video-one-contact__form');
+            const submitBtn = document.getElementById('contact-submit-btn');
+            
+            if (contactForm && submitBtn) {
+                contactForm.addEventListener('submit', function(e) {
+                    // Cambiar texto del botón mientras se envía
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = 'Enviando...';
+                    submitBtn.disabled = true;
+                    
+                    // Validar que se haya seleccionado un tipo de servicio
+                    const tipoServicio = contactForm.querySelector('select[name="Tipo_de_Servicio"]');
+                    if (tipoServicio && !tipoServicio.value) {
+                        e.preventDefault();
+                        alert('Por favor selecciona un tipo de servicio');
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        return;
+                    }
+                    
+                    // Si todo está bien, el formulario se enviará normalmente
+                    // FormSubmit se encargará de la redirección
+                });
             }
         });
     </script>
