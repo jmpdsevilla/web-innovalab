@@ -429,36 +429,34 @@
                         <div class="col-xl-6">
                             <div class="contact-page__right">
                                 <h3 class="contact-page__form-title">Contáctanos</h3>
-                                <form id="contact-form" class="contact-form-validated contact-page__form"
-                                    action="assets/inc/sendemail.php" method="POST">
+                                <form id="contact-form" class="contact-form-validated contact-page__form">
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="contact-page__input-box">
-                                                <input type="text" name="name" placeholder="Tu nombre" required="">
+                                                <input type="text" name="Nombre" placeholder="Tu nombre" required="">
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="contact-page__input-box">
-                                                <input type="email" name="email" placeholder="Tu Email" required="">
+                                                <input type="email" name="Email" placeholder="Tu Email" required="">
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="contact-page__input-box">
-                                                <input type="text" placeholder="Teléfono" name="phone" required>
+                                                <input type="text" placeholder="Teléfono" name="Telefono" required>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="contact-page__input-box">
-                                                <input type="text" placeholder="Asunto" name="subject">
+                                                <input type="text" placeholder="Asunto" name="Asunto" required>
                                             </div>
                                         </div>
                                         <div class="col-xl-12">
                                             <div class="contact-page__input-box text-message-box">
-                                                <textarea name="message" placeholder="Mensaje" required></textarea>
+                                                <textarea name="Mensaje" placeholder="Mensaje" required></textarea>
                                             </div>
                                             <div class="contact-page__btn-box">
-                                                <button type="submit" class="thm-btn contact-page__btn"
-                                                    data-loading-text="Por favor espera...">
+                                                <button type="submit" class="thm-btn contact-page__btn" id="contact-page-submit-btn">
                                                     Enviar Mensaje
                                                     <span class="icon-arrow-right"></span>
                                                 </button>
@@ -795,6 +793,95 @@
             function isValidEmail(email) {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return emailRegex.test(email);
+            }
+        });
+        
+        // Sistema de Formulario de Contacto
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('contact-page-submit-btn');
+            
+            if (contactForm && submitBtn) {
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault(); // Prevenir envío normal del formulario
+                    
+                    // Validar campos requeridos
+                    const nombre = contactForm.querySelector('input[name="Nombre"]').value.trim();
+                    const email = contactForm.querySelector('input[name="Email"]').value.trim();
+                    const telefono = contactForm.querySelector('input[name="Telefono"]').value.trim();
+                    const asunto = contactForm.querySelector('input[name="Asunto"]').value.trim();
+                    const mensaje = contactForm.querySelector('textarea[name="Mensaje"]').value.trim();
+                    
+                    if (!nombre || !email || !telefono || !asunto || !mensaje) {
+                        alert('Por favor completa todos los campos obligatorios');
+                        return;
+                    }
+                    
+                    if (!isValidEmail(email)) {
+                        alert('Por favor ingresa un email válido');
+                        return;
+                    }
+                    
+                    // Guardar estado original del botón
+                    const originalText = submitBtn.innerHTML;
+                    const originalBg = submitBtn.style.backgroundColor;
+                    
+                    // Cambiar a estado de carga
+                    submitBtn.innerHTML = 'Enviando... <span class="icon-arrow-right"></span>';
+                    submitBtn.disabled = true;
+                    submitBtn.style.backgroundColor = '#ffc107';
+                    
+                    try {
+                        // Crear FormData con todos los campos
+                        const formData = new FormData();
+                        formData.append('Nombre', nombre);
+                        formData.append('Email', email);
+                        formData.append('Telefono', telefono);
+                        formData.append('Asunto', asunto);
+                        formData.append('Mensaje', mensaje);
+                        formData.append('_subject', 'Nuevo Mensaje de Contacto - Innovalab');
+                        formData.append('_captcha', 'false');
+                        formData.append('_template', 'table');
+                        
+                        // Enviar a FormSubmit
+                        const response = await fetch('https://formsubmit.co/hola@innovalab.online', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            // Mostrar mensaje de éxito
+                            submitBtn.innerHTML = '¡Enviado! <span class="icon-arrow-right"></span>';
+                            submitBtn.style.backgroundColor = '#28a745';
+                            
+                            // Limpiar formulario
+                            contactForm.reset();
+                            
+                            // Restaurar botón después de 3 segundos
+                            setTimeout(() => {
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.disabled = false;
+                                submitBtn.style.backgroundColor = originalBg;
+                            }, 3000);
+                            
+                        } else {
+                            throw new Error('Error en el envío');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error:', error);
+                        submitBtn.innerHTML = 'Error <span class="icon-arrow-right"></span>';
+                        submitBtn.style.backgroundColor = '#dc3545';
+                        
+                        setTimeout(() => {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            submitBtn.style.backgroundColor = originalBg;
+                        }, 3000);
+                        
+                        alert('Error al enviar el mensaje. Por favor intenta nuevamente.');
+                    }
+                });
             }
         });
     </script>
