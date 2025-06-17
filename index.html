@@ -1079,13 +1079,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xl-8 col-lg-7">
-                                <form class="contact-form-validated video-one-contact__form"
-                                    action="https://formsubmit.co/hola@innovalab.online" method="POST">
-                                    <!-- FormSubmit Configuration -->
-                                    <input type="hidden" name="_subject" value="Nueva Solicitud de Reparación - Innovalab">
-                                    <input type="hidden" name="_captcha" value="false">
-                                    <input type="hidden" name="_template" value="table">
-                                    <input type="hidden" name="_next" value="https://innovalab.online/index.html#gracias">
+                                <form class="contact-form-validated video-one-contact__form">
                                     
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6 col-md-6">
@@ -1126,12 +1120,6 @@
                                     </div>
                                 </form>
                                 <div class="result"></div>
-                                
-                                <!-- Mensaje de agradecimiento -->
-                                <div id="gracias" style="display: none; background: #d4edda; color: #155724; padding: 20px; border-radius: 8px; margin-top: 20px; border: 1px solid #c3e6cb;">
-                                    <h4 style="margin: 0 0 10px 0; color: #155724;">¡Gracias por contactarnos!</h4>
-                                    <p style="margin: 0;">Hemos recibido tu solicitud de reparación. Nos pondremos en contacto contigo pronto para ayudarte con tu dispositivo.</p>
-                                </div>
                             </div>
                             <div class="col-xl-4 col-lg-5">
                                 <div class="video-one-contact__info-box">
@@ -1759,44 +1747,95 @@
         
         // Sistema de Formulario de Contacto
         document.addEventListener('DOMContentLoaded', function() {
-            // Mostrar mensaje de agradecimiento si viene desde FormSubmit
-            if (window.location.hash === '#gracias') {
-                const graciasDiv = document.getElementById('gracias');
-                if (graciasDiv) {
-                    graciasDiv.style.display = 'block';
-                    graciasDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // Limpiar el hash después de 5 segundos
-                    setTimeout(() => {
-                        window.history.replaceState(null, null, window.location.pathname);
-                    }, 5000);
-                }
-            }
             
             // Mejorar experiencia del formulario
             const contactForm = document.querySelector('.video-one-contact__form');
             const submitBtn = document.getElementById('contact-submit-btn');
             
             if (contactForm && submitBtn) {
-                contactForm.addEventListener('submit', function(e) {
-                    // Cambiar texto del botón mientras se envía
-                    const originalText = submitBtn.textContent;
-                    submitBtn.textContent = 'Enviando...';
-                    submitBtn.disabled = true;
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault(); // Prevenir envío normal del formulario
                     
-                    // Validar que se haya seleccionado un tipo de servicio
-                    const tipoServicio = contactForm.querySelector('select[name="Tipo_de_Servicio"]');
-                    if (tipoServicio && !tipoServicio.value) {
-                        e.preventDefault();
-                        alert('Por favor selecciona un tipo de servicio');
-                        submitBtn.textContent = originalText;
-                        submitBtn.disabled = false;
+                    // Validar campos requeridos
+                    const nombre = contactForm.querySelector('input[name="Nombre"]').value.trim();
+                    const email = contactForm.querySelector('input[name="Email"]').value.trim();
+                    const tipoServicio = contactForm.querySelector('select[name="Tipo_de_Servicio"]').value;
+                    const descripcion = contactForm.querySelector('textarea[name="Descripcion_del_Problema"]').value.trim();
+                    
+                    if (!nombre || !email || !tipoServicio || !descripcion) {
+                        alert('Por favor completa todos los campos obligatorios');
                         return;
                     }
                     
-                    // Si todo está bien, el formulario se enviará normalmente
-                    // FormSubmit se encargará de la redirección
+                    if (!isValidEmail(email)) {
+                        alert('Por favor ingresa un email válido');
+                        return;
+                    }
+                    
+                    // Guardar estado original del botón
+                    const originalText = submitBtn.textContent;
+                    const originalBg = submitBtn.style.backgroundColor;
+                    
+                    // Cambiar a estado de carga
+                    submitBtn.textContent = 'Enviando...';
+                    submitBtn.disabled = true;
+                    submitBtn.style.backgroundColor = '#ffc107';
+                    
+                    try {
+                        // Crear FormData con todos los campos
+                        const formData = new FormData();
+                        formData.append('Nombre', nombre);
+                        formData.append('Email', email);
+                        formData.append('Tipo_de_Servicio', tipoServicio);
+                        formData.append('Descripcion_del_Problema', descripcion);
+                        formData.append('_subject', 'Nueva Solicitud de Reparación - Innovalab');
+                        formData.append('_captcha', 'false');
+                        formData.append('_template', 'table');
+                        
+                        // Enviar a FormSubmit
+                        const response = await fetch('https://formsubmit.co/hola@innovalab.online', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            // Mostrar mensaje de éxito
+                            submitBtn.textContent = '¡Enviado!';
+                            submitBtn.style.backgroundColor = '#28a745';
+                            
+                            // Limpiar formulario
+                            contactForm.reset();
+                            
+                            // Restaurar botón después de 3 segundos
+                            setTimeout(() => {
+                                submitBtn.textContent = originalText;
+                                submitBtn.disabled = false;
+                                submitBtn.style.backgroundColor = originalBg;
+                            }, 3000);
+                            
+                        } else {
+                            throw new Error('Error en el envío');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error:', error);
+                        submitBtn.textContent = 'Error';
+                        submitBtn.style.backgroundColor = '#dc3545';
+                        
+                        setTimeout(() => {
+                            submitBtn.textContent = originalText;
+                            submitBtn.disabled = false;
+                            submitBtn.style.backgroundColor = originalBg;
+                        }, 3000);
+                        
+                        alert('Error al enviar el mensaje. Por favor intenta nuevamente.');
+                    }
                 });
+            }
+            
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
             }
         });
     </script>
