@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title> Trucoteca || Innovalab || Laboratorio Técnico </title>
     <!-- favicons Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
@@ -165,6 +165,29 @@
             #search-input {
                 font-size: 12px !important;
                 padding: 6px 30px 6px 10px !important;
+            }
+            
+            /* Evitar zoom en iOS */
+            input[type="text"], input[type="search"] {
+                font-size: 16px !important;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+        }
+        
+        /* Estabilidad del layout en móviles */
+        .search-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        /* Evitar cambios de layout cuando aparece el teclado */
+        @media screen and (max-height: 500px) {
+            .search-container {
+                padding: 10px 0;
             }
         }
         
@@ -493,27 +516,26 @@
                 <!-- Buscador Compacto -->
                 <div class="row" style="margin-bottom: 30px;">
                     <div class="col-12">
-                        <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center">
-                            <!-- Búsqueda con botón limpiar -->
-                            <div class="d-flex gap-2 align-items-center" style="flex: 1; max-width: 450px;">
-                                <div style="flex: 1; position: relative;">
-                                    <input 
-                                        type="text" 
-                                        id="search-input" 
-                                        placeholder="Buscar consejos técnicos..." 
-                                        style="width: 100%; padding: 12px 45px 12px 16px; border: 1px solid #ddd; border-radius: 25px; font-size: 15px; outline: none;"
-                                        onfocus="this.style.borderColor='#00A7EB'"
-                                        onblur="this.style.borderColor='#ddd'"
-                                    >
-                                    <i class="fas fa-search" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #00A7EB; font-size: 14px;"></i>
-                                </div>
-                                <button onclick="limpiarBusqueda()" style="padding: 12px 16px; background: #f1f3f4; border: 1px solid #ddd; border-radius: 20px; color: #666; cursor: pointer; font-size: 14px; white-space: nowrap;" title="Limpiar búsqueda">
-                                    Limpiar
-                                </button>
+                        <div class="search-container d-flex flex-wrap gap-3 align-items-center justify-content-center">
+                            <!-- Búsqueda -->
+                            <div style="flex: 0 0 320px; position: relative; min-width: 250px;">
+                                <input 
+                                    type="text" 
+                                    id="search-input" 
+                                    placeholder="Buscar consejos técnicos..." 
+                                    style="width: 100%; padding: 12px 45px 12px 16px; border: 1px solid #ddd; border-radius: 25px; font-size: 16px; outline: none; -webkit-appearance: none; -moz-appearance: none; appearance: none; transform: translateZ(0);"
+                                    onfocus="this.style.borderColor='#00A7EB'"
+                                    onblur="this.style.borderColor='#ddd'"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    autocapitalize="off"
+                                    spellcheck="false"
+                                >
+                                <i class="fas fa-search" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #00A7EB; font-size: 14px; pointer-events: none;"></i>
                             </div>
                             
                             <!-- Etiquetas de categoría -->
-                            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                            <div class="d-flex flex-wrap gap-2">
                                 <button onclick="filtrarPorCategoria('todos')" data-categoria="todos" class="btn-categoria active" style="padding: 12px 20px; border: 1px solid #00A7EB; background: #00A7EB; color: white; border-radius: 20px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                                     Todas
                                 </button>
