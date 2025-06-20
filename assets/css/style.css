@@ -3184,6 +3184,12 @@ xs sidebar
   font-size: 28px;
 }
 
+.whatsapp-float .emoji-icon {
+  font-size: 32px;
+  font-style: normal;
+  line-height: 1;
+}
+
 .whatsapp-float::before {
   content: '';
   position: absolute;
