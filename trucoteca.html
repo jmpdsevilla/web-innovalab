@@ -541,20 +541,20 @@
                                 <button onclick="filtrarPorCategoria('todos')" data-categoria="todos" class="btn-categoria active" style="padding: 12px 20px; border: 1px solid #00A7EB; background: #00A7EB; color: white; border-radius: 20px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                                     Todas
                                 </button>
-                                <button onclick="filtrarPorCategoria('Smartphone')" data-categoria="Smartphone" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
-                                    Smartphone
+                                <button onclick="filtrarPorCategoria('Smartphone')" data-categoria="Smartphone" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #e74c3c; background: #f8f9fa; color: #e74c3c; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    📱 Smartphone
                                 </button>
-                                <button onclick="filtrarPorCategoria('Laptop')" data-categoria="Laptop" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
-                                    Laptop
+                                <button onclick="filtrarPorCategoria('Laptop')" data-categoria="Laptop" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #9b59b6; background: #f8f9fa; color: #9b59b6; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    💻 Laptop
                                 </button>
-                                <button onclick="filtrarPorCategoria('Tablet')" data-categoria="Tablet" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
-                                    Tablet
+                                <button onclick="filtrarPorCategoria('Tablet')" data-categoria="Tablet" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #f39c12; background: #f8f9fa; color: #f39c12; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    📱 Tablet
                                 </button>
-                                <button onclick="filtrarPorCategoria('Reparación')" data-categoria="Reparación" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
-                                    Reparar
+                                <button onclick="filtrarPorCategoria('Reparación')" data-categoria="Reparación" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #27ae60; background: #f8f9fa; color: #27ae60; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    🔧 Reparar
                                 </button>
-                                <button onclick="filtrarPorCategoria('Consejos')" data-categoria="Consejos" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
-                                    Tips
+                                <button onclick="filtrarPorCategoria('Consejos')" data-categoria="Consejos" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #3498db; background: #f8f9fa; color: #3498db; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    💡 Tips
                                 </button>
                             </div>
                         </div>
@@ -835,6 +835,50 @@
     let categoriaActual = 'todos';
     let terminoBusqueda = '';
 
+    // Configuración de colores y emojis para cada categoría
+    const categoriasConfig = {
+        'Smartphone': {
+            color: '#e74c3c',
+            bgColor: '#fdf2f2',
+            emoji: '📱',
+            nombre: 'Smartphone'
+        },
+        'Laptop': {
+            color: '#9b59b6',
+            bgColor: '#f8f4fd',
+            emoji: '💻',
+            nombre: 'Laptop'
+        },
+        'Tablet': {
+            color: '#f39c12',
+            bgColor: '#fef9e7',
+            emoji: '📱',
+            nombre: 'Tablet'
+        },
+        'Reparación': {
+            color: '#27ae60',
+            bgColor: '#eafaf1',
+            emoji: '🔧',
+            nombre: 'Reparación'
+        },
+        'Consejos': {
+            color: '#3498db',
+            bgColor: '#ebf3fd',
+            emoji: '💡',
+            nombre: 'Consejos'
+        }
+    };
+
+    // Función para obtener configuración de color de una categoría
+    function obtenerConfigCategoria(categoria) {
+        return categoriasConfig[categoria] || {
+            color: '#6c757d',
+            bgColor: '#f8f9fa',
+            emoji: '📋',
+            nombre: categoria
+        };
+    }
+
     // Cargar consejos desde Supabase
     async function cargarConsejos() {
         try {
@@ -889,24 +933,40 @@
             
             const imagenUrl = consejo.image_url || imagenes[consejo.category] || 'assets/images/blog/blog-1-1.jpg';
             
+            // Obtener configuración de color para la categoría
+            const configCategoria = obtenerConfigCategoria(consejo.category);
+            
             html += `
                 <div class="col-xl-4 col-lg-4 col-md-6 wow ${animacion}" data-wow-delay="${delay}ms">
                     <div class="blog-one__single">
                         <div class="blog-one__img-box">
                             <div class="blog-one__img">
-                                                                    <img src="${imagenUrl}" alt="${consejo.title}">
+                                <img src="${imagenUrl}" alt="${consejo.title}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="blog-one__content">
-                        <h3 class="blog-one__title">${consejo.title}</h3>
-                        <p style="margin: 15px 0; color: #666; font-size: 14px;">${consejo.content}</p>
-                        <div style="margin-top: 10px;">
-                            <span style="background: #00A7EB; color: white; padding: 3px 8px; border-radius: 3px; font-size: 12px;">${consejo.category}</span>
-                                </div>
+                        <div class="blog-one__content">
+                            <h3 class="blog-one__title">${consejo.title}</h3>
+                            <p style="margin: 15px 0; color: #666; font-size: 14px;">${consejo.content}</p>
+                            <div style="margin-top: 15px;">
+                                <span style="
+                                    background: ${configCategoria.bgColor}; 
+                                    color: ${configCategoria.color}; 
+                                    border: 1px solid ${configCategoria.color}; 
+                                    padding: 6px 12px; 
+                                    border-radius: 20px; 
+                                    font-size: 13px; 
+                                    font-weight: 600;
+                                    display: inline-flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                ">
+                                    ${configCategoria.emoji} ${configCategoria.nombre}
+                                </span>
                             </div>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
         });
 
         container.innerHTML = html;
@@ -977,9 +1037,37 @@
 
             // Actualizar botones activos
             document.querySelectorAll('.btn-categoria').forEach(btn => {
+                const btnCategoria = btn.getAttribute('data-categoria');
                 btn.classList.remove('active');
+                
+                if (btnCategoria === 'todos') {
+                    // Estilo para el botón "Todas"
+                    if (categoria === 'todos') {
+                        btn.style.background = '#00A7EB';
+                        btn.style.color = 'white';
+                        btn.style.borderColor = '#00A7EB';
+                        btn.classList.add('active');
+                    } else {
+                        btn.style.background = '#f8f9fa';
+                        btn.style.color = '#00A7EB';
+                        btn.style.borderColor = '#00A7EB';
+                    }
+                } else {
+                    // Estilo para botones de categorías específicas
+                    const configCategoria = obtenerConfigCategoria(btnCategoria);
+                    
+                    if (categoria === btnCategoria) {
+                        btn.style.background = configCategoria.color;
+                        btn.style.color = 'white';
+                        btn.style.borderColor = configCategoria.color;
+                        btn.classList.add('active');
+                    } else {
+                        btn.style.background = '#f8f9fa';
+                        btn.style.color = configCategoria.color;
+                        btn.style.borderColor = configCategoria.color;
+                    }
+                }
             });
-            document.querySelector(`[data-categoria="${categoria}"]`).classList.add('active');
 
             // Mostrar resultados filtrados
             mostrarResultadosFiltrados();
@@ -993,11 +1081,8 @@
             // Limpiar campo de búsqueda
             document.getElementById('search-input').value = '';
             
-            // Resetear botones de categoría
-            document.querySelectorAll('.btn-categoria').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector('[data-categoria="todos"]').classList.add('active');
+            // Resetear botones de categoría con sus colores originales
+            filtrarPorCategoria('todos');
             
             // Ocultar elementos de búsqueda
             document.getElementById('search-results').style.display = 'none';
@@ -1139,6 +1224,42 @@
         @keyframes whatsapp-bounce {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
+        }
+
+        /* Estilos para botones de categoría con efectos hover */
+        .btn-categoria {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-categoria::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-categoria:hover::before {
+            left: 100%;
+        }
+
+        .btn-categoria:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Efecto de pulso para etiquetas en posts */
+        .blog-one__content span {
+            transition: all 0.3s ease;
+        }
+
+        .blog-one__content span:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
     </style>
 </body>
