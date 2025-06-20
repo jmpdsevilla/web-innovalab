@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test WhatsApp Button</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos locales -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            padding: 50px;
+            font-family: Arial, sans-serif;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #25D366;
+        }
+        .test-description {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .test-result {
+            font-family: monospace;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .icon-test {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test del Botón de WhatsApp</h1>
+        
+        <div class="test-item">
+            <div class="test-description">1. Test de icono Font Awesome local:</div>
+            <div class="test-result">
+                <i class="fab fa-whatsapp icon-test" style="color: #25D366;"></i>
+                ¿Se ve el icono de WhatsApp?
+            </div>
+        </div>
+
+        <div class="test-item">
+            <div class="test-description">2. Test de icono Font Awesome CDN:</div>
+            <div class="test-result">
+                <i class="fab fa-whatsapp icon-test" style="color: #25D366;"></i>
+                ¿Se ve el icono de WhatsApp desde CDN?
+            </div>
+        </div>
+
+        <div class="test-item">
+            <div class="test-description">3. Test del botón completo:</div>
+            <div class="test-result">
+                El botón flotante debería aparecer en la esquina inferior derecha de esta página.
+            </div>
+        </div>
+
+        <div class="test-item">
+            <div class="test-description">4. Información del CSS:</div>
+            <div class="test-result">
+                <div>Archivo CSS principal: assets/css/style.css</div>
+                <div>Clase del botón: .whatsapp-float</div>
+                <div>Z-index: 9999</div>
+                <div>Posición: fixed, bottom: 25px, right: 25px</div>
+            </div>
+        </div>
+
+        <div class="test-item">
+            <div class="test-description">5. Test de JavaScript:</div>
+            <div class="test-result">
+                <button onclick="testWhatsApp()" style="background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                    Probar enlace de WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/573242598084?text=Hola,%20necesito%20ayuda%20con%20mi%20celular" 
+       target="_blank" 
+       class="whatsapp-float" 
+       aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        function testWhatsApp() {
+            const url = "https://wa.me/573242598084?text=Hola,%20necesito%20ayuda%20con%20mi%20celular";
+            window.open(url, '_blank');
+        }
+
+        // Verificar si el botón está presente
+        document.addEventListener('DOMContentLoaded', function() {
+            const whatsappButton = document.querySelector('.whatsapp-float');
+            if (whatsappButton) {
+                console.log('✅ Botón de WhatsApp encontrado');
+                console.log('Estilos aplicados:', window.getComputedStyle(whatsappButton));
+            } else {
+                console.log('❌ Botón de WhatsApp NO encontrado');
+            }
+        });
+    </script>
+</body>
+</html> 
