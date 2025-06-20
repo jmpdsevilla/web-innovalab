@@ -494,21 +494,26 @@
                 <div class="row" style="margin-bottom: 30px;">
                     <div class="col-12">
                         <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center">
-                            <!-- Búsqueda -->
-                            <div style="flex: 0 0 320px; position: relative;">
-                                <input 
-                                    type="text" 
-                                    id="search-input" 
-                                    placeholder="Buscar consejos técnicos..." 
-                                    style="width: 100%; padding: 12px 45px 12px 16px; border: 1px solid #ddd; border-radius: 25px; font-size: 15px; outline: none;"
-                                    onfocus="this.style.borderColor='#00A7EB'"
-                                    onblur="this.style.borderColor='#ddd'"
-                                >
-                                <i class="fas fa-search" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #00A7EB; font-size: 14px;"></i>
+                            <!-- Búsqueda con botón limpiar -->
+                            <div class="d-flex gap-2 align-items-center" style="flex: 1; max-width: 450px;">
+                                <div style="flex: 1; position: relative;">
+                                    <input 
+                                        type="text" 
+                                        id="search-input" 
+                                        placeholder="Buscar consejos técnicos..." 
+                                        style="width: 100%; padding: 12px 45px 12px 16px; border: 1px solid #ddd; border-radius: 25px; font-size: 15px; outline: none;"
+                                        onfocus="this.style.borderColor='#00A7EB'"
+                                        onblur="this.style.borderColor='#ddd'"
+                                    >
+                                    <i class="fas fa-search" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #00A7EB; font-size: 14px;"></i>
+                                </div>
+                                <button onclick="limpiarBusqueda()" style="padding: 12px 16px; background: #f1f3f4; border: 1px solid #ddd; border-radius: 20px; color: #666; cursor: pointer; font-size: 14px; white-space: nowrap;" title="Limpiar búsqueda">
+                                    Limpiar
+                                </button>
                             </div>
                             
                             <!-- Etiquetas de categoría -->
-                            <div class="d-flex flex-wrap gap-2">
+                            <div class="d-flex flex-wrap gap-2 justify-content-center">
                                 <button onclick="filtrarPorCategoria('todos')" data-categoria="todos" class="btn-categoria active" style="padding: 12px 20px; border: 1px solid #00A7EB; background: #00A7EB; color: white; border-radius: 20px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                                     Todas
                                 </button>
@@ -528,11 +533,6 @@
                                     Tips
                                 </button>
                             </div>
-                            
-                            <!-- Botón limpiar -->
-                            <button onclick="limpiarBusqueda()" style="padding: 12px 16px; background: #f1f3f4; border: 1px solid #ddd; border-radius: 20px; color: #666; cursor: pointer; font-size: 14px;" title="Limpiar">
-                                <i class="fas fa-times"></i>
-                            </button>
                         </div>
                     </div>
                 </div>
