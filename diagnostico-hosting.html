@@ -302,13 +302,26 @@ Storage bucket:
     </script>
 
     <!-- WhatsApp Floating Button -->
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <a href="https://wa.me/573242598084?text=Hola,%20necesito%20ayuda%20con%20mi%20celular" 
        target="_blank" 
-       class="whatsapp-float" 
-       aria-label="Contactar por WhatsApp">
+       aria-label="Contactar por WhatsApp"
+       style="position: fixed; bottom: 25px; right: 25px; z-index: 9999; background: linear-gradient(135deg, #00A7EB 0%, #0056b3 100%); color: white; border-radius: 50%; width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 20px rgba(0, 167, 235, 0.4); transition: all 0.3s ease; font-size: 32px; animation: whatsapp-pulse 2s infinite, whatsapp-bounce 3s ease-in-out infinite;"
+       onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 8px 30px rgba(0, 167, 235, 0.7)'"
+       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 20px rgba(0, 167, 235, 0.4)'">
         <i class="fab fa-whatsapp"></i>
     </a>
+
+    <style>
+        @keyframes whatsapp-pulse {
+            0% { box-shadow: 0 4px 20px rgba(0, 167, 235, 0.4); }
+            50% { box-shadow: 0 4px 20px rgba(0, 167, 235, 0.8), 0 0 0 10px rgba(0, 167, 235, 0.1); }
+            100% { box-shadow: 0 4px 20px rgba(0, 167, 235, 0.4); }
+        }
+        
+        @keyframes whatsapp-bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
 </body>
 </html> 
