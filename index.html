@@ -1890,6 +1890,50 @@
        aria-label="Contactar por WhatsApp">
         <span class="emoji-icon">📱</span>
     </a>
+
+    <!-- DIAGNÓSTICO EXTREMO - BOTÓN DE PRUEBA -->
+    <div style="position: fixed; bottom: 100px; right: 25px; z-index: 99999; background: red; color: white; padding: 20px; border-radius: 10px; font-size: 16px; font-weight: bold;">
+        🚨 BOTÓN DE PRUEBA<br>
+        ¿VES ESTO?<br>
+        Si no lo ves, el problema<br>
+        es del servidor/hosting
+    </div>
+
+    <script>
+        // Diagnóstico en consola
+        console.log('🔍 DIAGNÓSTICO WHATSAPP:');
+        console.log('1. Botón WhatsApp existe:', document.querySelector('.whatsapp-float') ? 'SÍ' : 'NO');
+        console.log('2. CSS style.css cargado:', getComputedStyle(document.body).fontFamily);
+        console.log('3. Estilos del botón:', document.querySelector('.whatsapp-float') ? getComputedStyle(document.querySelector('.whatsapp-float')) : 'NO EXISTE');
+        
+        // Crear botón de emergencia si no existe
+        if (!document.querySelector('.whatsapp-float')) {
+            console.log('⚠️ CREANDO BOTÓN DE EMERGENCIA');
+            const emergencyBtn = document.createElement('a');
+            emergencyBtn.href = 'https://wa.me/573242598084?text=Hola,%20necesito%20ayuda%20con%20mi%20celular';
+            emergencyBtn.target = '_blank';
+            emergencyBtn.style.cssText = `
+                position: fixed;
+                bottom: 25px;
+                right: 25px;
+                z-index: 999999;
+                background: #25D366;
+                color: white;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                font-size: 30px;
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            `;
+            emergencyBtn.innerHTML = '📱';
+            document.body.appendChild(emergencyBtn);
+            console.log('✅ BOTÓN DE EMERGENCIA CREADO');
+        }
+    </script>
 </body>
 
 </html>
