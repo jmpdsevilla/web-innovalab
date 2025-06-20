@@ -441,12 +441,8 @@
                                                 <input type="email" name="Email" placeholder="Correo Electrónico" required="">
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-6">
-                                            <div class="contact-page__input-box">
-                                                <input type="text" name="Telefono" placeholder="Teléfono" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-6">
+
+                                        <div class="col-xl-12">
                                             <div class="contact-page__input-box">
                                                 <div class="select-box">
                                                     <select class="selectmenu wide" name="Tipo_de_Servicio" required>
@@ -457,7 +453,6 @@
                                                         <option value="Cambio de Display">Cambio de Display</option>
                                                         <option value="Daños por Líquidos">Daños por Líquidos</option>
                                                         <option value="Diagnóstico Técnico">Diagnóstico Técnico</option>
-                                                        <option value="Consulta General">Consulta General</option>
                                                         <option value="Otro">Otro</option>
                                                     </select>
                                                 </div>
@@ -820,11 +815,10 @@
                     // Validar campos requeridos
                     const nombre = contactForm.querySelector('input[name="Nombre"]').value.trim();
                     const email = contactForm.querySelector('input[name="Email"]').value.trim();
-                    const telefono = contactForm.querySelector('input[name="Telefono"]').value.trim();
                     const tipoServicio = contactForm.querySelector('select[name="Tipo_de_Servicio"]').value;
                     const descripcion = contactForm.querySelector('textarea[name="Descripcion_del_Problema"]').value.trim();
                     
-                    if (!nombre || !email || !telefono || !tipoServicio || !descripcion) {
+                    if (!nombre || !email || !tipoServicio || !descripcion) {
                         alert('Por favor completa todos los campos obligatorios');
                         return;
                     }
@@ -835,11 +829,11 @@
                     }
                     
                     // Guardar estado original del botón
-                    const originalText = submitBtn.innerHTML;
+                    const originalText = submitBtn.textContent;
                     const originalBg = submitBtn.style.backgroundColor;
                     
                     // Cambiar a estado de carga
-                    submitBtn.innerHTML = 'Enviando... <span class="icon-arrow-right"></span>';
+                    submitBtn.textContent = 'Enviando...';
                     submitBtn.disabled = true;
                     submitBtn.style.backgroundColor = '#ffc107';
                     
@@ -848,10 +842,9 @@
                         const formData = new FormData();
                         formData.append('Nombre', nombre);
                         formData.append('Email', email);
-                        formData.append('Telefono', telefono);
                         formData.append('Tipo_de_Servicio', tipoServicio);
                         formData.append('Descripcion_del_Problema', descripcion);
-                        formData.append('_subject', 'Nueva Solicitud de Contacto - Innovalab');
+                        formData.append('_subject', 'Nueva Solicitud de Reparación - Innovalab');
                         formData.append('_captcha', 'false');
                         formData.append('_template', 'table');
                         
@@ -863,7 +856,7 @@
                         
                         if (response.ok) {
                             // Mostrar mensaje de éxito
-                            submitBtn.innerHTML = '¡Enviado! <span class="icon-arrow-right"></span>';
+                            submitBtn.textContent = '¡Enviado!';
                             submitBtn.style.backgroundColor = '#28a745';
                             
                             // Limpiar formulario
@@ -871,7 +864,7 @@
                             
                             // Restaurar botón después de 3 segundos
                             setTimeout(() => {
-                                submitBtn.innerHTML = originalText;
+                                submitBtn.textContent = originalText;
                                 submitBtn.disabled = false;
                                 submitBtn.style.backgroundColor = originalBg;
                             }, 3000);
@@ -882,11 +875,11 @@
                         
                     } catch (error) {
                         console.error('Error:', error);
-                        submitBtn.innerHTML = 'Error <span class="icon-arrow-right"></span>';
+                        submitBtn.textContent = 'Error';
                         submitBtn.style.backgroundColor = '#dc3545';
                         
                         setTimeout(() => {
-                            submitBtn.innerHTML = originalText;
+                            submitBtn.textContent = originalText;
                             submitBtn.disabled = false;
                             submitBtn.style.backgroundColor = originalBg;
                         }, 3000);

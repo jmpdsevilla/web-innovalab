@@ -134,6 +134,195 @@
         .mobile-nav__container .main-menu__list .menu-separator {
             display: block !important;
         }
+        
+        /* Buscador Compacto Simple */
+        .btn-categoria {
+            transition: all 0.2s ease;
+        }
+        
+        .btn-categoria:hover {
+            background: #e9ecef !important;
+            transform: translateY(-1px);
+        }
+        
+        .btn-categoria.active {
+            background: #00A7EB !important;
+            color: white !important;
+            border-color: #00A7EB !important;
+        }
+        
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            .d-flex.gap-2 {
+                gap: 8px !important;
+            }
+            
+            .btn-categoria {
+                font-size: 10px !important;
+                padding: 5px 8px !important;
+            }
+            
+            #search-input {
+                font-size: 12px !important;
+                padding: 6px 30px 6px 10px !important;
+            }
+        }
+        
+        /* Search Results Styles */
+        .trucoteca-search-results {
+            position: relative;
+        }
+        
+        .search-results-banner {
+            background: linear-gradient(135deg, var(--fixpro-base) 0%, var(--fixpro-black) 100%);
+            border-radius: 12px;
+            padding: 2px;
+            box-shadow: 0 5px 20px rgba(var(--fixpro-base-rgb), 0.3);
+        }
+        
+        .search-results-content {
+            background: var(--fixpro-white);
+            border-radius: 10px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .search-results-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--fixpro-base);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fixpro-white);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .search-results-text {
+            flex: 1;
+        }
+        
+        .search-results-text h5 {
+            margin: 0;
+            color: var(--fixpro-black);
+            font-family: var(--fixpro-font-two);
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .search-results-clear {
+            flex-shrink: 0;
+        }
+        
+        .clear-search-btn {
+            width: 35px;
+            height: 35px;
+            background: var(--fixpro-primary);
+            border: 2px solid #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--fixpro-gray);
+        }
+        
+        .clear-search-btn:hover {
+            background: var(--fixpro-base);
+            border-color: var(--fixpro-base);
+            color: var(--fixpro-white);
+            transform: scale(1.1);
+        }
+        
+        /* No Results Styles */
+        .trucoteca-no-results {
+            position: relative;
+        }
+        
+        .no-results-content {
+            text-align: center;
+            background: var(--fixpro-white);
+            padding: 60px 40px;
+            border-radius: var(--fixpro-bdr-radius);
+            box-shadow: 0 10px 30px rgba(var(--fixpro-black-rgb), 0.1);
+            border: 1px solid rgba(var(--fixpro-base-rgb), 0.1);
+        }
+        
+        .no-results-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--fixpro-primary) 0%, rgba(var(--fixpro-base-rgb), 0.1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--fixpro-base);
+            font-size: 32px;
+        }
+        
+        .no-results-title {
+            color: var(--fixpro-black);
+            font-family: var(--fixpro-font-two);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .no-results-text {
+            color: var(--fixpro-gray);
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .no-results-btn {
+            margin: 0 auto;
+        }
+        
+        /* Responsive adjustments for search results */
+        @media (max-width: 767px) {
+            .search-results-content {
+                padding: 15px 20px;
+                gap: 12px;
+            }
+            
+            .search-results-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+            
+            .search-results-text h5 {
+                font-size: 16px;
+            }
+            
+            .no-results-content {
+                padding: 40px 25px;
+            }
+            
+            .no-results-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .no-results-title {
+                font-size: 20px;
+            }
+            
+            .no-results-text {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 
@@ -301,6 +490,81 @@
         <!--Blog Page Start-->
         <section class="blog-page">
             <div class="container">
+                <!-- Buscador Compacto -->
+                <div class="row" style="margin-bottom: 30px;">
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center">
+                            <!-- Búsqueda -->
+                            <div style="flex: 0 0 320px; position: relative;">
+                                <input 
+                                    type="text" 
+                                    id="search-input" 
+                                    placeholder="Buscar consejos técnicos..." 
+                                    style="width: 100%; padding: 12px 45px 12px 16px; border: 1px solid #ddd; border-radius: 25px; font-size: 15px; outline: none;"
+                                    onfocus="this.style.borderColor='#00A7EB'"
+                                    onblur="this.style.borderColor='#ddd'"
+                                >
+                                <i class="fas fa-search" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #00A7EB; font-size: 14px;"></i>
+                            </div>
+                            
+                            <!-- Etiquetas de categoría -->
+                            <div class="d-flex flex-wrap gap-2">
+                                <button onclick="filtrarPorCategoria('todos')" data-categoria="todos" class="btn-categoria active" style="padding: 12px 20px; border: 1px solid #00A7EB; background: #00A7EB; color: white; border-radius: 20px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                    Todas
+                                </button>
+                                <button onclick="filtrarPorCategoria('Smartphone')" data-categoria="Smartphone" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    Smartphone
+                                </button>
+                                <button onclick="filtrarPorCategoria('Laptop')" data-categoria="Laptop" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    Laptop
+                                </button>
+                                <button onclick="filtrarPorCategoria('Tablet')" data-categoria="Tablet" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    Tablet
+                                </button>
+                                <button onclick="filtrarPorCategoria('Reparación')" data-categoria="Reparación" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    Reparar
+                                </button>
+                                <button onclick="filtrarPorCategoria('Consejos')" data-categoria="Consejos" class="btn-categoria" style="padding: 10px 16px; border: 1px solid #ddd; background: #f8f9fa; color: #666; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                                    Tips
+                                </button>
+                            </div>
+                            
+                            <!-- Botón limpiar -->
+                            <button onclick="limpiarBusqueda()" style="padding: 12px 16px; background: #f1f3f4; border: 1px solid #ddd; border-radius: 20px; color: #666; cursor: pointer; font-size: 14px;" title="Limpiar">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resultados de búsqueda -->
+                <div id="search-results" style="display: none; margin-bottom: 20px;">
+                    <div style="background: #f8f9fa; padding: 8px 15px; border-radius: 8px; border-left: 4px solid #00A7EB; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-search" style="color: #00A7EB; font-size: 14px;"></i>
+                            <span style="font-size: 14px; color: #666; font-weight: 500;"><span id="search-count">0</span> resultados encontrados</span>
+                        </div>
+                        <button onclick="limpiarBusqueda()" style="background: none; border: none; color: #666; cursor: pointer; padding: 4px; font-size: 16px; line-height: 1;" title="Limpiar búsqueda">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mensaje cuando no hay resultados -->
+                <div id="no-results" class="trucoteca-no-results" style="display: none; margin-bottom: 40px;">
+                    <div class="no-results-content">
+                        <div class="no-results-icon">
+                            <i class="icon-search"></i>
+                        </div>
+                        <h4 class="no-results-title">No se encontraron resultados</h4>
+                        <p class="no-results-text">Intenta con otros términos de búsqueda o revisa todas las categorías</p>
+                        <button onclick="limpiarBusqueda()" class="thm-btn no-results-btn">
+                            <i class="icon-refresh"></i>
+                            <span>Mostrar Todos</span>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Loading -->
                 <div id="loading" style="text-align: center; padding: 50px;">
                     <p>Cargando consejos técnicos...</p>
@@ -311,296 +575,302 @@
                     <!-- Los consejos se cargarán aquí dinámicamente -->
                 </div>
             </div>
-        </section>
-        <!--Blog Page End-->
+</section>
+<!--Blog Page End-->
 
 
 
-        <!--Site Footer Start-->
-        <footer class="site-footer">
-            <div class="site-footer__bg-color">
-                <div class="footer-widget__shape-1">
-                    <img src="assets/images/shapes/footer-widget-shape-1.png" alt="">
-                </div>
-            </div>
-            <div class="container">
-                <div class="site-footer__top">
-                    <div class="row">
-                        <div class="col-xl-3 wow fadeInUp" data-wow-delay="100ms">
-                            <div class="footer-widget__column footer-widget__about">
-                                <div class="footer-widget__logo">
-                                    <a href="index.html"><img src="imagenes/logo/logoin_light.png" alt="" style="max-width: 180px; height: auto;"></a>
-                                </div>
-                                <p class="footer-widget__about-text">Innovalab es tu laboratorio técnico especializado en reparación de dispositivos móviles, desarrollo de soluciones digitales y consultoría tecnológica avanzada.</p>
-
-                            </div>
+<!--Site Footer Start-->
+<footer class="site-footer">
+    <div class="site-footer__bg-color">
+        <div class="footer-widget__shape-1">
+            <img src="assets/images/shapes/footer-widget-shape-1.png" alt="">
+        </div>
+    </div>
+    <div class="container">
+        <div class="site-footer__top">
+            <div class="row">
+                <div class="col-xl-3 wow fadeInUp" data-wow-delay="100ms">
+                    <div class="footer-widget__column footer-widget__about">
+                        <div class="footer-widget__logo">
+                            <a href="index.html"><img src="imagenes/logo/logoin_light.png" alt="" style="max-width: 180px; height: auto;"></a>
                         </div>
-                        <div class="col-xl-9">
-                            <div class="footer-widget__right">
-                                <div class="footer-widget__column footer-widget__newsletter">
-                                    <div class="footer-widget__newsletter-bg"
-                                        style="background-image: url(assets/images/backgrounds/footer-widget-newsletter-bg.jpg);">
-                                    </div>
-                                    <h3 class="footer-widget__newsletter-title">Suscríbete a Nuestro Boletín<br>
-                                        <span style="font-size: 14px; font-weight: normal; color: #ccc;">Para obtener últimas actualizaciones de ofertas y descuentos</span></h3>
-                                    <form class="footer-widget__newsletter-form mc-form" data-url="MC_FORM_URL"
-                                        novalidate="novalidate">
-                                        <div class="footer-widget__newsletter-form-input-box">
-                                            <input type="email" placeholder="Ingresa tu email" name="EMAIL">
-                                        </div>
-                                        <button type="submit"
-                                            class="footer-widget__newsletter-btn thm-btn">Suscribirse</button>
-                                    </form>
+                        <p class="footer-widget__about-text">Innovalab es tu laboratorio técnico especializado en reparación de dispositivos móviles, desarrollo de soluciones digitales y consultoría tecnológica avanzada.</p>
+
+                    </div>
+                </div>
+                <div class="col-xl-9">
+                    <div class="footer-widget__right">
+                        <div class="footer-widget__column footer-widget__newsletter">
+                            <div class="footer-widget__newsletter-bg"
+                                style="background-image: url(assets/images/backgrounds/footer-widget-newsletter-bg.jpg);">
+                            </div>
+                            <h3 class="footer-widget__newsletter-title">Suscríbete a Nuestro Boletín<br>
+                                <span style="font-size: 14px; font-weight: normal; color: #ccc;">Para obtener últimas actualizaciones de ofertas y descuentos</span></h3>
+                            <form class="footer-widget__newsletter-form mc-form" data-url="MC_FORM_URL"
+                                novalidate="novalidate">
+                                <div class="footer-widget__newsletter-form-input-box">
+                                    <input type="email" placeholder="Ingresa tu email" name="EMAIL">
                                 </div>
-                                <div class="footer-widget__right-bottom">
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="200ms">
-                                            <div class="footer-widget__column footer-widget__usefull-link">
-                                                <div class="footer-widget__title-box">
-                                                    <h3 class="footer-widget__title">Enlaces Rápidos</h3>
-                                                </div>
-                                                <div class="footer-widget__link-box">
-                                                    <ul class="footer-widget__link list-unstyled">
-                                                        <li><a href="index.html">Inicio</a></li>
-                                                        <li><a href="acerca-de.html">Acerca de</a></li>
-                                                        <li><a href="servicios.html">Servicios</a></li>
+                                <button type="submit"
+                                    class="footer-widget__newsletter-btn thm-btn">Suscribirse</button>
+                            </form>
+                        </div>
+                        <div class="footer-widget__right-bottom">
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="200ms">
+                                    <div class="footer-widget__column footer-widget__usefull-link">
+                                        <div class="footer-widget__title-box">
+                                            <h3 class="footer-widget__title">Enlaces Rápidos</h3>
+                                        </div>
+                                        <div class="footer-widget__link-box">
+                                            <ul class="footer-widget__link list-unstyled">
+                                                <li><a href="index.html">Inicio</a></li>
+                                                <li><a href="acerca-de.html">Acerca de</a></li>
+                                                <li><a href="servicios.html">Servicios</a></li>
                                                                                             <li><a href="trucoteca.html">Trucoteca</a></li>
                                     <li><a href="contacto.html">Contacto</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                            </ul>
                                         </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="300ms">
-                                            <div class="footer-widget__column footer-widget__services">
-                                                <div class="footer-widget__title-box">
-                                                    <h3 class="footer-widget__title">Enlaces de Interés</h3>
-                                                </div>
-                                                <ul class="footer-widget__link list-unstyled">
-                                                    <li><a href="https://www.apple.com/co/" target="_blank">Apple Colombia</a></li>
-                                                    <li><a href="https://www.samsung.com/co/" target="_blank">Samsung Colombia</a></li>
-                                                    <li><a href="https://consumer.huawei.com/co/" target="_blank">Huawei Colombia</a></li>
-                                                    <li><a href="https://www.xiaomi.com/co/" target="_blank">Xiaomi Colombia</a></li>
-                                                    <li><a href="https://www.motorola.com.co/" target="_blank">Motorola Colombia</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="400ms">
-                                            <div class="footer-widget__contact-box">
-                                                <div class="footer-widget__title-box">
-                                                    <h3 class="footer-widget__title">Información Oficial</h3>
-                                                </div>
-                                                <ul class="footer-widget__contact list-unstyled">
-                                                    <li>
-                                                        <div class="icon">
-                                                            <span class="icon-phone-call"></span>
-                                                        </div>
-                                                        <div class="content">
-                                                            <p><a href="tel:+573242598084">+57 324 259 80 84</a></p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="icon">
-                                                            <span class="icon-envelope"></span>
-                                                        </div>
-                                                        <div class="content">
-                                                            <p><a href="mailto:hola@innovalab.online">hola@innovalab.online</a>
-                                                            </p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="icon">
-                                                            <span class="icon-location"></span>
-                                                        </div>
-                                                        <div class="content">
-                                                            <p>C. C. Multicentro La 14, Calle 14 #5-90, Local 201, Santa Marta</p>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="site-footer__social">
-                                        <a href="https://facebook.com/innovalabsm"><i class="icon-facebook"></i></a>
-                                        <a href="https://www.instagram.com/innovalabsm/"><i class="icon-instagram"></i></a>
                                     </div>
                                 </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="300ms">
+                                    <div class="footer-widget__column footer-widget__services">
+                                        <div class="footer-widget__title-box">
+                                            <h3 class="footer-widget__title">Enlaces de Interés</h3>
+                                        </div>
+                                        <ul class="footer-widget__link list-unstyled">
+                                            <li><a href="https://www.apple.com/co/" target="_blank">Apple Colombia</a></li>
+                                            <li><a href="https://www.samsung.com/co/" target="_blank">Samsung Colombia</a></li>
+                                            <li><a href="https://consumer.huawei.com/co/" target="_blank">Huawei Colombia</a></li>
+                                            <li><a href="https://www.xiaomi.com/co/" target="_blank">Xiaomi Colombia</a></li>
+                                            <li><a href="https://www.motorola.com.co/" target="_blank">Motorola Colombia</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="400ms">
+                                    <div class="footer-widget__contact-box">
+                                        <div class="footer-widget__title-box">
+                                            <h3 class="footer-widget__title">Información Oficial</h3>
+                                        </div>
+                                        <ul class="footer-widget__contact list-unstyled">
+                                            <li>
+                                                <div class="icon">
+                                                    <span class="icon-phone-call"></span>
+                                                </div>
+                                                <div class="content">
+                                                    <p><a href="tel:+573242598084">+57 324 259 80 84</a></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="icon">
+                                                    <span class="icon-envelope"></span>
+                                                </div>
+                                                <div class="content">
+                                                    <p><a href="mailto:hola@innovalab.online">hola@innovalab.online</a>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="icon">
+                                                    <span class="icon-location"></span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>C. C. Multicentro La 14, Calle 14 #5-90, Local 201, Santa Marta</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="site-footer__social">
+                                <a href="https://facebook.com/innovalabsm"><i class="icon-facebook"></i></a>
+                                <a href="https://www.instagram.com/innovalabsm/"><i class="icon-instagram"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="site-footer__bottom">
-                <div class="container">
-                    <div class="site-footer__bottom-inner" style="justify-content: center; display: flex;">
-                        <p class="site-footer__bottom-text" style="margin: 0;">© Copyright 2025 by <a href="https://santamartacrea.com" target="_blank">santamarta crea</a> Todos los Derechos Reservados.</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!--Site Footer End-->
-
-    </div><!-- /.page-wrapper -->
-
-
-    <div class="mobile-nav__wrapper">
-        <div class="mobile-nav__overlay mobile-nav__toggler"></div>
-        <!-- /.mobile-nav__overlay -->
-        <div class="mobile-nav__content">
-            <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
-            <div class="logo-box">
-                <a href="index.html" aria-label="logo image"><img src="imagenes/logo/logo_fondo_oscuro.png" width="140"
-                        alt="" /></a>
-            </div>
-            <!-- /.logo-box -->
-            <div class="mobile-nav__container"></div>
-            <!-- /.mobile-nav__container -->
-
-            <ul class="mobile-nav__contact list-unstyled">
-                <li>
-                    <i class="fa fa-envelope"></i>
-                    <a href="mailto:hola@innovalab.online">hola@innovalab.online</a>
-                </li>
-                <li>
-                    <i class="fas fa-phone"></i>
-                    <a href="tel:+573242598084">+57 324 259 80 84</a>
-                </li>
-            </ul><!-- /.mobile-nav__contact -->
-            <div class="mobile-nav__top">
-                <div class="mobile-nav__social">
-                    <a href="https://facebook.com/innovalabsm" class="fab fa-facebook-square"></a>
-                    <a href="https://www.instagram.com/innovalabsm/" class="fab fa-instagram"></a>
-                </div><!-- /.mobile-nav__social -->
-            </div><!-- /.mobile-nav__top -->
-
         </div>
-        <!-- /.mobile-nav__content -->
     </div>
-    <!-- /.mobile-nav__wrapper -->
-
-
-
-    <!-- Search Popup -->
-    <div class="search-popup">
-        <div class="color-layer"></div>
-        <button class="close-search"><span class="far fa-times fa-fw"></span></button>
-        <form method="post" action="blog.html">
-            <div class="form-group">
-                <input type="search" name="search-field" value="" placeholder="Buscar Aquí" required="">
-                <button type="submit"><i class="fas fa-search"></i></button>
+    <div class="site-footer__bottom">
+        <div class="container">
+            <div class="site-footer__bottom-inner" style="justify-content: center; display: flex;">
+                <p class="site-footer__bottom-text" style="margin: 0;">© Copyright 2025 by <a href="https://santamartacrea.com" target="_blank">santamarta crea</a> Todos los Derechos Reservados.</p>
             </div>
-        </form>
+        </div>
     </div>
-    <!-- End Search Popup -->
+</footer>
+<!--Site Footer End-->
+
+</div><!-- /.page-wrapper -->
+
+
+<div class="mobile-nav__wrapper">
+    <div class="mobile-nav__overlay mobile-nav__toggler"></div>
+    <!-- /.mobile-nav__overlay -->
+    <div class="mobile-nav__content">
+        <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
+        <div class="logo-box">
+            <a href="index.html" aria-label="logo image"><img src="imagenes/logo/logo_fondo_oscuro.png" width="140"
+                    alt="" /></a>
+        </div>
+        <!-- /.logo-box -->
+        <div class="mobile-nav__container"></div>
+        <!-- /.mobile-nav__container -->
+
+        <ul class="mobile-nav__contact list-unstyled">
+            <li>
+                <i class="fa fa-envelope"></i>
+                <a href="mailto:hola@innovalab.online">hola@innovalab.online</a>
+            </li>
+            <li>
+                <i class="fas fa-phone"></i>
+                <a href="tel:+573242598084">+57 324 259 80 84</a>
+            </li>
+        </ul><!-- /.mobile-nav__contact -->
+        <div class="mobile-nav__top">
+            <div class="mobile-nav__social">
+                <a href="https://facebook.com/innovalabsm" class="fab fa-facebook-square"></a>
+                <a href="https://www.instagram.com/innovalabsm/" class="fab fa-instagram"></a>
+            </div><!-- /.mobile-nav__social -->
+        </div><!-- /.mobile-nav__top -->
+
+    </div>
+    <!-- /.mobile-nav__content -->
+</div>
+<!-- /.mobile-nav__wrapper -->
 
 
 
-    <a href="#" data-target="html" class="scroll-to-target scroll-to-top">
-        <span class="scroll-to-top__wrapper"><span class="scroll-to-top__inner"></span></span>
-        <span class="scroll-to-top__text"> Volver Arriba</span>
-    </a>
-
-
-    <script src="assets/js/jquery-latest.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jarallax.min.js"></script>
-    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
-    <script src="assets/js/jquery.appear.min.js"></script>
-    <script src="assets/js/swiper.min.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/jquery.validate.min.js"></script>
-    <script src="assets/js/wNumb.min.js"></script>
-    <script src="assets/js/wow.js"></script>
-    <script src="assets/js/isotope.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/jquery-ui.js"></script>
-    <script src="assets/js/jquery.nice-select.min.js"></script>
-    <script src="assets/js/marquee.min.js"></script>
-    <script src="assets/js/countdown.min.js"></script>
-    <script src="assets/js/jquery.circleType.js"></script>
-    <script src="assets/js/jquery.fittext.js"></script>
-    <script src="assets/js/jquery.lettering.min.js"></script>
-    <script src="assets/js/jquery-sidebar-content.js"></script>
-    <script src="assets/js/aos.js"></script>
-    <script src="assets/js/odometer.min.js"></script>
-
-
-    <script src="assets/js/gsap/gsap.js"></script>
-    <script src="assets/js/gsap/ScrollTrigger.js"></script>
-    <script src="assets/js/gsap/SplitText.js"></script>
+<!-- Search Popup -->
+<div class="search-popup">
+    <div class="color-layer"></div>
+    <button class="close-search"><span class="far fa-times fa-fw"></span></button>
+    <form method="post" action="blog.html">
+        <div class="form-group">
+            <input type="search" name="search-field" value="" placeholder="Buscar Aquí" required="">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+</div>
+<!-- End Search Popup -->
 
 
 
+<a href="#" data-target="html" class="scroll-to-target scroll-to-top">
+    <span class="scroll-to-top__wrapper"><span class="scroll-to-top__inner"></span></span>
+    <span class="scroll-to-top__text"> Volver Arriba</span>
+</a>
 
-    <!-- template js -->
-    <script src="assets/js/script.js"></script>
+
+<script src="assets/js/jquery-latest.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/jarallax.min.js"></script>
+<script src="assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="assets/js/jquery.appear.min.js"></script>
+<script src="assets/js/swiper.min.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/jquery.validate.min.js"></script>
+<script src="assets/js/wNumb.min.js"></script>
+<script src="assets/js/wow.js"></script>
+<script src="assets/js/isotope.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/jquery-ui.js"></script>
+<script src="assets/js/jquery.nice-select.min.js"></script>
+<script src="assets/js/marquee.min.js"></script>
+<script src="assets/js/countdown.min.js"></script>
+<script src="assets/js/jquery.circleType.js"></script>
+<script src="assets/js/jquery.fittext.js"></script>
+<script src="assets/js/jquery.lettering.min.js"></script>
+<script src="assets/js/jquery-sidebar-content.js"></script>
+<script src="assets/js/aos.js"></script>
+<script src="assets/js/odometer.min.js"></script>
+
+
+<script src="assets/js/gsap/gsap.js"></script>
+<script src="assets/js/gsap/ScrollTrigger.js"></script>
+<script src="assets/js/gsap/SplitText.js"></script>
+
+
+
+
+<!-- template js -->
+<script src="assets/js/script.js"></script>
     
-    <!-- Trucoteca Supabase -->
-    <script>
-        // Configuración Supabase
-        const supabase = window.supabase.createClient(
-            'https://ptonwoegfinkdngrovhv.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTE0ODUsImV4cCI6MjA2NTUyNzQ4NX0.jIin8SVfYvFh2-NxoJH8dcqOQ4Lt26rPyidzMy4yOwg'
-        );
+<!-- Trucoteca Supabase -->
+<script>
+    // Configuración Supabase
+    const supabase = window.supabase.createClient(
+        'https://ptonwoegfinkdngrovhv.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTE0ODUsImV4cCI6MjA2NTUyNzQ4NX0.jIin8SVfYvFh2-NxoJH8dcqOQ4Lt26rPyidzMy4yOwg'
+    );
 
-        // Cargar consejos desde Supabase
-        async function cargarConsejos() {
-            try {
-                // Mostrar loading por al menos 1 segundo
-                const [data] = await Promise.all([
-                    supabase
-                        .from('trucoteca_items')
-                        .select('*')
-                        .eq('status', 'active')
-                        .order('created_at', { ascending: false })
-                        .then(result => {
-                            if (result.error) throw result.error;
-                            return result.data;
-                        }),
-                    new Promise(resolve => setTimeout(resolve, 1000))
-                ]);
+    // Variables globales para búsqueda y filtrado
+    let todosLosConsejos = [];
+    let categoriaActual = 'todos';
+    let terminoBusqueda = '';
 
-                mostrarConsejos(data);
-                
-            } catch (error) {
-                console.error('Error cargando consejos:', error);
-                document.getElementById('loading').innerHTML = '<p style="color: red;">Error cargando consejos. Intenta recargar la página.</p>';
-            }
+    // Cargar consejos desde Supabase
+    async function cargarConsejos() {
+        try {
+            // Mostrar loading por al menos 1 segundo
+            const [data] = await Promise.all([
+                supabase
+                    .from('trucoteca_items')
+                    .select('*')
+                    .eq('status', 'active')
+                    .order('created_at', { ascending: false })
+                    .then(result => {
+                        if (result.error) throw result.error;
+                        return result.data;
+                    }),
+                new Promise(resolve => setTimeout(resolve, 1000))
+            ]);
+
+            todosLosConsejos = data;
+            mostrarConsejos(data);
+            
+        } catch (error) {
+            console.error('Error cargando consejos:', error);
+            document.getElementById('loading').innerHTML = '<p style="color: red;">Error cargando consejos. Intenta recargar la página.</p>';
+        }
+    }
+
+    // Mostrar consejos en la página
+    function mostrarConsejos(consejos) {
+        const container = document.getElementById('consejos-container');
+        const loading = document.getElementById('loading');
+        
+        if (!consejos || consejos.length === 0) {
+            loading.innerHTML = '<p>No hay consejos disponibles.</p>';
+            return;
         }
 
-        // Mostrar consejos en la página
-        function mostrarConsejos(consejos) {
-            const container = document.getElementById('consejos-container');
-            const loading = document.getElementById('loading');
+        let html = '';
+        const animaciones = ['fadeInLeft', 'fadeInUp', 'fadeInRight'];
+        
+        consejos.forEach((consejo, index) => {
+            const animacion = animaciones[index % 3];
+            const delay = (index % 3 + 1) * 100;
             
-            if (!consejos || consejos.length === 0) {
-                loading.innerHTML = '<p>No hay consejos disponibles.</p>';
-                return;
-            }
-
-            let html = '';
-            const animaciones = ['fadeInLeft', 'fadeInUp', 'fadeInRight'];
+            // Usar imagen personalizada o imagen por defecto según categoría
+            const imagenes = {
+                'Smartphone': 'assets/images/blog/blog-1-1.jpg',
+                'Laptop': 'assets/images/blog/blog-1-2.jpg', 
+                'Tablet': 'assets/images/blog/blog-1-3.jpg',
+                'Reparación': 'assets/images/blog/blog-1-1.jpg',
+                'Consejos': 'assets/images/blog/blog-1-2.jpg'
+            };
             
-            consejos.forEach((consejo, index) => {
-                const animacion = animaciones[index % 3];
-                const delay = (index % 3 + 1) * 100;
-                
-                // Usar imagen personalizada o imagen por defecto según categoría
-                const imagenes = {
-                    'Smartphone': 'assets/images/blog/blog-1-1.jpg',
-                    'Laptop': 'assets/images/blog/blog-1-2.jpg', 
-                    'Tablet': 'assets/images/blog/blog-1-3.jpg',
-                    'Reparación': 'assets/images/blog/blog-1-1.jpg',
-                    'Consejos': 'assets/images/blog/blog-1-2.jpg'
-                };
-                
-                const imagenUrl = consejo.image_url || imagenes[consejo.category] || 'assets/images/blog/blog-1-1.jpg';
-                
-                html += `
-                    <div class="col-xl-4 col-lg-4 col-md-6 wow ${animacion}" data-wow-delay="${delay}ms">
-                        <div class="blog-one__single">
-                            <div class="blog-one__img-box">
-                                <div class="blog-one__img">
-                                                                <img src="${imagenUrl}" alt="${consejo.title}">
+            const imagenUrl = consejo.image_url || imagenes[consejo.category] || 'assets/images/blog/blog-1-1.jpg';
+            
+            html += `
+                <div class="col-xl-4 col-lg-4 col-md-6 wow ${animacion}" data-wow-delay="${delay}ms">
+                    <div class="blog-one__single">
+                        <div class="blog-one__img-box">
+                            <div class="blog-one__img">
+                                                                    <img src="${imagenUrl}" alt="${consejo.title}">
                         </div>
                     </div>
                     <div class="blog-one__content">
@@ -613,119 +883,217 @@
                         </div>
                     </div>
                 `;
-            });
+        });
 
-            container.innerHTML = html;
-            loading.style.display = 'none';
-            container.style.display = 'flex';
-            
-            // Reinicializar animaciones WOW
-            if (typeof WOW !== 'undefined') {
-                new WOW().init();
-            }
+        container.innerHTML = html;
+        loading.style.display = 'none';
+        container.style.display = 'flex';
+        
+        // Reinicializar animaciones WOW
+        if (typeof WOW !== 'undefined') {
+            new WOW().init();
+        }
+    }
+
+    // Función para filtrar consejos
+    function filtrarConsejos() {
+        let consejosFiltrados = todosLosConsejos;
+
+        // Filtrar por categoría
+        if (categoriaActual !== 'todos') {
+            consejosFiltrados = consejosFiltrados.filter(consejo => 
+                consejo.category === categoriaActual
+            );
         }
 
-        // Cargar consejos cuando la página esté lista
-        document.addEventListener('DOMContentLoaded', function() {
-            cargarConsejos();
+        // Filtrar por término de búsqueda
+        if (terminoBusqueda.trim() !== '') {
+            const termino = terminoBusqueda.toLowerCase().trim();
+            consejosFiltrados = consejosFiltrados.filter(consejo => 
+                consejo.title.toLowerCase().includes(termino) ||
+                consejo.content.toLowerCase().includes(termino) ||
+                consejo.category.toLowerCase().includes(termino)
+            );
+        }
+
+        return consejosFiltrados;
+    }
+
+    // Función para mostrar resultados filtrados
+    function mostrarResultadosFiltrados() {
+        const consejosFiltrados = filtrarConsejos();
+        const searchResults = document.getElementById('search-results');
+        const searchCount = document.getElementById('search-count');
+        const noResults = document.getElementById('no-results');
+        const container = document.getElementById('consejos-container');
+
+        // Actualizar contador de resultados
+        searchCount.textContent = consejosFiltrados.length;
+
+        // Mostrar/ocultar elementos según los resultados
+        if (terminoBusqueda.trim() !== '' || categoriaActual !== 'todos') {
+            searchResults.style.display = 'block';
+        } else {
+            searchResults.style.display = 'none';
+        }
+
+        if (consejosFiltrados.length === 0) {
+            noResults.style.display = 'block';
+            container.style.display = 'none';
+        } else {
+            noResults.style.display = 'none';
+            container.style.display = 'flex';
+            mostrarConsejos(consejosFiltrados);
+        }
+    }
+
+            // Función para filtrar por categoría
+        function filtrarPorCategoria(categoria) {
+            categoriaActual = categoria;
+
+            // Actualizar botones activos
+            document.querySelectorAll('.btn-categoria').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-categoria="${categoria}"]`).classList.add('active');
+
+            // Mostrar resultados filtrados
+            mostrarResultadosFiltrados();
+        }
+
+            // Función para limpiar la búsqueda
+        function limpiarBusqueda() {
+            terminoBusqueda = '';
+            categoriaActual = 'todos';
             
-            // Sistema de Suscripción Newsletter
-            const form = document.querySelector('.footer-widget__newsletter-form');
+            // Limpiar campo de búsqueda
+            document.getElementById('search-input').value = '';
             
-            if (form) {
-                form.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    const email = form.querySelector('input[name="EMAIL"]').value.trim();
-                    const button = form.querySelector('.footer-widget__newsletter-btn');
-                    
-                    if (!email) {
-                        alert('Por favor ingresa tu email');
-                        return;
+            // Resetear botones de categoría
+            document.querySelectorAll('.btn-categoria').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-categoria="todos"]').classList.add('active');
+            
+            // Ocultar elementos de búsqueda
+            document.getElementById('search-results').style.display = 'none';
+            document.getElementById('no-results').style.display = 'none';
+            
+            // Mostrar todos los consejos
+            document.getElementById('consejos-container').style.display = 'flex';
+            mostrarConsejos(todosLosConsejos);
+        }
+
+    // Cargar consejos cuando la página esté lista
+    document.addEventListener('DOMContentLoaded', function() {
+        cargarConsejos();
+        
+        // Configurar evento de búsqueda
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                terminoBusqueda = e.target.value;
+                mostrarResultadosFiltrados();
+            });
+        }
+        
+        // Sistema de Suscripción Newsletter
+        const form = document.querySelector('.footer-widget__newsletter-form');
+        
+        if (form) {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = form.querySelector('input[name="EMAIL"]').value.trim();
+                const button = form.querySelector('.footer-widget__newsletter-btn');
+                
+                if (!email) {
+                    alert('Por favor ingresa tu email');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    alert('Por favor ingresa un email válido');
+                    return;
+                }
+                
+                // Guardar estado original del botón
+                const originalText = button.textContent;
+                
+                // Cambiar a estado de carga
+                button.textContent = 'Suscribiendo...';
+                button.disabled = true;
+                
+                try {
+                    // Verificar si el email ya existe
+                    const { data: existing, error: checkError } = await supabase
+                        .from('boletin_suscriptores')
+                        .select('email')
+                        .eq('email', email)
+                        .single();
+
+                    if (checkError && checkError.code !== 'PGRST116') {
+                        throw checkError;
                     }
-                    
-                    if (!isValidEmail(email)) {
-                        alert('Por favor ingresa un email válido');
-                        return;
-                    }
-                    
-                    // Guardar estado original del botón
-                    const originalText = button.textContent;
-                    
-                    // Cambiar a estado de carga
-                    button.textContent = 'Suscribiendo...';
-                    button.disabled = true;
-                    
-                    try {
-                        // Verificar si el email ya existe
-                        const { data: existing, error: checkError } = await supabase
-                            .from('boletin_suscriptores')
-                            .select('email')
-                            .eq('email', email)
-                            .single();
 
-                        if (checkError && checkError.code !== 'PGRST116') {
-                            throw checkError;
-                        }
-
-                        if (existing) {
-                            // Email ya existe
-                            button.textContent = 'Ya suscrito';
-                            button.style.background = '#ffc107';
-                            
-                            setTimeout(() => {
-                                button.textContent = originalText;
-                                button.disabled = false;
-                                button.style.background = '';
-                            }, 3000);
-                            return;
-                        }
-
-                        // Guardar nueva suscripción
-                        const { error } = await supabase
-                            .from('boletin_suscriptores')
-                            .insert([{
-                                email: email
-                            }]);
-
-                        if (error) throw error;
-
-                        // Mostrar mensaje de éxito
-                        button.textContent = '¡Suscrito!';
-                        button.style.background = '#28a745';
+                    if (existing) {
+                        // Email ya existe
+                        button.textContent = 'Ya suscrito';
+                        button.style.background = '#ffc107';
                         
-                        // Limpiar formulario
-                        form.querySelector('input[name="EMAIL"]').value = '';
-                        
-                        // Restaurar botón después de 3 segundos
                         setTimeout(() => {
                             button.textContent = originalText;
                             button.disabled = false;
                             button.style.background = '';
                         }, 3000);
-
-                    } catch (error) {
-                        console.error('Error:', error);
-                        button.textContent = 'Error';
-                        button.style.background = '#dc3545';
-                        
-                        setTimeout(() => {
-                            button.textContent = originalText;
-                            button.disabled = false;
-                            button.style.background = '';
-                        }, 3000);
-                        
-                        alert('Error al suscribirse. Intenta nuevamente.');
+                        return;
                     }
-                });
-            }
-            
-            function isValidEmail(email) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(email);
-            }
-        });
-    </script>
+
+                    // Guardar nueva suscripción
+                    const { error } = await supabase
+                        .from('boletin_suscriptores')
+                        .insert([{
+                            email: email
+                        }]);
+
+                    if (error) throw error;
+
+                    // Mostrar mensaje de éxito
+                    button.textContent = '¡Suscrito!';
+                    button.style.background = '#28a745';
+                    
+                    // Limpiar formulario
+                    form.querySelector('input[name="EMAIL"]').value = '';
+                    
+                    // Restaurar botón después de 3 segundos
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                        button.style.background = '';
+                    }, 3000);
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    button.textContent = 'Error';
+                    button.style.background = '#dc3545';
+                    
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                        button.style.background = '';
+                    }, 3000);
+                    
+                    alert('Error al suscribirse. Intenta nuevamente.');
+                }
+            });
+        }
+        
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    });
+</script>
 </body>
 
 </html>
