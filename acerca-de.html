@@ -1162,6 +1162,20 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTE0ODUsImV4cCI6MjA2NTUyNzQ4NX0.jIin8SVfYvFh2-NxoJH8dcqOQ4Lt26rPyidzMy4yOwg';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+        // Configuración de colores para cada categoría
+        const categoriasConfig = {
+            'Smartphone': { color: '#e74c3c' },
+            'Laptop': { color: '#9b59b6' },
+            'Tablet': { color: '#f39c12' },
+            'Reparación': { color: '#27ae60' },
+            'Consejos': { color: '#3498db' }
+        };
+
+        // Función para obtener color de una categoría
+        function obtenerColorCategoria(categoria) {
+            return categoriasConfig[categoria]?.color || '#6c757d';
+        }
+
         // Función para cargar los 3 posts más recientes de trucoteca en la página acerca de
         async function cargarTrucotecaAbout() {
             const loadingElement = document.getElementById('trucoteca-loading-about');
@@ -1203,6 +1217,9 @@
                     };
                     
                     const imagenUrl = post.image_url || imagenes[post.category] || 'assets/images/blog/blog-1-1.jpg';
+                    
+                    // Obtener color para la categoría
+                    const colorCategoria = obtenerColorCategoria(post.category);
 
                     htmlContent += `
                         <div class="col-xl-4 col-lg-4 wow ${animacion}" data-wow-delay="${delay}">
@@ -1216,7 +1233,7 @@
                                     <h3 class="blog-one__title">${post.title}</h3>
                                     <p style="margin: 15px 0; color: #666; font-size: 14px;">${post.content}</p>
                                     <div style="margin-top: 10px;">
-                                        <span style="background: #00A7EB; color: white; padding: 3px 8px; border-radius: 3px; font-size: 12px;">${post.category}</span>
+                                        <span style="background: ${colorCategoria}; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600;">${post.category}</span>
                                     </div>
                                 </div>
                             </div>
