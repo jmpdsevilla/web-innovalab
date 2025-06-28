@@ -27,8 +27,9 @@
     <link rel="stylesheet" href="assets/css/custom-animate.css" />
     <link rel="stylesheet" href="assets/css/swiper.min.css" />
     <link rel="stylesheet" href="assets/css/font-awesome-all.css" />
-    <!-- Font Awesome CDN para iconos de WhatsApp -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="assets/css/jarallax.css" />
     <link rel="stylesheet" href="assets/css/jquery.magnific-popup.css" />
     <link rel="stylesheet" href="assets/css/flaticon.css">
@@ -132,6 +133,20 @@
         .mobile-nav__container .main-menu__list .mobile-tracking-link,
         .mobile-nav__container .main-menu__list .menu-separator {
             display: block !important;
+        }
+
+        /* Asegurar que los iconos de Feather se muestren correctamente */
+        .main-menu__list a[data-feather],
+        .main-menu__list a i[data-feather] {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-menu__list a svg {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -303,21 +318,24 @@
                             <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
                             <ul class="main-menu__list">
                                 <li>
-                                    <a href="index.html">Inicio</a>
+                                    <a href="index.html"><i data-feather="home"></i> Inicio</a>
                                 </li>
                                 <li>
-                                    <a href="acerca-de.html">Acerca de</a>
+                                    <a href="acerca-de.html"><i data-feather="info"></i> Acerca de</a>
+                                </li>
+
+                                <li class="current">
+                                    <a href="servicios.html"><i data-feather="tool"></i> Servicios</a>
                                 </li>
 
                                 <li>
-                                    <a href="servicios.html">Servicios</a>
-                                </li>
-
-                                <li>
-                                    <a href="trucoteca.html">Trucoteca</a>
+                                    <a href="trucoteca.html"><i data-feather="smartphone"></i> Trucoteca</a>
                                 </li>
                                 <li>
-                                    <a href="contacto.html">Contacto</a>
+                                    <a href="pqr.html"><i data-feather="message-circle"></i> PQR</a>
+                                </li>
+                                <li>
+                                    <a href="contacto.html"><i data-feather="phone"></i> Contacto</a>
                                 </li>
                                 <!-- Separador visual -->
                                 <li class="menu-separator"></li>
@@ -504,11 +522,14 @@
                                                 </div>
                                                 <div class="footer-widget__link-box">
                                                     <ul class="footer-widget__link list-unstyled">
-                                                        <li><a href="index.html">Inicio</a></li>
-                                                        <li><a href="acerca-de.html">Acerca de</a></li>
-                                                        <li><a href="servicios.html">Servicios</a></li>
-                                                        <li><a href="trucoteca.html">Trucoteca</a></li>
-                                                        <li><a href="contacto.html">Contacto</a></li>
+                                                        <li><a href="index.html"><i data-feather="home"></i> Inicio</a></li>
+                                                        <li><a href="acerca-de.html"><i data-feather="info"></i> Acerca de</a></li>
+                                                        <li><a href="servicios.html"><i data-feather="tool"></i> Servicios</a></li>
+                                                        <li><a href="plan-servicios.html"><i data-feather="shopping-cart"></i> Plan de Servicios</a></li>
+                                                        <li><a href="trucoteca.html"><i data-feather="smartphone"></i> Trucoteca</a></li>
+                                                        <li><a href="pqr.html"><i data-feather="message-circle"></i> PQR</a></li>
+                                                        <li><a href="contacto.html"><i data-feather="phone"></i> Contacto</a></li>
+                                                        <li><a href="rastreo-reparaciones.html"><i data-feather="search"></i> Rastrear Reparación</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -782,6 +803,39 @@
             }
         });
     </script>
+
+    <script src="assets/js/feather-config.js"></script>
+    <script>
+        // Inicializar Feather Icons
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+    </script>
+    
+    <style>
+        /* Estilos para iconos en navegación */
+        .main-menu__list a {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        
+        .main-menu__list a i {
+            width: 14px !important;
+            height: 14px !important;
+        }
+        
+        .footer-widget__links a {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        
+        .footer-widget__links a i {
+            width: 14px !important;
+            height: 14px !important;
+        }
+    </style>
 
     <!-- WhatsApp Floating Button -->
     <a href="https://wa.me/573242598084?text=Hola,%20necesito%20ayuda%20con%20mi%20celular" 

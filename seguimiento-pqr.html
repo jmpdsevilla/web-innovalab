@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Seguimiento PQR || Innovalab || Laboratorio Técnico </title>
+    <!-- favicons Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png" />
+    <link rel="manifest" href="assets/images/favicons/site.webmanifest" />
+    <meta name="description" content="Innovalab - Seguimiento Sistema PQR - Consulta el estado de tu caso " />
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+        rel="stylesheet">
+
+ 
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/animate.min.css" />
+    <link rel="stylesheet" href="assets/css/custom-animate.css" />
+    <link rel="stylesheet" href="assets/css/swiper.min.css" />
+    <link rel="stylesheet" href="assets/css/font-awesome-all.css" />
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="assets/css/jarallax.css" />
+    <link rel="stylesheet" href="assets/css/jquery.magnific-popup.css" />
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="assets/css/nice-select.css" />
+    <link rel="stylesheet" href="assets/css/jquery-ui.css" />
+    <link rel="stylesheet" href="assets/css/aos.css" />
+    <link rel="stylesheet" href="assets/css/odometer.min.css" />
+
+
+    <link rel="stylesheet" href="assets/css/module-css/slider.css" />
+    <link rel="stylesheet" href="assets/css/module-css/footer.css" />
+    <link rel="stylesheet" href="assets/css/module-css/feature.css" />
+    <link rel="stylesheet" href="assets/css/module-css/about.css" />
+    <link rel="stylesheet" href="assets/css/module-css/service.css" />
+    <link rel="stylesheet" href="assets/css/module-css/counter.css" />
+    <link rel="stylesheet" href="assets/css/module-css/why-choose.css" />
+    <link rel="stylesheet" href="assets/css/module-css/project.css" />
+    <link rel="stylesheet" href="assets/css/module-css/video.css" />
+    <link rel="stylesheet" href="assets/css/module-css/team.css" />
+    <link rel="stylesheet" href="assets/css/module-css/brand.css" />
+    <link rel="stylesheet" href="assets/css/module-css/pricing.css" />
+    <link rel="stylesheet" href="assets/css/module-css/testimonial.css" />
+    <link rel="stylesheet" href="assets/css/module-css/blog.css" />
+
+    <!-- template styles -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <link rel="stylesheet" href="assets/css/custom-logo.css" />
+    
+    <style>
+        /* Estilos específicos para Seguimiento PQR */
+        .page-header-pqr {
+            background: linear-gradient(135deg, #0B2F5A 0%, #1E5A96 100%);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+        }
+
+        .page-header-pqr h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .page-header-pqr p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .container-pqr {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .search-container, .result-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #00A7EB;
+            box-shadow: 0 0 0 3px rgba(0, 167, 235, 0.1);
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #00A7EB 0%, #0B2F5A 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 167, 235, 0.3);
+        }
+
+        .alert {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: none;
+            display: none;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+            color: white;
+        }
+
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+                          .status-recibido { background: #f39c12; color: white; }
+         .status-en_revision { background: #3498db; color: white; }
+         .status-respondido { background: #27ae60; color: white; }
+         .status-cerrado { background: #95a5a6; color: white; }
+
+        .timeline {
+            border-left: 3px solid #00A7EB;
+            padding-left: 20px;
+            margin-left: 10px;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00A7EB;
+        }
+
+        .timeline-item h5 {
+            color: #0B2F5A;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #00A7EB;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-search {
+                margin-top: 10px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="custom-cursor">
+
+    <div class="custom-cursor__cursor"></div>
+    <div class="custom-cursor__cursor-two"></div>
+
+    <!--Start Preloader-->
+    <div class="loader js-preloader">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!--End Preloader-->
+
+    <div class="page-wrapper">
+        <header class="main-header">
+            <div class="main-menu__top">
+                <div class="main-menu__top-inner">
+                    <ul class="list-unstyled main-menu__contact-list">
+                        <li>
+                            <div class="icon">
+                                <i class="icon-call"></i>
+                            </div>
+                            <div class="text">
+                                <p><a href="tel:+573242598084">+57 324 259 80 84</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">
+                                <i class="icon-envelope"></i>
+                            </div>
+                            <div class="text">
+                                <p><a href="mailto:hola@innovalab.online">hola@innovalab.online</a>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">
+                                <i class="icon-location"></i>
+                            </div>
+                            <div class="text">
+                                <p>C. C. Multicentro La 14, Calle 14 #5-90, Local 201, Santa Marta</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="main-menu__top-right">
+                        <div class="main-menu__top-time">
+                            <div class="main-menu__top-time-icon">
+                                <span class="icon-clock"></span>
+                            </div>
+                            <p class="main-menu__top-text">Lun - Sáb: 8:30 AM - 6:30 PM</p>
+                        </div>
+                        <div class="main-menu__social">
+                            <a href="https://facebook.com/innovalabsm"><i class="fab fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/innovalabsm/"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="main-menu">
+                <div class="main-menu__wrapper">
+                    <div class="main-menu__wrapper-inner">
+                        <div class="main-menu__left">
+                            <div class="main-menu__logo">
+                                <a href="index.html"><img src="assets/images/resources/logo-1.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="main-menu__main-menu-box">
+                            <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
+                            <ul class="main-menu__list">
+                                <li>
+                                    <a href="index.html"><i data-feather="home"></i> Inicio</a>
+                                </li>
+                                <li>
+                                    <a href="acerca-de.html"><i data-feather="info"></i> Acerca de</a>
+                                </li>
+                                <li>
+                                    <a href="servicios.html"><i data-feather="tool"></i> Servicios</a>
+                                </li>
+                                <li>
+                                    <a href="trucoteca.html"><i data-feather="smartphone"></i> Trucoteca</a>
+                                </li>
+                                <li class="current">
+                                    <a href="pqr.html"><i data-feather="message-circle"></i> PQR</a>
+                                </li>
+                                <li>
+                                    <a href="contacto.html"><i data-feather="phone"></i> Contacto</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="main-menu__right">
+                            <div class="main-menu__call">
+                                <div class="main-menu__call-icon">
+                                    <i class="icon-call"></i>
+                                </div>
+                                <div class="main-menu__call-content">
+                                    <p class="main-menu__call-sub-title">¿Hablamos?</p>
+                                <h5 class="main-menu__call-number"><a href="tel:+573242598084">+57 324 259 80 84</a></h5>
+                                </div>
+                            </div>
+
+                            <div class="main-menu__btn-box">
+                                <a href="rastreo-reparaciones.html" class="thm-btn">Rastrear Reparación<span
+                                    class="icon-arrow-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="stricky-header stricked-menu main-menu">
+            <div class="sticky-header__content"></div>
+        </div>
+
+        <!-- Page Header -->
+        <section class="page-header-pqr">
+            <div class="container">
+                <h1><i data-feather="search"></i> Seguimiento PQR</h1>
+                <p>Consulta el estado de tu Petición, Queja o Reclamo</p>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section style="padding: 60px 0;">
+            <div class="container-pqr">
+                <!-- Formulario de búsqueda -->
+                <div class="search-container">
+                    <h3 style="margin-bottom: 20px; color: #0B2F5A;"><i data-feather="search"></i> Buscar PQR</h3>
+                    
+                    <div class="alert alert-danger" id="error-message">
+                        <h4><i data-feather="alert-circle"></i> PQR No Encontrado</h4>
+                        <p id="error-text">No se encontró ningún PQR con ese número.</p>
+                    </div>
+
+                    <form id="search-form" class="search-form">
+                        <div class="form-group">
+                            <label for="numero_pqr">Número de PQR *</label>
+                            <input type="text" id="numero_pqr" name="numero_pqr" class="form-control" 
+                                   placeholder="Ejemplo: PQR-2025-001" required>
+                        </div>
+                        <button type="submit" id="search-btn" class="btn-search">
+                            <i data-feather="search"></i>
+                            Buscar
+                        </button>
+                    </form>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <a href="pqr.html" style="color: #00A7EB; text-decoration: none;">
+                            <i data-feather="plus-circle"></i> ¿No tienes un PQR? Crear uno aquí
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resultado de la búsqueda -->
+                <div class="result-container" id="result-container" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
+                        <h4 id="pqr-numero" style="margin: 0; color: #0B2F5A;"></h4>
+                        <div id="pqr-estado-badge"></div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+                        <div>
+                            <strong>Tipo:</strong>
+                            <div id="pqr-tipo"></div>
+                        </div>
+                        <div>
+                            <strong>Fecha:</strong>
+                            <div id="pqr-fecha"></div>
+                        </div>
+                        <div>
+                            <strong>Cliente:</strong>
+                            <div id="pqr-cliente"></div>
+                        </div>
+                        <div>
+                            <strong>Email:</strong>
+                            <div id="pqr-email"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <strong>Asunto:</strong>
+                        <div id="pqr-asunto" style="margin-top: 5px; padding: 10px; background: #f8f9fa; border-radius: 5px;"></div>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <strong>Descripción:</strong>
+                        <div id="pqr-descripcion" style="margin-top: 5px; padding: 10px; background: #f8f9fa; border-radius: 5px;"></div>
+                    </div>
+
+                    <!-- Timeline de seguimiento -->
+                    <h3 style="margin-top: 30px; color: #0B2F5A;"><i data-feather="activity"></i> Timeline del Caso</h3>
+                    <div class="timeline" id="pqr-timeline">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+
+                    <!-- Respuesta del administrador -->
+                    <div id="admin-response" style="display: none;">
+                        <h3 style="color: #0B2F5A;"><i data-feather="message-square"></i> Respuesta del Administrador</h3>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #00A7EB;">
+                            <div id="response-content"></div>
+                            <div id="response-date" style="margin-top: 10px; font-size: 14px; color: #666;"></div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn-search" onclick="resetSearch()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                            <i data-feather="arrow-left"></i> Buscar Otro PQR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <!--Site Footer Start-->
+        <footer class="site-footer">
+            <div class="site-footer__bg-color">
+                <div class="footer-widget__shape-1">
+                    <img src="assets/images/shapes/footer-widget-shape-1.png" alt="">
+                </div>
+            </div>
+            <div class="container">
+                <div class="site-footer__top">
+                    <div class="row">
+                        <div class="col-xl-3 wow fadeInUp" data-wow-delay="100ms">
+                            <div class="footer-widget__column footer-widget__about">
+                                <div class="footer-widget__logo">
+                                    <a href="index.html"><img src="imagenes/logo/logoin_light.png" alt="" style="max-width: 180px; height: auto;"></a>
+                                </div>
+                                <p class="footer-widget__about-text">Innovalab es tu laboratorio técnico especializado en reparación de dispositivos móviles, desarrollo de soluciones digitales y consultoría tecnológica avanzada.</p>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-9">
+                            <div class="footer-widget__right">
+                                <div class="footer-widget__column footer-widget__newsletter">
+                                    <div class="footer-widget__newsletter-bg"
+                                        style="background-image: url(assets/images/backgrounds/footer-widget-newsletter-bg.jpg);">
+                                    </div>
+                                    <h3 class="footer-widget__newsletter-title">Suscríbete a Nuestro Boletín<br>
+                                        <span style="font-size: 14px; font-weight: normal; color: #ccc;">Para obtener últimas actualizaciones de ofertas y descuentos</span></h3>
+                                    <form class="footer-widget__newsletter-form mc-form" data-url="MC_FORM_URL"
+                                        novalidate="novalidate">
+                                        <div class="footer-widget__newsletter-form-input-box">
+                                            <input type="email" placeholder="Ingresa tu email" name="EMAIL">
+                                        </div>
+                                        <button type="submit"
+                                            class="footer-widget__newsletter-btn thm-btn">Suscribirse</button>
+                                    </form>
+                                </div>
+                                <div class="footer-widget__right-bottom">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="200ms">
+                                            <div class="footer-widget__column footer-widget__usefull-link">
+                                                <div class="footer-widget__title-box">
+                                                    <h3 class="footer-widget__title">Enlaces Rápidos</h3>
+                                                </div>
+                                                <div class="footer-widget__link-box">
+                                                    <ul class="footer-widget__link list-unstyled">
+                                                        <li><a href="index.html"><i data-feather="home"></i> Inicio</a></li>
+                                                        <li><a href="acerca-de.html"><i data-feather="info"></i> Acerca de</a></li>
+                                                        <li><a href="servicios.html"><i data-feather="tool"></i> Servicios</a></li>
+                                                        <li><a href="plan-servicios.html"><i data-feather="shopping-cart"></i> Plan de Servicios</a></li>
+                                                        <li><a href="trucoteca.html"><i data-feather="smartphone"></i> Trucoteca</a></li>
+                                                        <li><a href="pqr.html"><i data-feather="message-circle"></i> PQR</a></li>
+                                                        <li><a href="contacto.html"><i data-feather="phone"></i> Contacto</a></li>
+                                                        <li><a href="rastreo-reparaciones.html"><i data-feather="search"></i> Rastrear Reparación</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="300ms">
+                                            <div class="footer-widget__column footer-widget__services">
+                                                <div class="footer-widget__title-box">
+                                                    <h3 class="footer-widget__title">Enlaces de Interés</h3>
+                                                </div>
+                                                <ul class="footer-widget__link list-unstyled">
+                                                    <li><a href="https://www.apple.com/co/" target="_blank">Apple Colombia</a></li>
+                                                    <li><a href="https://www.samsung.com/co/" target="_blank">Samsung Colombia</a></li>
+                                                    <li><a href="https://consumer.huawei.com/co/" target="_blank">Huawei Colombia</a></li>
+                                                    <li><a href="https://www.xiaomi.com/co/" target="_blank">Xiaomi Colombia</a></li>
+                                                    <li><a href="https://www.motorola.com.co/" target="_blank">Motorola Colombia</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 wow fadeInUp" data-wow-delay="400ms">
+                                            <div class="footer-widget__contact-box">
+                                                <div class="footer-widget__title-box">
+                                                    <h3 class="footer-widget__title">Información Oficial</h3>
+                                                </div>
+                                                <ul class="footer-widget__contact list-unstyled">
+                                                    <li>
+                                                        <div class="icon">
+                                                            <span class="icon-phone-call"></span>
+                                                        </div>
+                                                        <div class="content">
+                                                            <p><a href="tel:+573242598084">+57 324 259 80 84</a></p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="icon">
+                                                            <span class="icon-envelope"></span>
+                                                        </div>
+                                                        <div class="content">
+                                                            <p><a href="mailto:hola@innovalab.online">hola@innovalab.online</a>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="icon">
+                                                            <span class="icon-location"></span>
+                                                        </div>
+                                        <div class="content">
+                                                            <p>C. C. Multicentro La 14, Calle 14 #5-90, Local 201, Santa Marta</p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="site-footer__social">
+                                        <a href="https://facebook.com/innovalabsm"><i class="icon-facebook"></i></a>
+                                        <a href="https://www.instagram.com/innovalabsm/"><i class="icon-instagram"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="site-footer__bottom">
+                <div class="container">
+                    <div class="site-footer__bottom-inner" style="justify-content: center; display: flex;">
+                        <p class="site-footer__bottom-text" style="margin: 0;">© Copyright 2025 by <a href="https://santamartacrea.com" target="_blank">santamarta crea</a> Todos los Derechos Reservados.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--Site Footer End-->
+
+    </div><!-- /.page-wrapper -->
+
+    <div class="mobile-nav__wrapper">
+        <div class="mobile-nav__overlay mobile-nav__toggler"></div>
+        <div class="mobile-nav__content">
+            <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
+            <div class="logo-box">
+                <a href="index.html" aria-label="logo image"><img src="assets/images/resources/logo-1.png" width="140" alt="" /></a>
+            </div>
+            <div class="mobile-nav__container">
+                <ul class="main-menu__list">
+                    <li><a href="index.html"><i data-feather="home"></i> Inicio</a></li>
+                    <li><a href="acerca-de.html"><i data-feather="info"></i> Acerca de</a></li>
+                    <li><a href="servicios.html"><i data-feather="tool"></i> Servicios</a></li>
+                    <li><a href="trucoteca.html"><i data-feather="smartphone"></i> Trucoteca</a></li>
+                    <li><a href="pqr.html"><i data-feather="message-circle"></i> PQR</a></li>
+                    <li><a href="contacto.html"><i data-feather="phone"></i> Contacto</a></li>
+                </ul>
+            </div>
+            <ul class="mobile-nav__contact list-unstyled">
+                <li>
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:hola@innovalab.online">hola@innovalab.online</a>
+                </li>
+                <li>
+                    <i class="fa fa-phone-alt"></i>
+                    <a href="tel:+573242598084">+57 324 259 80 84</a>
+                </li>
+            </ul>
+            <div class="mobile-nav__social">
+                <a href="https://facebook.com/innovalabsm"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/innovalabsm/"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery-latest.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jarallax.min.js"></script>
+    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
+    <script src="assets/js/jquery.appear.min.js"></script>
+    <script src="assets/js/jquery.circleType.js"></script>
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/jquery.validate.min.js"></script>
+    <script src="assets/js/nouislider.min.js"></script>
+    <script src="assets/js/odometer.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/wow.js"></script>
+    <script src="assets/js/isotope.js"></script>
+    <script src="assets/js/countdown.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/jquery-ui.js"></script>
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/feather-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Configuración Supabase
+        const supabaseUrl = 'https://ptonwoegfinkdngrovhv.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0b253b2VnZmlua2RuZ3Jvdmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTE0ODUsImV4cCI6MjA2NTUyNzQ4NX0.jIin8SVfYvFh2-NxoJH8dcqOQ4Lt26rPyidzMy4yOwg';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function getStatusIcon(estado) {
+            const icons = {
+                'recibido': 'clock',
+                'en_revision': 'refresh-cw',
+                'respondido': 'check-circle',
+                'cerrado': 'x-circle'
+            };
+            return icons[estado] || 'help-circle';
+        }
+
+        function getStatusText(estado) {
+            const texts = {
+                'recibido': 'Recibido',
+                'en_revision': 'En Revisión',
+                'respondido': 'Respondido',
+                'cerrado': 'Cerrado'
+            };
+            return texts[estado] || estado;
+        }
+
+        function getTipoIcon(tipo) {
+            const icons = {
+                'peticion': 'help-circle',
+                'queja': 'frown',
+                'reclamo': 'alert-triangle'
+            };
+            return icons[tipo] || 'file-text';
+        }
+
+        function getTipoText(tipo) {
+            const texts = {
+                'peticion': 'Petición',
+                'queja': 'Queja',
+                'reclamo': 'Reclamo'
+            };
+            return texts[tipo] || tipo;
+        }
+
+        function showPQRResult(pqr) {
+            // Información básica
+            document.getElementById('pqr-numero').textContent = pqr.numero_pqr;
+            document.getElementById('pqr-tipo').innerHTML = `<i data-feather="${getTipoIcon(pqr.tipo)}"></i> ${getTipoText(pqr.tipo)}`;
+            document.getElementById('pqr-fecha').textContent = formatDate(pqr.created_at);
+            document.getElementById('pqr-cliente').textContent = pqr.cliente_nombre;
+            document.getElementById('pqr-email').textContent = pqr.cliente_email;
+            document.getElementById('pqr-asunto').textContent = pqr.asunto;
+            document.getElementById('pqr-descripcion').textContent = pqr.descripcion;
+
+            // Estado
+            const statusBadge = document.getElementById('pqr-estado-badge');
+            statusBadge.innerHTML = `<span class="status-badge status-${pqr.estado}">
+                <i data-feather="${getStatusIcon(pqr.estado)}"></i> ${getStatusText(pqr.estado)}
+            </span>`;
+
+            // Timeline
+            const timeline = document.getElementById('pqr-timeline');
+            timeline.innerHTML = `
+                                    <div class="timeline-item">
+                        <h5><i data-feather="plus-circle"></i> PQR Creado</h5>
+                        <p>El caso ha sido registrado en el sistema</p>
+                        <small><i data-feather="clock"></i> ${formatDate(pqr.created_at)}</small>
+                    </div>
+            `;
+
+            if (pqr.estado !== 'recibido') {
+                timeline.innerHTML += `
+                    <div class="timeline-item">
+                        <h5><i data-feather="eye"></i> En Revisión</h5>
+                        <p>El caso está siendo revisado por nuestro equipo</p>
+                        <small><i data-feather="clock"></i> En proceso...</small>
+                    </div>
+                `;
+            }
+
+            if (pqr.estado === 'respondido' || pqr.estado === 'cerrado') {
+                timeline.innerHTML += `
+                    <div class="timeline-item">
+                        <h5><i data-feather="check-circle"></i> Resuelto</h5>
+                        <p>El caso ha sido resuelto</p>
+                        <small><i data-feather="clock"></i> ${pqr.updated_at ? formatDate(pqr.updated_at) : 'Fecha no disponible'}</small>
+                    </div>
+                `;
+            }
+
+            // Respuesta del administrador
+            if (pqr.respuesta_admin) {
+                document.getElementById('response-content').textContent = pqr.respuesta_admin;
+                document.getElementById('response-date').innerHTML = `<i data-feather="clock"></i> ${pqr.updated_at ? formatDate(pqr.updated_at) : 'Fecha no disponible'}`;
+                document.getElementById('admin-response').style.display = 'block';
+            } else {
+                document.getElementById('admin-response').style.display = 'none';
+            }
+
+            // Mostrar resultado y ocultar búsqueda
+            document.querySelector('.search-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+            
+            // Reinicializar iconos
+            feather.replace();
+        }
+
+        function resetSearch() {
+            document.querySelector('.search-container').style.display = 'block';
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('numero_pqr').value = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ocultar el preloader inmediatamente
+            const preloader = document.querySelector('.js-preloader');
+            if (preloader) {
+                preloader.style.display = 'none';
+            }
+
+            const form = document.getElementById('search-form');
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const numeroPQR = document.getElementById('numero_pqr').value.trim();
+                
+                if (!numeroPQR) {
+                    alert('Por favor ingresa el número de PQR');
+                    return;
+                }
+
+                loading.style.display = 'flex';
+                document.getElementById('search-btn').disabled = true;
+                errorMessage.style.display = 'none';
+
+                try {
+                    const { data, error } = await supabase
+                        .from('pqrs')
+                        .select('*')
+                        .eq('numero_pqr', numeroPQR)
+                        .single();
+
+                    if (error) throw error;
+
+                    if (data) {
+                        showPQRResult(data);
+                    } else {
+                        document.getElementById('error-text').textContent = 'No se encontró ningún PQR con ese número.';
+                        errorMessage.style.display = 'block';
+                        errorMessage.scrollIntoView({ behavior: 'smooth' });
+                    }
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    document.getElementById('error-text').textContent = 
+                        error.code === 'PGRST116' ? 
+                        'No se encontró ningún PQR con ese número.' : 
+                        'Error al buscar el PQR. Intenta nuevamente.';
+                    errorMessage.style.display = 'block';
+                    errorMessage.scrollIntoView({ behavior: 'smooth' });
+                } finally {
+                    loading.style.display = 'none';
+                    document.getElementById('search-btn').disabled = false;
+                }
+            });
+
+            // Auto-formatear el número de PQR
+            document.getElementById('numero_pqr').addEventListener('input', function(e) {
+                let value = e.target.value.toUpperCase();
+                // Remover caracteres no válidos
+                value = value.replace(/[^A-Z0-9-]/g, '');
+                e.target.value = value;
+            });
+
+            // Inicializar Feather Icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        });
+    </script>
+
+</body>
+</html>
+

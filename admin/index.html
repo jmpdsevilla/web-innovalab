@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Innovalab</title>
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -75,6 +80,26 @@
             background: #00A7EB; 
             color: white; 
             box-shadow: inset 0 -3px 0 rgba(255,255,255,0.3);
+        }
+        
+        /* Estilos para iconos */
+        .tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab i {
+            width: 16px;
+            height: 16px;
+        }
+        
+        h3 i, h4 i {
+            margin-right: 8px;
+        }
+        
+        button i {
+            margin-right: 6px;
         }
         .tab:hover:not(.active) { 
             background: #e9ecef; 
@@ -192,6 +217,25 @@
         .priority-normal { background: #e3f2fd; color: #1565c0; }
         .priority-alta { background: #fff3e0; color: #ef6c00; }
         .priority-urgente { background: #ffebee; color: #c62828; }
+        
+        /* PQR Status Badges */
+        .status-en_revision { background: #fff3e0; color: #f57c00; }
+        .status-respondido { background: #e8f5e8; color: #388e3c; }
+        .status-cerrado { background: #f3e5f5; color: #7b1fa2; }
+        
+        /* PQR Type Badges */
+        .tipo-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .tipo-peticion { background: #e3f2fd; color: #1976d2; }
+        .tipo-queja { background: #fff3e0; color: #f57c00; }
+        .tipo-reclamo { background: #ffebee; color: #d32f2f; }
+        .tipo-sugerencia { background: #f3e5f5; color: #7b1fa2; }
         
         .stats-grid {
             display: grid;
@@ -500,10 +544,11 @@
 
         <!-- TABS -->
         <div class="tabs">
-            <button class="tab active" onclick="cambiarTab('trucoteca')">📚 Trucoteca</button>
-            <button class="tab" onclick="cambiarTab('reparaciones')">🔧 Reparaciones</button>
-            <button class="tab" onclick="cambiarTab('newsletter')">📧 Newsletter</button>
-            <button class="tab" onclick="cambiarTab('diagnostico')">🔍 Diagnóstico</button>
+            <button class="tab active" onclick="cambiarTab('trucoteca')"><i data-feather="book"></i> Trucoteca</button>
+            <button class="tab" onclick="cambiarTab('reparaciones')"><i data-feather="tool"></i> Reparaciones</button>
+            <button class="tab" onclick="cambiarTab('pqr')"><i data-feather="message-circle"></i> PQR</button>
+            <button class="tab" onclick="cambiarTab('newsletter')"><i data-feather="mail"></i> Newsletter</button>
+            <button class="tab" onclick="cambiarTab('diagnostico')"><i data-feather="activity"></i> Diagnóstico</button>
         </div>
 
         <!-- TAB TRUCOTECA -->
@@ -725,17 +770,113 @@
             </div>
         </div>
 
+        <!-- TAB PQR -->
+        <div id="tab-pqr" class="tab-content">
+            <!-- Estadísticas PQR -->
+            <div class="stats-grid" id="stats-pqr">
+                <!-- Se llenan dinámicamente -->
+            </div>
+
+            <div class="form-section">
+                <h3 id="form-title-pqr">Responder PQR</h3>
+                <form id="pqr-form" style="display: none;">
+                    <input type="hidden" id="edit-id-pqr">
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Número PQR:</label>
+                            <input type="text" id="numero_pqr_display" readonly style="background: #f8f9fa;">
+                        </div>
+                        <div class="form-col">
+                            <label>Tipo:</label>
+                            <input type="text" id="tipo_display" readonly style="background: #f8f9fa;">
+                        </div>
+                        <div class="form-col">
+                            <label>Estado:</label>
+                            <select id="estado_pqr" required>
+                                <option value="recibido">Recibido</option>
+                                <option value="en_revision">En Revisión</option>
+                                <option value="respondido">Respondido</option>
+                                <option value="cerrado">Cerrado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Cliente:</label>
+                            <input type="text" id="cliente_nombre_display" readonly style="background: #f8f9fa;">
+                        </div>
+                        <div class="form-col">
+                            <label>Email:</label>
+                            <input type="text" id="cliente_email_display" readonly style="background: #f8f9fa;">
+                        </div>
+                        <div class="form-col">
+                            <label>Prioridad:</label>
+                            <select id="prioridad_pqr" required>
+                                <option value="baja">Baja</option>
+                                <option value="normal">Normal</option>
+                                <option value="alta">Alta</option>
+                                <option value="urgente">Urgente</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <label>Asunto:</label>
+                    <input type="text" id="asunto_display" readonly style="background: #f8f9fa;">
+                    
+                    <label>Descripción del Cliente:</label>
+                    <textarea id="descripcion_display" rows="3" readonly style="background: #f8f9fa;"></textarea>
+                    
+                    <label>Respuesta Oficial:</label>
+                    <textarea id="respuesta_pqr" rows="4" placeholder="Escribe aquí la respuesta oficial al cliente..."></textarea>
+                    
+                    <label>Responsable de la Respuesta:</label>
+                    <input type="text" id="respuesta_por" placeholder="Nombre del responsable" value="Gerencia - Innovalab">
+                    
+                    <button type="submit" class="btn-success">Guardar Respuesta</button>
+                    <button type="button" onclick="cancelarEdicionPQR()">Cancelar</button>
+                </form>
+                <div id="form-message-pqr" class="message"></div>
+            </div>
+
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>PQRs Registrados</h3>
+                    <div class="search-box">
+                        <input type="text" id="search-pqr" placeholder="Buscar por número, cliente, email..." onkeyup="filtrarPQRs()">
+                    </div>
+                </div>
+                <div id="loading-pqr" class="loading">Cargando...</div>
+                <table id="pqr-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Número</th>
+                            <th>Tipo</th>
+                            <th>Cliente</th>
+                            <th>Asunto</th>
+                            <th>Estado</th>
+                            <th>Prioridad</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pqr-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- TAB NEWSLETTER -->
         <div id="tab-newsletter" class="tab-content">
             <div class="form-section">
-                <h3>📧 Gestión de Suscripciones del Newsletter</h3>
+                <h3><i data-feather="mail"></i> Gestión de Suscripciones del Newsletter</h3>
                 <p>Administra las suscripciones al boletín de noticias.</p>
                 
                 <div class="stats-grid" id="stats-newsletter">
                     <!-- Se llenan dinámicamente -->
                 </div>
                 
-                <button onclick="crearTablaNewsletter()" class="btn-success">🔧 Verificar Sistema</button>
+                <button onclick="crearTablaNewsletter()" class="btn-success"><i data-feather="settings"></i> Verificar Sistema</button>
                 <button onclick="cargarSuscripciones()" class="btn-info">🔄 Recargar Datos</button>
                 <button onclick="exportarSuscripciones()" class="btn-warning">📥 Exportar CSV</button>
             </div>
@@ -766,7 +907,7 @@
         <!-- TAB DIAGNÓSTICO -->
         <div id="tab-diagnostico" class="tab-content">
             <div class="form-section">
-                <h3>🔍 Herramientas de Diagnóstico del Sistema</h3>
+                <h3><i data-feather="activity"></i> Herramientas de Diagnóstico del Sistema</h3>
                 <p>Utiliza estas herramientas para diagnosticar problemas en el hosting y verificar el estado del sistema.</p>
                 
                 <div class="diagnostic-grid">
@@ -785,14 +926,14 @@
                     </div>
                     
                     <div class="diagnostic-card">
-                        <h4>📊 Test Datos Trucoteca</h4>
+                        <h4><i data-feather="bar-chart-2"></i> Test Datos Trucoteca</h4>
                         <p>Verifica el acceso a los datos de trucoteca</p>
                         <button class="btn-warning" onclick="testTrucoteca()">Test Trucoteca</button>
                         <div id="trucoteca-result" class="diagnostic-result"></div>
                     </div>
                     
                     <div class="diagnostic-card">
-                        <h4>🔧 Test Reparaciones</h4>
+                        <h4><i data-feather="tool"></i> Test Reparaciones</h4>
                         <p>Verifica el sistema de reparaciones</p>
                         <button class="btn-info" onclick="testReparaciones()">Test Reparaciones</button>
                         <div id="reparaciones-result" class="diagnostic-result"></div>
@@ -814,12 +955,12 @@
                 </div>
                 
                 <div class="info-section">
-                    <h4>🔧 Configuración Actual</h4>
+                    <h4><i data-feather="settings"></i> Configuración Actual</h4>
                     <div id="config-info" class="config-display"></div>
                 </div>
                 
                 <div class="summary-section">
-                    <h4>📊 Resumen de Diagnóstico</h4>
+                    <h4><i data-feather="bar-chart-2"></i> Resumen de Diagnóstico</h4>
                     <div id="diagnostic-summary"></div>
                 </div>
             </div>
@@ -880,6 +1021,8 @@
                 cargarReparaciones();
             } else if (tab === 'trucoteca') {
                 cargarConsejos();
+            } else if (tab === 'pqr') {
+                cargarPQRs();
             } else if (tab === 'newsletter') {
                 cargarSuscripciones();
             }
@@ -1486,6 +1629,272 @@ NOTAS: ${data.notas_internas || 'Ninguna'}
             }, 5000);
         }
 
+        // ==================== PQR ====================
+
+        let editandoIdPQR = null;
+        let pqrsData = [];
+
+        // CARGAR PQRs
+        async function cargarPQRs() {
+            const loading = document.getElementById('loading-pqr');
+            const table = document.getElementById('pqr-table');
+            
+            loading.style.display = 'block';
+            table.style.display = 'none';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('pqrs')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                pqrsData = data;
+                mostrarPQRs(data);
+                mostrarEstadisticasPQR(data);
+                
+            } catch (error) {
+                mostrarMensajePQR('Error cargando PQRs: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        // MOSTRAR PQRs
+        function mostrarPQRs(pqrs) {
+            const tbody = document.getElementById('pqr-tbody');
+            const table = document.getElementById('pqr-table');
+            const loading = document.getElementById('loading-pqr');
+            
+            loading.style.display = 'none';
+            table.style.display = 'table';
+            
+            tbody.innerHTML = '';
+            
+            if (pqrs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #666;">No hay PQRs registrados</td></tr>';
+                return;
+            }
+            
+            pqrs.forEach(pqr => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${pqr.numero_pqr}</strong></td>
+                    <td><span class="tipo-badge tipo-${pqr.tipo}">${pqr.tipo}</span></td>
+                    <td>${pqr.cliente_nombre}<br><small>${pqr.cliente_email}</small></td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${pqr.asunto}">${pqr.asunto}</td>
+                    <td><span class="status-badge status-${pqr.estado}">${pqr.estado.replace('_', ' ')}</span></td>
+                    <td><span class="priority-badge priority-${pqr.prioridad}">${pqr.prioridad}</span></td>
+                    <td>${new Date(pqr.created_at).toLocaleDateString('es-ES')}</td>
+                    <td class="actions-cell">
+                        <button class="btn-info" onclick="verDetallesPQR(${pqr.id})">Ver</button>
+                        <button class="btn-warning" onclick="editarPQR(${pqr.id})">Responder</button>
+                        <button class="btn-danger" onclick="eliminarPQR(${pqr.id})">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // MOSTRAR ESTADÍSTICAS PQR
+        function mostrarEstadisticasPQR(pqrs) {
+            const statsContainer = document.getElementById('stats-pqr');
+            
+            const total = pqrs.length;
+            const recibidos = pqrs.filter(p => p.estado === 'recibido').length;
+            const enRevision = pqrs.filter(p => p.estado === 'en_revision').length;
+            const respondidos = pqrs.filter(p => p.estado === 'respondido').length;
+            const cerrados = pqrs.filter(p => p.estado === 'cerrado').length;
+            const urgentes = pqrs.filter(p => p.prioridad === 'urgente').length;
+            
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${total}</div>
+                    <div class="stat-label">Total PQRs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${recibidos}</div>
+                    <div class="stat-label">Recibidos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${enRevision}</div>
+                    <div class="stat-label">En Revisión</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${respondidos}</div>
+                    <div class="stat-label">Respondidos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${cerrados}</div>
+                    <div class="stat-label">Cerrados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${urgentes}</div>
+                    <div class="stat-label">Urgentes</div>
+                </div>
+            `;
+        }
+
+        // VER DETALLES PQR
+        function verDetallesPQR(id) {
+            const pqr = pqrsData.find(p => p.id === id);
+            if (!pqr) return;
+            
+            let respuestaInfo = '';
+            if (pqr.respuesta) {
+                respuestaInfo = `
+                    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+                        <h4>Respuesta Oficial:</h4>
+                        <p>${pqr.respuesta}</p>
+                        <small><strong>Respondido por:</strong> ${pqr.respuesta_por || 'No especificado'}</small><br>
+                        <small><strong>Fecha:</strong> ${pqr.respuesta_fecha ? new Date(pqr.respuesta_fecha).toLocaleString('es-ES') : 'No especificada'}</small>
+                    </div>
+                `;
+            }
+            
+            const detalles = `
+                <div style="max-width: 600px;">
+                    <h3>Detalles del PQR: ${pqr.numero_pqr}</h3>
+                    <div style="margin: 15px 0;">
+                        <strong>Tipo:</strong> <span class="tipo-badge tipo-${pqr.tipo}">${pqr.tipo}</span><br><br>
+                        <strong>Estado:</strong> <span class="status-badge status-${pqr.estado}">${pqr.estado.replace('_', ' ')}</span><br><br>
+                        <strong>Prioridad:</strong> <span class="priority-badge priority-${pqr.prioridad}">${pqr.prioridad}</span><br><br>
+                        <strong>Cliente:</strong> ${pqr.cliente_nombre}<br>
+                        <strong>Email:</strong> ${pqr.cliente_email}<br>
+                        <strong>Teléfono:</strong> ${pqr.cliente_telefono || 'No proporcionado'}<br>
+                        <strong>Documento:</strong> ${pqr.cliente_documento || 'No proporcionado'}<br><br>
+                        <strong>Asunto:</strong> ${pqr.asunto}<br><br>
+                        <strong>Descripción:</strong><br>
+                        <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 5px 0;">
+                            ${pqr.descripcion}
+                        </div>
+                        <strong>Fecha de creación:</strong> ${new Date(pqr.created_at).toLocaleString('es-ES')}
+                    </div>
+                    ${respuestaInfo}
+                </div>
+            `;
+            
+            alert(detalles.replace(/<[^>]*>/g, '\n').replace(/&nbsp;/g, ' '));
+        }
+
+        // EDITAR PQR
+        function editarPQR(id) {
+            const pqr = pqrsData.find(p => p.id === id);
+            if (!pqr) return;
+            
+            editandoIdPQR = id;
+            
+            // Llenar formulario
+            document.getElementById('edit-id-pqr').value = id;
+            document.getElementById('numero_pqr_display').value = pqr.numero_pqr;
+            document.getElementById('tipo_display').value = pqr.tipo;
+            document.getElementById('cliente_nombre_display').value = pqr.cliente_nombre;
+            document.getElementById('cliente_email_display').value = pqr.cliente_email;
+            document.getElementById('asunto_display').value = pqr.asunto;
+            document.getElementById('descripcion_display').value = pqr.descripcion;
+            document.getElementById('estado_pqr').value = pqr.estado;
+            document.getElementById('prioridad_pqr').value = pqr.prioridad;
+            document.getElementById('respuesta_pqr').value = pqr.respuesta || '';
+            document.getElementById('respuesta_por').value = pqr.respuesta_por || 'Gerencia - Innovalab';
+            
+            // Mostrar formulario
+            document.getElementById('form-title-pqr').textContent = `Responder PQR: ${pqr.numero_pqr}`;
+            document.getElementById('pqr-form').style.display = 'block';
+            
+            // Scroll al formulario
+            document.getElementById('form-title-pqr').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // CANCELAR EDICIÓN PQR
+        function cancelarEdicionPQR() {
+            editandoIdPQR = null;
+            document.getElementById('pqr-form').reset();
+            document.getElementById('pqr-form').style.display = 'none';
+            document.getElementById('form-title-pqr').textContent = 'Responder PQR';
+            document.getElementById('form-message-pqr').style.display = 'none';
+        }
+
+        // GUARDAR RESPUESTA PQR
+        document.getElementById('pqr-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!editandoIdPQR) return;
+            
+            try {
+                const updateData = {
+                    estado: document.getElementById('estado_pqr').value,
+                    prioridad: document.getElementById('prioridad_pqr').value,
+                    respuesta: document.getElementById('respuesta_pqr').value,
+                    respuesta_por: document.getElementById('respuesta_por').value,
+                    respuesta_fecha: new Date().toISOString()
+                };
+                
+                const { error } = await supabase
+                    .from('pqrs')
+                    .update(updateData)
+                    .eq('id', editandoIdPQR);
+                
+                if (error) throw error;
+                
+                mostrarMensajePQR('Respuesta guardada exitosamente', 'success');
+                cancelarEdicionPQR();
+                cargarPQRs();
+                
+            } catch (error) {
+                mostrarMensajePQR('Error guardando respuesta: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        });
+
+        // ELIMINAR PQR
+        async function eliminarPQR(id) {
+            const pqr = pqrsData.find(p => p.id === id);
+            if (!pqr) return;
+            
+            if (!confirm(`¿Estás seguro de eliminar el PQR ${pqr.numero_pqr}?`)) return;
+            
+            try {
+                const { error } = await supabase
+                    .from('pqrs')
+                    .delete()
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                mostrarMensajePQR('PQR eliminado exitosamente', 'success');
+                cargarPQRs();
+                
+            } catch (error) {
+                mostrarMensajePQR('Error eliminando PQR: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        // FILTRAR PQRs
+        function filtrarPQRs() {
+            const filtro = document.getElementById('search-pqr').value.toLowerCase();
+            const pqrsFiltrados = pqrsData.filter(pqr => 
+                pqr.numero_pqr.toLowerCase().includes(filtro) ||
+                pqr.cliente_nombre.toLowerCase().includes(filtro) ||
+                pqr.cliente_email.toLowerCase().includes(filtro) ||
+                pqr.asunto.toLowerCase().includes(filtro) ||
+                pqr.tipo.toLowerCase().includes(filtro)
+            );
+            mostrarPQRs(pqrsFiltrados);
+        }
+
+        // MOSTRAR MENSAJE PQR
+        function mostrarMensajePQR(texto, tipo) {
+            const mensaje = document.getElementById('form-message-pqr');
+            mensaje.className = `message ${tipo}`;
+            mensaje.textContent = texto;
+            mensaje.style.display = 'block';
+            
+            setTimeout(() => {
+                mensaje.style.display = 'none';
+            }, 5000);
+        }
+
         // ==================== NEWSLETTER ====================
 
         // CREAR TABLA NEWSLETTER
@@ -1758,6 +2167,8 @@ Entorno actual:
             const archivos = [
                 { path: '../trucoteca.html', name: 'trucoteca.html' },
                 { path: '../rastreo-reparaciones.html', name: 'rastreo-reparaciones.html' },
+                { path: '../pqr.html', name: 'pqr.html' },
+                { path: '../seguimiento-pqr.html', name: 'seguimiento-pqr.html' },
                 { path: 'index.html', name: 'admin/index.html' },
                 { path: '../assets/js/supabase-config.js', name: 'assets/js/supabase-config.js' },
                 { path: '../index.html', name: 'index.html' },
@@ -1800,7 +2211,7 @@ Entorno actual:
                         <strong>${r.archivo}</strong>
                         ${r.size !== 'N/A' ? `<br><small style="color: #6c757d;">Tamaño: ${r.size} bytes</small>` : ''}
                     </div>
-                    <span class="test-status ${r.status}">${r.status === 'ok' ? '✅' : '❌'} ${r.mensaje}</span>
+                    <span class="test-status ${r.status}">${r.status === 'ok' ? '<i data-feather="check"></i>' : '<i data-feather="x"></i>'} ${r.mensaje}</span>
                 </div>`;
             });
             
@@ -1824,7 +2235,7 @@ Entorno actual:
 
                 result.innerHTML = `<div class="test-item">
                     <span>Conexión Supabase</span>
-                    <span class="test-status ok">✅ Conectado</span>
+                    <span class="test-status ok"><i data-feather="check"></i> Conectado</span>
                 </div>
                 <div class="test-item">
                     <span>URL</span>
@@ -1982,7 +2393,7 @@ Entorno actual:
             <div class="test-item">
                 <span>Supabase Disponible</span>
                 <span class="test-status ${typeof window.supabase !== 'undefined' ? 'ok' : 'error'}">
-                    ${typeof window.supabase !== 'undefined' ? '✅ Sí' : '❌ No'}
+                    ${typeof window.supabase !== 'undefined' ? '<i data-feather="check"></i> Sí' : '<i data-feather="x"></i> No'}
                 </span>
             </div>`;
             
@@ -2014,7 +2425,7 @@ Entorno actual:
             if (total === 0) {
                 summary.innerHTML = `
                     <div style="text-align: center; padding: 20px;">
-                        <div style="font-size: 48px; margin-bottom: 15px;">🔍</div>
+                        <div style="font-size: 48px; margin-bottom: 15px;"><i data-feather="search" style="width: 48px; height: 48px;"></i></div>
                         <h5 style="margin: 0 0 10px 0; color: white;">Sistema Listo para Diagnóstico</h5>
                         <p style="margin: 0; opacity: 0.9; font-size: 14px;">Ejecuta los tests para obtener un análisis completo del estado del sistema</p>
                     </div>
@@ -2025,16 +2436,16 @@ Entorno actual:
             const porcentaje = Math.round((exitosos / total) * 100);
             let color = '#28a745'; // Verde
             let estado = 'Excelente';
-            let icono = '✅';
+            let icono = '<i data-feather="check"></i>';
 
             if (porcentaje < 50) {
                 color = '#dc3545'; // Rojo
                 estado = 'Crítico';
-                icono = '❌';
+                icono = '<i data-feather="x"></i>';
             } else if (porcentaje < 80) {
                 color = '#ffc107'; // Amarillo
                 estado = 'Advertencia';
-                icono = '⚠️';
+                icono = '<i data-feather="alert-triangle"></i>';
             }
 
             summary.innerHTML = `
@@ -2074,7 +2485,7 @@ Entorno actual:
                 ${errores > 0 ? `
                 <div style="margin-top: 20px; padding: 15px; background: rgba(220, 53, 69, 0.2); border-radius: 8px; border: 1px solid rgba(220, 53, 69, 0.3);">
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                        <span style="font-size: 16px;">⚠️</span>
+                        <span style="font-size: 16px;"><i data-feather="alert-triangle"></i></span>
                         <strong style="color: white;">Atención Requerida</strong>
                     </div>
                     <p style="margin: 0; font-size: 13px; opacity: 0.9;">Se detectaron ${errores} problema${errores > 1 ? 's' : ''} que requiere${errores > 1 ? 'n' : ''} atención. Revisa los tests con errores para más detalles.</p>
@@ -2082,6 +2493,24 @@ Entorno actual:
                 ` : ''}
             `;
         }
+    </script>
+
+    <script>
+        // Inicializar Feather Icons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Esperar un poco para asegurar que todo esté cargado
+            setTimeout(() => {
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                    
+                    // Re-inicializar después de cambios dinámicos
+                    const observer = new MutationObserver(() => {
+                        feather.replace();
+                    });
+                    observer.observe(document.body, { childList: true, subtree: true });
+                }
+            }, 100);
+        });
     </script>
 
     <!-- WhatsApp Floating Button -->

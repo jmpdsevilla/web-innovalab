@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PQR - Página de Prueba</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .success {
+            color: #27ae60;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #00A7EB;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="success">✅ ¡La página PQR funciona!</h1>
+        <p>Si puedes ver esta página, significa que el enlace PQR está funcionando correctamente.</p>
+        <p><strong>Hora de prueba:</strong> <span id="time"></span></p>
+        
+        <a href="index.html" class="btn">← Volver al Inicio</a>
+        <a href="pqr.html" class="btn">Ir a PQR Real →</a>
+        
+        <hr style="margin: 30px 0;">
+        
+        <h3>Enlaces de navegación para probar:</h3>
+        <div>
+            <a href="index.html" class="btn">Inicio</a>
+            <a href="acerca-de.html" class="btn">Acerca de</a>
+            <a href="servicios.html" class="btn">Servicios</a>
+            <a href="trucoteca.html" class="btn">Trucoteca</a>
+            <a href="pqr.html" class="btn">PQR</a>
+            <a href="contacto.html" class="btn">Contacto</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString('es-ES');
+    </script>
+</body>
+</html> 
