@@ -61,10 +61,94 @@
     <link rel="stylesheet" href="assets/css/responsive.css" />
     <link rel="stylesheet" href="assets/css/custom-logo.css" />
     
-    <style>
-
+        <style>
+        /* Estilos para destacar el enlace del rastreador en el menú móvil */
+        .mobile-nav__container .main-menu__list .mobile-tracking-link {
+            background: linear-gradient(135deg, #00A7EB 0%, #0056b3 100%);
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0, 167, 235, 0.3);
+            animation: pulse-glow 2s infinite;
+        }
         
-        /* Estilos específicos para PQR */
+        .mobile-nav__container .main-menu__list .mobile-tracking-link > a {
+            color: white !important;
+            font-weight: 600;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-nav__container .main-menu__list .mobile-tracking-link > a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .mobile-nav__container .main-menu__list .mobile-tracking-link .tracking-icon {
+            font-size: 18px;
+            color: #FFD700;
+        }
+        
+        .mobile-nav__container .main-menu__list .mobile-tracking-link .tracking-text {
+            flex: 1;
+        }
+        
+        .mobile-nav__container .main-menu__list .mobile-tracking-link .tracking-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(0, 167, 235, 0.3);
+            }
+            50% {
+                box-shadow: 0 6px 25px rgba(0, 167, 235, 0.5);
+            }
+        }
+        
+        /* Separador visual en el menú móvil */
+        .mobile-nav__container .main-menu__list .menu-separator {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            margin: 10px 0;
+        }
+        
+        /* Ocultar el enlace del rastreador en el menú de escritorio */
+        .main-menu__main-menu-box .main-menu__list .mobile-tracking-link,
+        .main-menu__main-menu-box .main-menu__list .menu-separator {
+            display: none !important;
+        }
+        
+        /* Solo mostrar en el menú móvil */
+        .mobile-nav__container .main-menu__list .mobile-tracking-link,
+        .mobile-nav__container .main-menu__list .menu-separator {
+            display: block !important;
+        }
+
+        /* Asegurar que los iconos de Feather se muestren correctamente */
+        .main-menu__list a[data-feather],
+        .main-menu__list a i[data-feather] {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-menu__list a svg {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+        }
+          
+          /* Estilos específicos para PQR */
         .page-header-pqr {
             background: linear-gradient(135deg, #0B2F5A 0%, #1E5A96 100%);
             padding: 120px 0 60px;
@@ -358,6 +442,17 @@
                                 </li>
                                 <li>
                                     <a href="contacto.html"><i data-feather="phone"></i> Contacto</a>
+                                </li>
+                                <!-- Separador visual -->
+                                <li class="menu-separator"></li>
+                                <!-- Enlace destacado del rastreador -->
+                                <li class="mobile-tracking-link">
+                                    <a href="rastreo-reparaciones.html">
+                                        <i class="fas fa-search tracking-icon"></i>
+                                        <div class="tracking-text">
+                                            <div>Rastrear Reparación</div>
+                                        </div>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
