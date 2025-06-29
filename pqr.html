@@ -62,6 +62,60 @@
     <link rel="stylesheet" href="assets/css/custom-logo.css" />
     
     <style>
+        /* Fix para menú móvil */
+        .mobile-nav__wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 99999;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-nav__wrapper.expanded {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .mobile-nav__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .mobile-nav__content {
+            position: absolute;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background: #fff;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            z-index: 1;
+        }
+        
+        .mobile-nav__wrapper.expanded .mobile-nav__content {
+            left: 0;
+        }
+        
+        .mobile-nav__toggler {
+            cursor: pointer;
+            outline: none;
+            border: none;
+            background: transparent;
+        }
+        
+        body.locked-scroll {
+            overflow: hidden;
+        }
+        
         /* Estilos específicos para PQR */
         .page-header-pqr {
             background: linear-gradient(135deg, #0B2F5A 0%, #1E5A96 100%);
@@ -678,8 +732,20 @@
     <script src="assets/js/owl.carousel.min.js"></script>
     <script src="assets/js/jquery-ui.js"></script>
     <script src="assets/js/jquery.nice-select.min.js"></script>
+    <script src="assets/js/marquee.min.js"></script>
+    <script src="assets/js/jquery.circleType.js"></script>
+    <script src="assets/js/jquery.fittext.js"></script>
+    <script src="assets/js/jquery.lettering.min.js"></script>
+    <script src="assets/js/jquery-sidebar-content.js"></script>
+    <script src="assets/js/aos.js"></script>
+
+    <!-- template js -->
     <script src="assets/js/script.js"></script>
+    
+    <!-- Feather Icons Configuration -->
     <script src="assets/js/feather-config.js"></script>
+    
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
@@ -947,6 +1013,41 @@
             if (typeof feather !== 'undefined') {
                 feather.replace();
             }
+            
+            // Forzar inicialización del menú móvil
+            setTimeout(() => {
+                // Reinicializar eventos del menú móvil si existen
+                const mobileNavToggler = document.querySelector('.mobile-nav__toggler');
+                const mobileNavWrapper = document.querySelector('.mobile-nav__wrapper');
+                
+                if (mobileNavToggler && mobileNavWrapper) {
+                    console.log('Inicializando menú móvil...');
+                    
+                    // Remover eventos existentes y agregar nuevos
+                    mobileNavToggler.removeEventListener('click', handleMobileNavToggle);
+                    mobileNavToggler.addEventListener('click', handleMobileNavToggle);
+                    
+                    // Función para manejar el toggle del menú
+                    function handleMobileNavToggle(e) {
+                        e.preventDefault();
+                        console.log('Toggle menú móvil');
+                        
+                        if (mobileNavWrapper.classList.contains('expanded')) {
+                            mobileNavWrapper.classList.remove('expanded');
+                            document.body.classList.remove('locked-scroll');
+                        } else {
+                            mobileNavWrapper.classList.add('expanded');
+                            document.body.classList.add('locked-scroll');
+                        }
+                    }
+                    
+                    // Agregar eventos a todos los togglers
+                    document.querySelectorAll('.mobile-nav__toggler').forEach(toggler => {
+                        toggler.removeEventListener('click', handleMobileNavToggle);
+                        toggler.addEventListener('click', handleMobileNavToggle);
+                    });
+                }
+            }, 500);
         });
     </script>
 
