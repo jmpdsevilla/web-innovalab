@@ -352,18 +352,21 @@
         /* Estilos para iconos Feather */
         .main-menu__list a,
         .footer-widget__link a {
-            display: inline-flex;
+            display: inline-flex !important;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+        }
+
+        .main-menu__list a svg {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
         }
         
-        .main-menu__list a i[data-feather],
-        .main-menu__list a svg,
         .footer-widget__link a i[data-feather],
         .footer-widget__link a svg {
-            width: 16px;
-            height: 16px;
-            margin-right: 0;
+            width: 14px;
+            height: 14px;
         }
 
         .footer-widget__link a i[data-feather],
