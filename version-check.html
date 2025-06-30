@@ -44,9 +44,9 @@
         
         <div class="version-info success">
             <h3>✅ Información de Versión</h3>
-            <p><strong>Commit Hash:</strong> 74c3772</p>
-            <p><strong>Fecha de Deploy:</strong> 16 Junio 2025</p>
-            <p><strong>Versión:</strong> 1.0.0 - Sistema Completo</p>
+            <p><strong>Commit Hash:</strong> 0fd16f8</p>
+            <p><strong>Fecha de Deploy:</strong> 30 de junio de 2025</p>
+            <p><strong>Versión:</strong> 2.1.0 - Menús Móviles Unificados</p>
             <p><strong>Última Actualización:</strong> <span id="timestamp"></span></p>
         </div>
 
@@ -54,13 +54,16 @@
             <h3>📁 Archivos Críticos que DEBEN Existir</h3>
             <div class="file-list">
                 ✅ version-check.html (este archivo)<br>
+                ✅ assets/css/menu-unificado.css (NUEVO - Estilos unificados)<br>
                 ✅ diagnostico-hosting.html<br>
                 ✅ SOLUCION-PROBLEMAS-HOSTING.md<br>
-                ✅ trucoteca.html (578 líneas)<br>
-                ✅ rastreo-reparaciones.html (946 líneas)<br>
+                ✅ trucoteca.html<br>
+                ✅ rastreo-reparaciones.html<br>
+                ✅ pqr.html (con modal mejorado)<br>
+                ✅ seguimiento-pqr.html (menú móvil corregido)<br>
+                ✅ admin/index.html (botón Ver corregido)<br>
                 ✅ assets/js/supabase-config.js<br>
-                ✅ CONFIGURACION-FINAL.md<br>
-                ✅ test-sistema.html
+                ✅ CONFIGURACION-FINAL.md
             </div>
         </div>
 
@@ -68,8 +71,10 @@
             <h3>⚠️ Si ves esta página, significa:</h3>
             <ul>
                 <li>✅ Hostinger SÍ está sincronizando con GitHub</li>
-                <li>✅ El último commit (74c3772) está desplegado</li>
-                <li>✅ Los archivos de diagnóstico DEBEN estar disponibles</li>
+                <li>✅ El último commit (0fd16f8) está desplegado</li>
+                <li>✅ Menús móviles unificados funcionando</li>
+                <li>✅ Modal de PQR en administración corregido</li>
+                <li>✅ Archivo CSS unificado disponible</li>
             </ul>
         </div>
 
@@ -119,9 +124,18 @@ Storage: trucoteca-images bucket
         // Test rápido de archivos
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🔍 Verificación de Versión Cargada');
-            console.log('Commit: 74c3772');
-            console.log('Fecha: 16 Junio 2025');
+            console.log('Commit: 0fd16f8');
+            console.log('Fecha: 30 de junio de 2025');
+            console.log('Versión: 2.1.0 - Menús Móviles Unificados');
             console.log('Si ves este mensaje, la versión más reciente está desplegada');
+            
+            // Test específico del archivo CSS unificado
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'assets/css/menu-unificado.css';
+            link.onload = () => console.log('✅ Archivo CSS unificado cargado correctamente');
+            link.onerror = () => console.error('❌ Error: Archivo CSS unificado NO encontrado');
+            document.head.appendChild(link);
         });
     </script>
 
