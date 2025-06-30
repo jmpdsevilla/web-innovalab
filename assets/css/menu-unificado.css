@@ -1,0 +1,177 @@
+/* ================================================
+   ESTILOS UNIFICADOS PARA MENÚ MÓVIL - INNOVALAB
+   Aplicar en TODAS las páginas del sitio web
+   ================================================ */
+
+/* ESTILOS BASE PARA NAVEGACIÓN */
+.main-menu__list a {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.main-menu__list a i,
+.main-menu__list a svg {
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 0 !important;
+    flex-shrink: 0 !important;
+    vertical-align: middle;
+}
+
+.main-menu__list a i[data-feather],
+.main-menu__list a svg[data-feather] {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+/* ESTILOS PARA MENÚ MÓVIL */
+.mobile-nav__container .main-menu__list a {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.mobile-nav__container .main-menu__list a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.mobile-nav__container .main-menu__list a i,
+.mobile-nav__container .main-menu__list a svg {
+    width: 18px !important;
+    height: 18px !important;
+    color: #00A7EB;
+    flex-shrink: 0;
+}
+
+/* SEPARADOR VISUAL EN MENÚ MÓVIL */
+.mobile-nav__container .main-menu__list .menu-separator {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    margin: 10px 0;
+    display: block !important;
+}
+
+/* ENLACE DESTACADO RASTREAR REPARACIÓN */
+.mobile-nav__container .main-menu__list .mobile-tracking-link {
+    background: linear-gradient(135deg, #00A7EB 0%, #0056b3 100%);
+    border-radius: 8px;
+    margin: 15px 0;
+    box-shadow: 0 4px 15px rgba(0, 167, 235, 0.3);
+    animation: pulse-glow 2s infinite;
+    display: block !important;
+}
+
+.mobile-nav__container .main-menu__list .mobile-tracking-link > a {
+    color: white !important;
+    font-weight: 600;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border-bottom: none;
+}
+
+.mobile-nav__container .main-menu__list .mobile-tracking-link > a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.mobile-nav__container .main-menu__list .mobile-tracking-link .tracking-icon {
+    font-size: 18px;
+    color: #FFD700;
+}
+
+.mobile-nav__container .main-menu__list .mobile-tracking-link .tracking-text {
+    flex: 1;
+}
+
+.mobile-nav__container .main-menu__list .mobile-tracking-link .tracking-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ANIMACIÓN PARA ENLACE DESTACADO */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(0, 167, 235, 0.3);
+    }
+    50% {
+        box-shadow: 0 6px 25px rgba(0, 167, 235, 0.5);
+    }
+}
+
+/* OCULTAR ELEMENTOS ESPECIALES EN MENÚ DESKTOP */
+.main-menu__main-menu-box .main-menu__list .mobile-tracking-link,
+.main-menu__main-menu-box .main-menu__list .menu-separator {
+    display: none !important;
+}
+
+/* ESTILOS PARA FOOTER */
+.footer-widget__links a,
+.footer-widget__link a {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.footer-widget__links a i,
+.footer-widget__links a svg,
+.footer-widget__link a i,
+.footer-widget__link a svg {
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+/* ESTILOS ESPECÍFICOS PARA ICONOS FEATHER */
+svg[data-feather] {
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+/* RESPONSIVE - ASEGURAR FUNCIONAMIENTO EN MÓVILES */
+@media (max-width: 991px) {
+    .main-menu__list a {
+        gap: 8px !important;
+    }
+    
+    .main-menu__list a i,
+    .main-menu__list a svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
+
+/* OVERRIDE PARA ASEGURAR ESPECIFICIDAD */
+body .main-menu__list a {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+body .main-menu__list a i,
+body .main-menu__list a svg {
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 0 !important;
+} 
