@@ -202,23 +202,25 @@
         .main-menu__list a {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
         
-        .main-menu__list a i {
-            width: 14px;
-            height: 14px;
+        .main-menu__list a i,
+        .main-menu__list a svg {
+            width: 18px !important;
+            height: 18px !important;
         }
         
         .footer-widget__links a {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
         
-        .footer-widget__links a i {
-            width: 14px;
-            height: 14px;
+        .footer-widget__links a i,
+        .footer-widget__links a svg {
+            width: 18px;
+            height: 18px;
         }
 
         /* Estilos para iconos Feather en el footer */
@@ -226,15 +228,15 @@
         .footer-widget__links a {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
         
         .footer-widget__link a i[data-feather],
         .footer-widget__link a svg,
         .footer-widget__links a i[data-feather],
         .footer-widget__links a svg {
-            width: 14px;
-            height: 14px;
+            width: 18px;
+            height: 18px;
             margin-right: 0;
         }
 
@@ -331,17 +333,8 @@
             display: block !important;
         }
 
-        /* Asegurar que los iconos de Feather se muestren correctamente */
-        .main-menu__list a[data-feather],
-        .main-menu__list a i[data-feather] {
-            display: inline-flex !important;
-            align-items: center;
-            gap: 8px;
-        }
-
+        /* Asegurar vertical alignment para SVGs */
         .main-menu__list a svg {
-            width: 18px;
-            height: 18px;
             vertical-align: middle;
         }
     </style>
